@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"composite": true,
+		"declaration": true,
+		"declarationMap": true,
+		"incremental": true,
+
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"allowSyntheticDefaultImports": true,
+		"downlevelIteration": false,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
+		"module": "es2020",
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"strict": true,
+		"target": "es6",
+		"lib": ["es2021"],
+		"baseUrl": ".",
+		"paths": {
+			"@contracts/*": ["contracts/*"],
+			"@db/*": ["db/*"],
+			"@server/*": ["server/src/*"],
+			"@web/*": ["web/src/*"]
+		}
+	}
+}
