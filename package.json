@@ -1,0 +1,21 @@
+{
+  "name": "training-log",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install:contracts": "",
+    "install:db": "",
+    "install:mobile": "",
+    "install:server": "npm i --prefix server/",
+    "install:web": "",
+    "start:server": "npm run start --prefix server/",
+    "install": "npm run install:server && npm run install:web"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monokarp/data-structures-web.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

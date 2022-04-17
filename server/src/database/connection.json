@@ -1,0 +1,7 @@
+{
+  "user": "visitor",
+  "host": "localhost",
+  "database": "testdb",
+  "password": "password",
+  "port": 5432
+}
