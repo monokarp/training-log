@@ -4,3 +4,4 @@ dist/
 out-tsc/
 node_modules/
 .vscode/
+.env

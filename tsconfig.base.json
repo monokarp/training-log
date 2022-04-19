@@ -1,0 +1,33 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"declaration": false,
+		"downlevelIteration": false,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"importHelpers": true,
+		// "lib": ["es2021"],
+		"lib": ["es2017", "dom"],
+		// "module": "es2020",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"removeComments": true,
+		"resolveJsonModule": true,
+		"rootDir": ".",
+		"skipDefaultLibCheck": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		// "target": "es6",
+		"target": "es2015",
+		"paths": {
+			"@training-log/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+		}
+	},
+	"exclude": ["node_modules", "tmp"]
+}
