@@ -26,7 +26,9 @@
 		// "target": "es6",
 		"target": "es2015",
 		"paths": {
-			"@training-log/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+			"@contracts": ["libs/api-interfaces/src/index.ts"],
+			// TODO should I add index files?
+			"@api/data/*": ["apps/api/src/app/data/*"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

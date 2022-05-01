@@ -1,9 +1,12 @@
+import { Prisma } from '@api/data/prisma';
+import { Test } from '@contracts';
 import { Injectable } from '@nestjs/common';
-import { Message } from '@training-log/api-interfaces';
 
 @Injectable()
 export class AppService {
-  getData(): Message {
-    return { message: 'Welcome to api!' };
-  }
+	constructor(private prisma: Prisma) {}
+
+	getData(): Promise<Test[]> {
+		return this.prisma.test.findMany();
+	}
 }

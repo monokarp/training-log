@@ -1,15 +1,14 @@
+import { Test } from '@contracts';
 import { Controller, Get } from '@nestjs/common';
-
-import { Message } from '@training-log/api-interfaces';
 
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+	constructor(private readonly appService: AppService) {}
 
-  @Get('hello')
-  getData(): Message {
-    return this.appService.getData();
-  }
+	@Get('test')
+	getData(): Promise<Test[]> {
+		return this.appService.getData();
+	}
 }

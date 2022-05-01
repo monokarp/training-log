@@ -1,3 +1,4 @@
-export interface Message {
-  message: string;
+export interface Test {
+	id: string;
+	name: string;
 }
