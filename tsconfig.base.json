@@ -23,7 +23,6 @@
 		"strict": true,
 		"target": "es2015",
 		"paths": {
-			"@api/data/*": ["apps/api/src/app/data/*"],
 			"@contracts": ["libs/api-interfaces/src/index.ts"]
 		}
 	},

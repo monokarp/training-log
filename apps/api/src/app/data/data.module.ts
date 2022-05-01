@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { Prisma } from '@api/data/prisma';
+import { Prisma } from './prisma';
 
 @Module({
 	imports: [],
