@@ -9,9 +9,7 @@
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true,
-		// "lib": ["es2021"],
 		"lib": ["es2017", "dom"],
-		// "module": "es2020",
 		"module": "esnext",
 		"moduleResolution": "node",
 		"noFallthroughCasesInSwitch": true,
@@ -23,12 +21,10 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		// "target": "es6",
 		"target": "es2015",
 		"paths": {
-			"@contracts": ["libs/api-interfaces/src/index.ts"],
-			// TODO should I add index files?
-			"@api/data/*": ["apps/api/src/app/data/*"]
+			"@api/data/*": ["apps/api/src/app/data/*"],
+			"@contracts": ["libs/api-interfaces/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]
