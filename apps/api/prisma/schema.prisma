@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,7 +7,82 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Test {
-  id   String @id @default(cuid())
+model Trainee {
+  id Int @id @default(autoincrement())
+
   name String
+
+  Workout   Workout[]
+  OneRepMax OneRepMax[]
+}
+
+model Workout {
+  id        Int @id @default(autoincrement())
+  traineeId Int
+
+  date DateTime
+
+  trainee Trainee @relation(fields: [traineeId], references: [id])
+  Set     Set[]
+}
+
+model Set {
+  id         Int @id @default(autoincrement())
+  workoutId  Int
+  exerciseId Int
+
+  multiple  Int        @db.SmallInt
+  reps      Int        @db.SmallInt
+  weight    Int        @db.SmallInt
+  unit      WeightUnit @default(kg)
+  isWorkSet Boolean
+  comment   String
+
+  workout  Workout  @relation(fields: [workoutId], references: [id])
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+model Exercise {
+  id Int @id @default(autoincrement())
+
+  nameCode String
+
+  Set       Set[]
+  OneRepMax OneRepMax[]
+}
+
+model OneRepMax {
+  id         Int @id @default(autoincrement())
+  traineeId  Int
+  exerciseId Int
+
+  /// TODO share between exercises?
+  value    Int        @db.SmallInt
+  unit     WeightUnit @default(kg)
+  starting DateTime
+
+  trainee  Trainee  @relation(fields: [traineeId], references: [id])
+  exercise Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+enum WeightUnit {
+  kg
+  lbs
+}
+
+model Locale {
+  code String @id @db.Char(5)
+
+  Translation Translation[]
+}
+
+model Translation {
+  localeCode String @db.Char(5)
+
+  code  String
+  value String
+
+  locale Locale @relation(fields: [localeCode], references: [code])
+
+  @@id([localeCode, code])
 }
