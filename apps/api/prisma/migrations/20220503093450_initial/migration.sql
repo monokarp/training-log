@@ -5,6 +5,7 @@ CREATE TYPE "WeightUnit" AS ENUM ('kg', 'lbs');
 CREATE TABLE "Trainee" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
 
     CONSTRAINT "Trainee_pkey" PRIMARY KEY ("id")
 );
@@ -14,6 +15,7 @@ CREATE TABLE "Workout" (
     "id" SERIAL NOT NULL,
     "traineeId" INTEGER NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
+    "comment" TEXT,
 
     CONSTRAINT "Workout_pkey" PRIMARY KEY ("id")
 );
@@ -23,12 +25,13 @@ CREATE TABLE "Set" (
     "id" SERIAL NOT NULL,
     "workoutId" INTEGER NOT NULL,
     "exerciseId" INTEGER NOT NULL,
-    "multiple" SMALLINT NOT NULL,
+    "order" SMALLINT NOT NULL,
+    "multiple" SMALLINT NOT NULL DEFAULT 1,
     "reps" SMALLINT NOT NULL,
     "weight" SMALLINT NOT NULL,
     "unit" "WeightUnit" NOT NULL DEFAULT E'kg',
-    "isWorkSet" BOOLEAN NOT NULL,
-    "comment" TEXT NOT NULL,
+    "isWorkSet" BOOLEAN NOT NULL DEFAULT false,
+    "comment" TEXT,
 
     CONSTRAINT "Set_pkey" PRIMARY KEY ("id")
 );
@@ -68,6 +71,9 @@ CREATE TABLE "Translation" (
 
     CONSTRAINT "Translation_pkey" PRIMARY KEY ("localeCode","code")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Trainee_username_key" ON "Trainee"("username");
 
 -- AddForeignKey
 ALTER TABLE "Workout" ADD CONSTRAINT "Workout_traineeId_fkey" FOREIGN KEY ("traineeId") REFERENCES "Trainee"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

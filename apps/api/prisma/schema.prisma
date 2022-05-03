@@ -10,7 +10,8 @@ datasource db {
 model Trainee {
   id Int @id @default(autoincrement())
 
-  name String
+  name     String
+  username String @unique
 
   Workout   Workout[]
   OneRepMax OneRepMax[]
@@ -20,7 +21,8 @@ model Workout {
   id        Int @id @default(autoincrement())
   traineeId Int
 
-  date DateTime
+  date    DateTime
+  comment String?
 
   trainee Trainee @relation(fields: [traineeId], references: [id])
   Set     Set[]
@@ -31,12 +33,13 @@ model Set {
   workoutId  Int
   exerciseId Int
 
-  multiple  Int        @db.SmallInt
+  order     Int        @db.SmallInt
+  multiple  Int        @default(1) @db.SmallInt
   reps      Int        @db.SmallInt
   weight    Int        @db.SmallInt
   unit      WeightUnit @default(kg)
-  isWorkSet Boolean
-  comment   String
+  isWorkSet Boolean    @default(false)
+  comment   String?
 
   workout  Workout  @relation(fields: [workoutId], references: [id])
   exercise Exercise @relation(fields: [exerciseId], references: [id])
