@@ -23,7 +23,7 @@
 		"strict": true,
 		"target": "es2015",
 		"paths": {
-			"@contracts": ["libs/api-interfaces/src/index.ts"]
+			"@training-log/contracts": ["libs/contracts/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

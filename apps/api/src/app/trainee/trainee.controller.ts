@@ -1,4 +1,4 @@
-import { Trainee } from '@contracts';
+import { Trainee } from '@training-log/contracts';
 import { Controller, Get } from '@nestjs/common';
 import { TraineeService } from './trainee.service';
 

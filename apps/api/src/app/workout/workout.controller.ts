@@ -1,4 +1,4 @@
-import { Workout } from '@contracts';
+import { Workout } from '@training-log/contracts';
 import { Controller, Get, Param } from '@nestjs/common';
 import { WorkoutService } from './workout.service';
 

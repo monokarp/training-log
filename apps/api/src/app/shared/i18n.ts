@@ -1,4 +1,4 @@
-import { Locale } from '@contracts';
+import { Locale } from '@training-log/contracts';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from './prisma';
 

@@ -1,4 +1,4 @@
-import { Workout } from '@contracts';
+import { Workout } from '@training-log/contracts';
 import { Injectable } from '@nestjs/common';
 import { WorkoutRepository } from './workout.repository';
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Trainee } from '@contracts';
+import { Trainee } from '@training-log/contracts';
 import { firstValueFrom } from 'rxjs';
 import { HttpService } from '../shared/http.service';
 
