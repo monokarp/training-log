@@ -25,6 +25,7 @@ CREATE TABLE "Set" (
     "id" SERIAL NOT NULL,
     "workoutId" INTEGER NOT NULL,
     "exerciseId" INTEGER NOT NULL,
+    "oneRepMaxId" INTEGER NOT NULL,
     "order" SMALLINT NOT NULL,
     "multiple" SMALLINT NOT NULL DEFAULT 1,
     "reps" SMALLINT NOT NULL,
@@ -83,6 +84,9 @@ ALTER TABLE "Set" ADD CONSTRAINT "Set_workoutId_fkey" FOREIGN KEY ("workoutId") 
 
 -- AddForeignKey
 ALTER TABLE "Set" ADD CONSTRAINT "Set_exerciseId_fkey" FOREIGN KEY ("exerciseId") REFERENCES "Exercise"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Set" ADD CONSTRAINT "Set_oneRepMaxId_fkey" FOREIGN KEY ("oneRepMaxId") REFERENCES "OneRepMax"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "OneRepMax" ADD CONSTRAINT "OneRepMax_traineeId_fkey" FOREIGN KEY ("traineeId") REFERENCES "Trainee"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

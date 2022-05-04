@@ -7,4 +7,4 @@ import { Prisma } from './prisma';
 	exports: [Prisma],
 	providers: [Prisma],
 })
-export class DataModule {}
+export class SharedModule {}

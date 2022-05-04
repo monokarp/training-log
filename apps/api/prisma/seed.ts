@@ -32,6 +32,7 @@ async function main() {
 			{
 				workoutId: workout.id,
 				exerciseId: 1,
+				oneRepMaxId: 1,
 				order: 0,
 				reps: 5,
 				weight: 70,
@@ -39,6 +40,7 @@ async function main() {
 			{
 				workoutId: workout.id,
 				exerciseId: 1,
+				oneRepMaxId: 1,
 				order: 1,
 				reps: 5,
 				weight: 120,
@@ -46,6 +48,7 @@ async function main() {
 			{
 				workoutId: workout.id,
 				exerciseId: 1,
+				oneRepMaxId: 1,
 				order: 2,
 				multiple: 3,
 				reps: 5,
@@ -55,6 +58,7 @@ async function main() {
 			{
 				workoutId: workout.id,
 				exerciseId: 3,
+				oneRepMaxId: 3,
 				order: 0,
 				reps: 5,
 				weight: 70,
@@ -62,6 +66,7 @@ async function main() {
 			{
 				workoutId: workout.id,
 				exerciseId: 3,
+				oneRepMaxId: 3,
 				order: 1,
 				multiple: 4,
 				reps: 4,
@@ -70,14 +75,16 @@ async function main() {
 			},
 			{
 				workoutId: workout.id,
-				exerciseId: 3,
+				exerciseId: 6,
+				oneRepMaxId: 6,
 				order: 0,
 				reps: 8,
 				weight: 60,
 			},
 			{
 				workoutId: workout.id,
-				exerciseId: 3,
+				exerciseId: 6,
+				oneRepMaxId: 6,
 				order: 1,
 				multiple: 3,
 				reps: 8,
@@ -97,6 +104,16 @@ async function seedExercisesFor(traineeId: number) {
 			},
 		});
 
+		await prisma.oneRepMax.create({
+			data: {
+				id: id as number,
+				traineeId,
+				exerciseId: exercise.id,
+				value: oneRepMax as number,
+				starting: new Date(),
+			},
+		});
+
 		await prisma.translation.createMany({
 			data: [
 				{
@@ -110,15 +127,6 @@ async function seedExercisesFor(traineeId: number) {
 					value: nameRU as string,
 				},
 			],
-		});
-
-		await prisma.oneRepMax.create({
-			data: {
-				traineeId,
-				exerciseId: exercise.id,
-				value: oneRepMax as number,
-				starting: new Date(),
-			},
 		});
 	}
 }

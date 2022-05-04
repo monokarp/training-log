@@ -24,14 +24,15 @@ model Workout {
   date    DateTime
   comment String?
 
-  trainee Trainee @relation(fields: [traineeId], references: [id])
+  Trainee Trainee @relation(fields: [traineeId], references: [id])
   Set     Set[]
 }
 
 model Set {
-  id         Int @id @default(autoincrement())
-  workoutId  Int
-  exerciseId Int
+  id          Int @id @default(autoincrement())
+  workoutId   Int
+  exerciseId  Int
+  oneRepMaxId Int
 
   order     Int        @db.SmallInt
   multiple  Int        @default(1) @db.SmallInt
@@ -41,8 +42,9 @@ model Set {
   isWorkSet Boolean    @default(false)
   comment   String?
 
-  workout  Workout  @relation(fields: [workoutId], references: [id])
-  exercise Exercise @relation(fields: [exerciseId], references: [id])
+  Workout   Workout   @relation(fields: [workoutId], references: [id])
+  Exercise  Exercise  @relation(fields: [exerciseId], references: [id])
+  OneRepMax OneRepMax @relation(fields: [oneRepMaxId], references: [id])
 }
 
 model Exercise {
@@ -59,13 +61,13 @@ model OneRepMax {
   traineeId  Int
   exerciseId Int
 
-  /// TODO share between exercises?
   value    Int        @db.SmallInt
   unit     WeightUnit @default(kg)
   starting DateTime
 
-  trainee  Trainee  @relation(fields: [traineeId], references: [id])
-  exercise Exercise @relation(fields: [exerciseId], references: [id])
+  Trainee  Trainee  @relation(fields: [traineeId], references: [id])
+  Exercise Exercise @relation(fields: [exerciseId], references: [id])
+  Set      Set[]
 }
 
 enum WeightUnit {
@@ -85,7 +87,7 @@ model Translation {
   code  String
   value String
 
-  locale Locale @relation(fields: [localeCode], references: [code])
+  Locale Locale @relation(fields: [localeCode], references: [code])
 
   @@id([localeCode, code])
 }
