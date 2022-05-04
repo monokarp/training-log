@@ -1,22 +1,12 @@
+import { Workout } from '@contracts';
 import { Injectable } from '@nestjs/common';
-import { Workout } from '@prisma/client';
-import { Prisma } from '../shared/prisma';
+import { WorkoutRepository } from './workout.repository';
 
 @Injectable()
 export class WorkoutService {
-	constructor(private prisma: Prisma) {}
+	constructor(private workoutRepository: WorkoutRepository) {}
 
 	public including1RMs(traineeId: number): Promise<Workout[]> {
-		return this.prisma.workout.findMany({
-			where: { traineeId },
-			include: {
-				Set: {
-					include: {
-						Exercise: true,
-						OneRepMax: true,
-					},
-				},
-			},
-		});
+		return this.workoutRepository.including1RMs(traineeId);
 	}
 }

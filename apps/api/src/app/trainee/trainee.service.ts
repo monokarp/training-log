@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Trainee } from '@prisma/client';
-import { Prisma } from '../shared/prisma';
+import { Trainee } from '@contracts';
+import { TraineeRepository } from './trainee.repository';
 
 @Injectable()
 export class TraineeService {
-	constructor(private prisma: Prisma) {}
+	constructor(private traineeRepository: TraineeRepository) {}
 
 	public getData(): Promise<Trainee[]> {
-		return this.prisma.trainee.findMany();
+		return this.traineeRepository.many();
 	}
 }

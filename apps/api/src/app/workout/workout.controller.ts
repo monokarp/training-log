@@ -1,5 +1,5 @@
+import { Workout } from '@contracts';
 import { Controller, Get, Param } from '@nestjs/common';
-import { Workout } from '@prisma/client';
 import { WorkoutService } from './workout.service';
 
 @Controller('workouts')
