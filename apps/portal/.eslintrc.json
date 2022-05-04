@@ -22,7 +22,7 @@
 					"error",
 					{
 						"type": "element",
-						"prefix": "training-log",
+						"prefix": "portal",
 						"style": "kebab-case"
 					}
 				]

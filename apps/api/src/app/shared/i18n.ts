@@ -1,3 +1,4 @@
+import { Locale } from '@contracts';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from './prisma';
 
@@ -7,7 +8,7 @@ export const MissingTranslation = 'N/A';
 export class I18n {
 	constructor(private prisma: Prisma) {}
 
-	public async translate(code: string, locale = 'en-US'): Promise<string> {
+	public async translate(code: string, locale = Locale.Default): Promise<string> {
 		const translation = await this.prisma.translation.findUnique({
 			where: {
 				localeCode_code: { localeCode: locale, code },

@@ -2,7 +2,7 @@
 	"projectType": "application",
 	"root": "apps/portal",
 	"sourceRoot": "apps/portal/src",
-	"prefix": "training-log",
+	"prefix": "portal",
 	"targets": {
 		"build": {
 			"executor": "@angular-devkit/build-angular:browser",

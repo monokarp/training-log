@@ -11,6 +11,11 @@ export interface Workout {
 
 export type WeightUnit = 'kg' | 'lbs';
 
+export const enum Locale {
+	Default = 'en-US',
+	Ru = 'ru-RU',
+}
+
 export interface Set {
 	exerciseName: string;
 	oneRepMax: number;
