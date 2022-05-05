@@ -16,6 +16,7 @@ export class WorkoutRepository {
 
 		const data = await this.prisma.workout.findMany({
 			where: { traineeId: trainee.id },
+			orderBy: { date: 'desc' },
 			include: {
 				Set: {
 					include: {
@@ -28,7 +29,7 @@ export class WorkoutRepository {
 
 		return Promise.all(
 			data.map(async one => ({
-				date: one.date,
+				date: one.date.toISOString(),
 				comment: one.comment ?? undefined,
 				sets: await Promise.all(
 					one.Set.map(async one => ({

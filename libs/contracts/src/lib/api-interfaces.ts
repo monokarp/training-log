@@ -4,7 +4,7 @@ export interface Trainee {
 }
 
 export interface Workout {
-	date: Date;
+	date: string;
 	comment?: string;
 	sets: Set[];
 }

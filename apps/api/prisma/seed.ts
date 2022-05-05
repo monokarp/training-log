@@ -1,15 +1,7 @@
 import { PrismaClient } from '@prisma/client';
+import { exercises, workouts } from './seed-data';
 
 const prisma = new PrismaClient();
-
-const exercises = [
-	[1, 'squat', 'Squat', 'Присед', 215],
-	[2, 'dl', 'Deadlift', 'Тяга', 240],
-	[3, 'bench', 'Bench press', 'Жим лежа', 150],
-	[4, 'bench_with_band', 'Resistance band bench press', 'Жим лежа с резиной', 140],
-	[5, 'press', 'Standing press', 'Жим стоя', 75],
-	[6, 'good_morning', 'Good mornings', 'Наклоны', 100],
-];
 
 async function main() {
 	const trainee = await prisma.trainee.create({ data: { name: 'Олег', username: 'mnk' } });
@@ -20,79 +12,7 @@ async function main() {
 
 	await seedExercisesFor(trainee.id);
 
-	const workout = await prisma.workout.create({
-		data: {
-			traineeId: trainee.id,
-			date: new Date().toISOString(),
-		},
-	});
-
-	await prisma.set.createMany({
-		data: [
-			{
-				workoutId: workout.id,
-				exerciseId: 1,
-				oneRepMaxId: 1,
-				order: 0,
-				reps: 5,
-				weight: 70,
-			},
-			{
-				workoutId: workout.id,
-				exerciseId: 1,
-				oneRepMaxId: 1,
-				order: 1,
-				reps: 5,
-				weight: 120,
-			},
-			{
-				workoutId: workout.id,
-				exerciseId: 1,
-				oneRepMaxId: 1,
-				order: 2,
-				multiple: 3,
-				reps: 5,
-				weight: 170,
-				isWorkSet: true,
-			},
-			{
-				workoutId: workout.id,
-				exerciseId: 3,
-				oneRepMaxId: 3,
-				order: 0,
-				reps: 5,
-				weight: 70,
-			},
-			{
-				workoutId: workout.id,
-				exerciseId: 3,
-				oneRepMaxId: 3,
-				order: 1,
-				multiple: 4,
-				reps: 4,
-				weight: 120,
-				isWorkSet: true,
-			},
-			{
-				workoutId: workout.id,
-				exerciseId: 6,
-				oneRepMaxId: 6,
-				order: 0,
-				reps: 8,
-				weight: 60,
-			},
-			{
-				workoutId: workout.id,
-				exerciseId: 6,
-				oneRepMaxId: 6,
-				order: 1,
-				multiple: 3,
-				reps: 8,
-				weight: 90,
-				isWorkSet: true,
-			},
-		],
-	});
+	await seedWorkoutsFor(trainee.id);
 }
 
 async function seedExercisesFor(traineeId: number) {
@@ -127,6 +47,22 @@ async function seedExercisesFor(traineeId: number) {
 					value: nameRU as string,
 				},
 			],
+		});
+	}
+}
+
+async function seedWorkoutsFor(traineeId: number) {
+	for (const { id, date, sets } of workouts) {
+		await prisma.workout.create({
+			data: {
+				id: id,
+				traineeId,
+				date: date,
+			},
+		});
+
+		await prisma.set.createMany({
+			data: sets,
 		});
 	}
 }

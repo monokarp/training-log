@@ -1,15 +1,10 @@
 <div class="container">
-	<nav
-		mat-tab-nav-bar
-		[tabPanel]="tabPanel">
-		<a
-			mat-tab-link
-			*ngFor="let tab of menuStore.tabs$ | async"
-			(click)="onTabSelect(tab.id)">
-			{{ tab.text }}
-		</a>
-	</nav>
-	<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+	<div
+		*ngFor="let tab of menuStore.tabs$ | async"
+		[ngClass]="{ navlink: true, active: (currentPage$ | async)?.includes(tab.id) }"
+		(click)="onTabSelect(tab.id)">
+		{{ tab.text }}
+	</div>
 
 	<mat-form-field
 		class="trainee"
@@ -20,7 +15,7 @@
 			(selectionChange)="onTraineeSelect($event)">
 			<mat-option
 				*ngFor="let trainee of menuStore.trainees$ | async"
-				[value]="trainee.username"
+				[value]="trainee"
 				>{{ trainee.name }}
 			</mat-option>
 		</mat-select>

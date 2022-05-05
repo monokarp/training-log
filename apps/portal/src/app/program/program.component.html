@@ -1,2 +1,16 @@
-<p>program works!</p>
-<p *ngFor="let one of programStore.workouts$ | async">{{ one.date }}</p>
+<div class="vertical-flex">
+	<div
+		class="week"
+		*ngFor="let one of programStore.trainingWeeks$ | async">
+		<div class="horizontal-flex">
+			<div>
+				{{ one.week }}
+			</div>
+			<div
+				class="week"
+				*ngFor="let session of one.sessions">
+				{{ session.date }}
+			</div>
+		</div>
+	</div>
+</div>
