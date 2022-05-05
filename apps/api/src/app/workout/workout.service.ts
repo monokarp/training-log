@@ -6,7 +6,7 @@ import { WorkoutRepository } from './workout.repository';
 export class WorkoutService {
 	constructor(private workoutRepository: WorkoutRepository) {}
 
-	public including1RMs(traineeId: number): Promise<Workout[]> {
-		return this.workoutRepository.including1RMs(traineeId);
+	public including1RMs(username: string): Promise<Workout[]> {
+		return this.workoutRepository.including1RMs(username);
 	}
 }

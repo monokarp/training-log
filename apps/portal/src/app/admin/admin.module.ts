@@ -5,7 +5,7 @@ import { routes } from './admin.routes';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
+	imports: [RouterModule.forChild(routes), CommonModule],
 	declarations: [AdminComponent],
-	imports: [RouterModule.forRoot(routes), CommonModule],
 })
 export class AdminModule {}

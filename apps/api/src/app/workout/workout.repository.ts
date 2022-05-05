@@ -7,9 +7,15 @@ import { Prisma } from '../shared/prisma';
 export class WorkoutRepository {
 	constructor(private prisma: Prisma, private i18n: I18n) {}
 
-	public async including1RMs(traineeId: number): Promise<Workout[]> {
+	public async including1RMs(username: string): Promise<Workout[]> {
+		const trainee = await this.prisma.trainee.findUnique({ where: { username } });
+
+		if (!trainee) {
+			return [];
+		}
+
 		const data = await this.prisma.workout.findMany({
-			where: { traineeId },
+			where: { traineeId: trainee.id },
 			include: {
 				Set: {
 					include: {

@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { AppRoutes } from '../app.routes.enum';
+import { NavigationService } from '../shared/navigation.service';
 import { MenuService } from './menu.service';
 import { MenuStore } from './menu.store';
 
@@ -10,9 +13,7 @@ import { MenuStore } from './menu.store';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
-	@Input() public selected: string | undefined;
-
-	constructor(private menuService: MenuService, public menuStore: MenuStore) {}
+	constructor(private menuService: MenuService, public menuStore: MenuStore, private navigation: NavigationService) {}
 
 	public ngOnInit(): void {
 		// TODO Move to route resolution?
@@ -20,8 +21,19 @@ export class MenuComponent implements OnInit {
 	}
 
 	public onTraineeSelect(event: MatSelectChange) {
-		this.selected = event.value;
+		this.menuStore.selectedTrainee$.next(event.value);
 
-		// TODO navigate to program with this username or reload store
+		this.navigation.programFor(event.value);
+	}
+
+	public onTabSelect(value: string) {
+		switch (value) {
+			case AppRoutes.Program:
+			case AppRoutes.Stats:
+			case AppRoutes.Admin:
+				return this.navigation.open(value);
+			default:
+				throw new Error('Unrecognized page in navbar');
+		}
 	}
 }

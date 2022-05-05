@@ -1,1 +1,2 @@
 <p>program works!</p>
+<p *ngFor="let one of programStore.workouts$ | async">{{ one.date }}</p>

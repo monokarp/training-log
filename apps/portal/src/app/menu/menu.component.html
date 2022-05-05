@@ -1,22 +1,28 @@
 <div class="container">
-	<mat-tab-group class="tabs">
-		<mat-tab
+	<nav
+		mat-tab-nav-bar
+		[tabPanel]="tabPanel">
+		<a
+			mat-tab-link
 			*ngFor="let tab of menuStore.tabs$ | async"
-			[label]="tab">
-		</mat-tab>
-	</mat-tab-group>
+			(click)="onTabSelect(tab.id)">
+			{{ tab.text }}
+		</a>
+	</nav>
+	<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+
 	<mat-form-field
 		class="trainee"
 		appearance="fill">
 		<mat-label>Select trainee</mat-label>
 		<mat-select
-			[value]="selected"
+			[value]="menuStore.selectedTrainee$ | async"
 			(selectionChange)="onTraineeSelect($event)">
 			<mat-option
 				*ngFor="let trainee of menuStore.trainees$ | async"
-				value="trainee.username"
-				>{{ trainee.name }}</mat-option
-			>
+				[value]="trainee.username"
+				>{{ trainee.name }}
+			</mat-option>
 		</mat-select>
 	</mat-form-field>
 </div>

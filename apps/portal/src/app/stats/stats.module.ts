@@ -5,7 +5,7 @@ import { routes } from './stats.routes';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
+	imports: [RouterModule.forChild(routes), CommonModule],
 	declarations: [StatsComponent],
-	imports: [RouterModule.forRoot(routes), CommonModule],
 })
 export class StatsModule {}
