@@ -2,15 +2,32 @@
 	<div
 		class="week"
 		*ngFor="let one of programStore.trainingWeeks$ | async">
-		<div class="horizontal-flex">
-			<div>
-				{{ one.week }}
-			</div>
-			<div
-				class="week"
-				*ngFor="let session of one.sessions">
-				{{ session.date }}
-			</div>
-		</div>
+		<mat-tab-group>
+			<mat-tab label="{{ one.week }}"></mat-tab>
+			<mat-tab
+				*ngFor="let session of one.sessions"
+				label="{{ session.date }}">
+				<ng-template matTabContent>
+					<div class="content">
+						<div
+							*ngFor="let exercise of session.exercises"
+							class="example-small-box mat-elevation-z4">
+							<p>
+								<b>{{ exercise.name }}</b>
+							</p>
+							<div *ngFor="let set of exercise.sets">
+								<span>{{ format(set) }}</span>
+								<span *ngIf="set.comment">{{ set.comment }}</span>
+							</div>
+						</div>
+						<div
+							class="example-small-box mat-elevation-z4"
+							*ngIf="session.comment">
+							{{ session.comment }}
+						</div>
+					</div>
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
 	</div>
 </div>

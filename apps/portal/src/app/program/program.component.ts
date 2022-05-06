@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Set } from '@training-log/contracts';
 import { filter, map } from 'rxjs/operators';
 import { isNonEmptyString } from '../shared/type-guards/is-string';
 import { ProgramService } from './program.service';
@@ -21,11 +22,22 @@ export class ProgramComponent implements OnDestroy {
 
 	constructor(
 		private route: ActivatedRoute,
-		private programService: ProgramService,
+		public programService: ProgramService,
 		public programStore: ProgramStore,
 	) {}
 
+	// TODO persist tab selection state in store?
+
 	public ngOnDestroy(): void {
 		this.storeUpdates.unsubscribe();
+	}
+
+	public format(one: Set) {
+		// TODO Workset as icon
+		return `${one.multiple}x${one.reps}@${one.weight}${one.unit}${this.format1RM(one)}${one.isWorkSet ? ' W' : ''}`;
+	}
+
+	private format1RM(one: Set): string {
+		return one.oneRepMax ? ` ${Math.floor((one.weight / one.oneRepMax) * 100)}%` : '';
 	}
 }
