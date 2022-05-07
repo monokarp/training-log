@@ -20,3 +20,16 @@
 	border-radius: 0.5rem;
 	height: max-content;
 }
+
+.example-button-container {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	padding: 0.5rem;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}

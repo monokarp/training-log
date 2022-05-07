@@ -1,4 +1,13 @@
-<div class="vertical-flex">
+<div class="wrapper">
+	<div class="example-button-container">
+		<button
+			mat-fab
+			color="primary"
+			aria-label="Example icon button with a home icon"
+			(click)="openCreateSessionModal()">
+			<mat-icon>note_add</mat-icon>
+		</button>
+	</div>
 	<div
 		class="week"
 		*ngFor="let one of programStore.trainingWeeks$ | async">

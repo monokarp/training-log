@@ -1,0 +1,87 @@
+.vert-flex {
+	display: flex;
+	flex-direction: column;
+}
+
+.horiz-flex {
+	display: flex;
+	flex-direction: row;
+}
+
+.container {
+	@extend .vert-flex;
+	width: 50%;
+
+	&:first-of-type {
+		margin-right: 0.5rem;
+		justify-content: center;
+	}
+}
+
+.wrapper {
+	@extend .horiz-flex;
+}
+
+.section {
+	@extend .horiz-flex;
+
+	&.footer {
+		margin-top: auto;
+	}
+}
+
+.full-width {
+	width: 100%;
+}
+
+.program {
+	min-height: 5rem;
+}
+
+.action {
+	width: 50%;
+	margin: 0.25rem;
+}
+
+.cards {
+	@extend .vert-flex;
+	width: 100%;
+}
+
+.card {
+	@extend .horiz-flex;
+	background-color: lightgrey;
+	border-radius: 0.5rem;
+
+	&:not(:last-of-type) {
+		margin-bottom: 0.25rem;
+	}
+}
+
+.exercise-card {
+	@extend .vert-flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	padding: 1rem;
+	width: 100%;
+	height: max-content;
+}
+
+.card-header {
+	@extend .horiz-flex;
+	width: 100%;
+	align-items: center;
+	font-weight: bolder;
+}
+
+.card-actions {
+	@extend .vert-flex;
+	width: fit-content;
+	padding: 0.5rem;
+
+	.icon {
+		font-size: 1rem;
+		height: fit-content;
+		width: fit-content;
+	}
+}

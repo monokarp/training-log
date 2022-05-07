@@ -32,6 +32,10 @@ export class ProgramComponent implements OnDestroy {
 		this.storeUpdates.unsubscribe();
 	}
 
+	public openCreateSessionModal() {
+		this.programService.createNewSession();
+	}
+
 	public format(one: Set) {
 		// TODO Workset as icon
 		return `${one.multiple}x${one.reps}@${one.weight}${one.unit}${this.format1RM(one)}${one.isWorkSet ? ' W' : ''}`;

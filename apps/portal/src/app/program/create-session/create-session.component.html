@@ -1,0 +1,105 @@
+<div class="wrapper">
+	<div class="container">
+		<div class="section">
+			<mat-form-field
+				appearance="fill"
+				class="full-width">
+				<mat-label>Session date</mat-label>
+				<input
+					matInput
+					[matDatepicker]="picker"
+					placeholder="{{ dateFormat }}" />
+				<mat-datepicker-toggle
+					matSuffix
+					[for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+			</mat-form-field>
+		</div>
+		<div class="section">
+			<mat-form-field
+				class="full-width"
+				appearance="fill">
+				<input
+					matInput
+					placeholder="Exercise"
+					[(ngModel)]="exercise"
+					[matAutocomplete]="auto" />
+				<mat-autocomplete #auto="matAutocomplete">
+					<mat-option [value]="1"> Squat </mat-option>
+					<mat-option [value]="2"> Diddly </mat-option>
+					<mat-option [value]="3"> Bench </mat-option>
+				</mat-autocomplete>
+			</mat-form-field>
+		</div>
+		<div class="section">
+			<mat-form-field
+				class="full-width"
+				appearance="fill">
+				<textarea
+					matInput
+					cdkTextareaAutosize
+					class="program"
+					[(ngModel)]="program"
+					placeholder="{{ 'Program\n5x5@100' }}"></textarea>
+			</mat-form-field>
+		</div>
+		<div class="section">
+			<button
+				class="action"
+				mat-raised-button
+				(click)="clearCurrentExercise()">
+				Clear
+			</button>
+			<button
+				class="action"
+				mat-raised-button
+				color="primary"
+				(click)="addExercise()">
+				Add
+			</button>
+		</div>
+	</div>
+	<div class="container">
+		<div class="section">
+			<div class="cards">
+				<div
+					class="card"
+					*ngFor="let one of exericses; index as idx">
+					<div class="exercise-card">
+						<div class="card-header">
+							{{ one.exercise }}
+						</div>
+						<span *ngFor="let line of one.program.split('\n')">{{ line }}</span>
+					</div>
+					<div class="card-actions">
+						<mat-icon
+							class="icon"
+							(click)="removeExercise(idx)">
+							delete
+						</mat-icon>
+						<mat-icon
+							class="icon"
+							(click)="copyToCurrent(one)">
+							arrow_back
+						</mat-icon>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="section footer">
+			<button
+				class="action"
+				mat-raised-button
+				(click)="cancel()">
+				Cancel
+			</button>
+			<button
+				class="action"
+				mat-raised-button
+				color="primary"
+				(click)="submit()">
+				Save
+			</button>
+		</div>
+	</div>
+</div>
