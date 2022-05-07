@@ -9,7 +9,7 @@
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true,
-		"lib": ["es2017", "dom"],
+		"lib": ["es2019", "dom"],
 		"module": "esnext",
 		"moduleResolution": "node",
 		"noFallthroughCasesInSwitch": true,
@@ -21,7 +21,7 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"target": "es2015",
+		"target": "es2019",
 		"paths": {
 			"@training-log/contracts": ["libs/contracts/src/index.ts"]
 		}

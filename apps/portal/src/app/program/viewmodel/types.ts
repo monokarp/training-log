@@ -15,3 +15,14 @@ export interface TrainingExercise {
 	name: string;
 	sets: Set[];
 }
+
+export interface NewWorkout {
+	date: Date;
+	exercises: NewExercise[];
+}
+
+export interface NewExercise {
+	exercise: string;
+	code: string;
+	program: string;
+}

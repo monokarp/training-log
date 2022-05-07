@@ -9,4 +9,8 @@ export class HttpService {
 	public get(url: string): Observable<unknown> {
 		return this.http.get(url).pipe(timeout(1000));
 	}
+
+	public post<D>(url: string, data: D): Observable<unknown> {
+		return this.http.post(url, { data }).pipe(timeout(1000));
+	}
 }

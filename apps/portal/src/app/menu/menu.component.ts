@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { AppRoutes } from '../app.routes.enum';
 import { NavigationService } from '../shared/navigation.service';
 import { isNavigationEnd } from '../shared/type-guards/is-navigation-end';
-import { isNonEmptyString } from '../shared/type-guards/is-string';
 import { MenuService } from './menu.service';
 import { MenuStore } from './menu.store';
 

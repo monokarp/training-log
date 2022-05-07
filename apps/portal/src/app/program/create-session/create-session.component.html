@@ -1,5 +1,5 @@
 <div class="wrapper">
-	<div class="container">
+	<div class="container form">
 		<div class="section">
 			<mat-form-field
 				appearance="fill"
@@ -8,11 +8,16 @@
 				<input
 					matInput
 					[matDatepicker]="picker"
+					[disabled]="true"
+					[formControl]="date"
 					placeholder="{{ dateFormat }}" />
 				<mat-datepicker-toggle
 					matSuffix
 					[for]="picker"></mat-datepicker-toggle>
-				<mat-datepicker #picker></mat-datepicker>
+				<mat-datepicker
+					#picker
+					[disabled]="false"></mat-datepicker>
+				<mat-error *ngIf="date.invalid">Required</mat-error>
 			</mat-form-field>
 		</div>
 		<div class="section">
@@ -22,13 +27,16 @@
 				<input
 					matInput
 					placeholder="Exercise"
-					[(ngModel)]="exercise"
+					[formControl]="exercise"
 					[matAutocomplete]="auto" />
 				<mat-autocomplete #auto="matAutocomplete">
-					<mat-option [value]="1"> Squat </mat-option>
-					<mat-option [value]="2"> Diddly </mat-option>
-					<mat-option [value]="3"> Bench </mat-option>
+					<mat-option
+						*ngFor="let one of data"
+						[value]="one.name"
+						>{{ one.name }}</mat-option
+					>
 				</mat-autocomplete>
+				<mat-error *ngIf="exercise.invalid">Select from configured exercises</mat-error>
 			</mat-form-field>
 		</div>
 		<div class="section">
@@ -39,8 +47,9 @@
 					matInput
 					cdkTextareaAutosize
 					class="program"
-					[(ngModel)]="program"
+					[formControl]="program"
 					placeholder="{{ 'Program\n5x5@100' }}"></textarea>
+				<mat-error *ngIf="program.invalid">{{ 'Incorrect format: {sets}x{reps}@{weight}' }}</mat-error>
 			</mat-form-field>
 		</div>
 		<div class="section">

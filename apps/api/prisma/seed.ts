@@ -12,7 +12,7 @@ async function main() {
 
 	await seedExercisesFor(trainee.id);
 
-	await seedWorkoutsFor(trainee.id);
+	// await seedWorkoutsFor(trainee.id);
 }
 
 async function seedExercisesFor(traineeId: number) {

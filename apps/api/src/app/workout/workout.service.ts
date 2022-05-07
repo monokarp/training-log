@@ -1,4 +1,4 @@
-import { Workout } from '@training-log/contracts';
+import { CreateWorkoutData, Workout } from '@training-log/contracts';
 import { Injectable } from '@nestjs/common';
 import { WorkoutRepository } from './workout.repository';
 
@@ -8,5 +8,9 @@ export class WorkoutService {
 
 	public including1RMs(username: string): Promise<Workout[]> {
 		return this.workoutRepository.including1RMs(username);
+	}
+
+	public create(data: CreateWorkoutData) {
+		return this.workoutRepository.create(data);
 	}
 }

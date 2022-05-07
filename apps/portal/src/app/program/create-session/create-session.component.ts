@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Exercise } from '@training-log/contracts';
+import { NewExercise } from '../viewmodel/types';
 
 const DateFormat = 'DD-MM-YYYY';
 
@@ -29,25 +32,55 @@ const DateFormat = 'DD-MM-YYYY';
 	],
 })
 export class CreateSessionComponent {
-	public exericses: { exercise: string; program: string }[] = [];
+	public exericses: NewExercise[] = [];
 	public dateFormat = DateFormat;
 
-	public exercise = '';
-	public program = '';
+	public exercise: FormControl;
+	public date = new FormControl('', [Validators.required]);
+	public program = new FormControl('', [
+		Validators.required,
+		Validators.pattern(/^(?:[0-9]+x[0-9]+@[0-9]+(?:\r\n|\r|\n)?)+$/),
+	]);
 
-	constructor(private dialogRef: MatDialogRef<CreateSessionComponent>) {}
+	private readonly exerciseNames: Set<string>;
+
+	constructor(
+		private dialogRef: MatDialogRef<CreateSessionComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: Exercise[],
+	) {
+		this.exerciseNames = new Set(data.map(one => one.name));
+
+		this.exercise = new FormControl('', [Validators.required, (c: FormControl) => this.validateExerciseName(c)]);
+	}
 
 	public submit(): void {
-		this.dialogRef.close({});
+		if (!this.date.valid) {
+			return this.date.markAsTouched();
+		}
+
+		if (this.exericses.length) {
+			this.dialogRef.close({
+				date: this.date.value,
+				exercises: this.exericses,
+			});
+		}
 	}
 
 	public cancel() {
 		this.dialogRef.close();
 	}
 
+	private validateExerciseName(c: FormControl) {
+		return this.exerciseNames.has(c.value) ? null : { validateExerciseName: { valid: false } };
+	}
+
 	public addExercise() {
-		if (this.exercise && this.program) {
-			this.exericses.push({ exercise: this.exercise, program: this.program });
+		if (this.exercise.valid && this.program.valid) {
+			this.exericses.push({
+				exercise: this.exercise.value,
+				code: this.data.find(one => one.name === this.exercise.value)?.code ?? '',
+				program: this.program.value,
+			});
 			this.clearCurrentExercise();
 		}
 	}
@@ -57,12 +90,15 @@ export class CreateSessionComponent {
 	}
 
 	public clearCurrentExercise() {
-		this.exercise = '';
-		this.program = '';
+		this.exercise.setValue('');
+		this.exercise.markAsUntouched();
+
+		this.program.setValue('');
+		this.program.markAsUntouched();
 	}
 
 	public copyToCurrent(one: { exercise: string; program: string }) {
-		this.exercise = one.exercise;
-		this.program = one.program;
+		this.exercise.setValue(one.exercise);
+		this.program.setValue(one.program);
 	}
 }

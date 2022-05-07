@@ -39,6 +39,7 @@ model Set {
   reps      Int        @db.SmallInt
   weight    Int        @db.SmallInt
   unit      WeightUnit @default(kg)
+  // Ditch worksets for now?
   isWorkSet Boolean    @default(false)
   comment   String?
 
@@ -70,6 +71,7 @@ model OneRepMax {
   Set      Set[]
 }
 
+// set default or global weight unit for trainee but keep it per set
 enum WeightUnit {
   kg
   lbs

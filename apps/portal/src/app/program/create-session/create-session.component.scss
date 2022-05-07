@@ -16,6 +16,18 @@
 		margin-right: 0.5rem;
 		justify-content: center;
 	}
+
+	&.form {
+		.section {
+			&:not(:first-of-type) {
+				margin-top: 0.5rem;
+			}
+
+			&:last-of-type {
+				margin-top: 1rem;
+			}
+		}
+	}
 }
 
 .wrapper {
