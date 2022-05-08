@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from './auithentication/auth.module';
 import { ExerciseModule } from './exercise/exercise.module';
-import { TraineeModule } from './trainee/trainee.module';
 import { WorkoutModule } from './workout/workout.module';
 
 @Module({
-	imports: [TraineeModule, WorkoutModule, ExerciseModule],
+	imports: [AuthModule, WorkoutModule, ExerciseModule],
 	controllers: [],
 	providers: [],
 })

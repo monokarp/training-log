@@ -1,70 +1,81 @@
 import { PrismaClient } from '@prisma/client';
-import { exercises, workouts } from './seed-data';
 
 const prisma = new PrismaClient();
 
 async function main() {
-	const trainee = await prisma.trainee.create({ data: { name: 'Олег', username: 'mnk' } });
+	const user = await prisma.user.create({ data: { name: 'Олег', id: 'mnk' } });
 
 	await prisma.locale.createMany({
 		data: [{ code: 'en-US' }, { code: 'ru-RU' }],
 	});
 
-	await seedExercisesFor(trainee.id);
+	await prisma.userPreferences.create({
+		data: { userId: user.id, unit: 'kg', localeCode: 'en-US' },
+	});
 
-	// await seedWorkoutsFor(trainee.id);
-}
+	await prisma.translation.createMany({
+		data: [
+			{ userId: user.id, localeCode: 'en-US', code: 'squat', value: 'Squat' },
+			{ userId: user.id, localeCode: 'en-US', code: 'bench', value: 'Bench Press' },
+			{ userId: user.id, localeCode: 'en-US', code: 'deadlift', value: 'Deadlift' },
+		],
+	});
 
-async function seedExercisesFor(traineeId: number) {
-	for (const [id, code, nameEN, nameRU, oneRepMax] of exercises) {
-		const exercise = await prisma.exercise.create({
-			data: {
-				id: id as number,
-				nameCode: code as string,
+	await prisma.exerciseType.createMany({
+		data: [
+			{ userId: user.id, id: 'squat', translationCode: 'squat' },
+			{ userId: user.id, id: 'bench', translationCode: 'bench' },
+			{ userId: user.id, id: 'deadlift', translationCode: 'deadlift' },
+		],
+	});
+
+	await prisma.personalBest.createMany({
+		data: [
+			{ userId: user.id, eserciseId: 'squat', starting: new Date(), weight: 210 },
+			{ userId: user.id, eserciseId: 'bench', starting: new Date(), weight: 145 },
+			{ userId: user.id, eserciseId: 'deadlift', starting: new Date(), weight: 230 },
+		],
+	});
+
+	const workout = await prisma.workout.create({
+		data: {
+			userId: user.id,
+			date: new Date(),
+			comment: 'This is the initially seeded workout',
+		},
+	});
+
+	await prisma.workItem.createMany({
+		data: [
+			{ workoutId: workout.id, userId: user.id, exerciseId: 'squat', order: 0, sets: 1, reps: 5, weight: 70 },
+			{ workoutId: workout.id, userId: user.id, exerciseId: 'squat', order: 1, sets: 1, reps: 5, weight: 120 },
+			{
+				workoutId: workout.id,
+				userId: user.id,
+				exerciseId: 'squat',
+				order: 2,
+				sets: 3,
+				reps: 5,
+				weight: 170,
+				comment: 'Missed last rep',
 			},
-		});
-
-		await prisma.oneRepMax.create({
-			data: {
-				id: id as number,
-				traineeId,
-				exerciseId: exercise.id,
-				value: oneRepMax as number,
-				starting: new Date(),
+			{ workoutId: workout.id, userId: user.id, exerciseId: 'deadlift', order: 3, sets: 1, reps: 5, weight: 70 },
+			{ workoutId: workout.id, userId: user.id, exerciseId: 'deadlift', order: 4, sets: 1, reps: 5, weight: 120 },
+			{ workoutId: workout.id, userId: user.id, exerciseId: 'deadlift', order: 5, sets: 1, reps: 5, weight: 170 },
+			{
+				workoutId: workout.id,
+				userId: user.id,
+				exerciseId: 'deadlift',
+				order: 6,
+				sets: 1,
+				reps: 5,
+				weight: 200,
+				comment: 'Felt easy',
 			},
-		});
-
-		await prisma.translation.createMany({
-			data: [
-				{
-					localeCode: 'en-US',
-					code: code as string,
-					value: nameEN as string,
-				},
-				{
-					localeCode: 'ru-RU',
-					code: code as string,
-					value: nameRU as string,
-				},
-			],
-		});
-	}
-}
-
-async function seedWorkoutsFor(traineeId: number) {
-	for (const { id, date, sets } of workouts) {
-		await prisma.workout.create({
-			data: {
-				id: id,
-				traineeId,
-				date: date,
-			},
-		});
-
-		await prisma.set.createMany({
-			data: sets,
-		});
-	}
+			{ workoutId: workout.id, userId: user.id, exerciseId: 'bench', order: 7, sets: 1, reps: 3, weight: 70 },
+			{ workoutId: workout.id, userId: user.id, exerciseId: 'bench', order: 8, sets: 5, reps: 3, weight: 110 },
+		],
+	});
 }
 
 main()

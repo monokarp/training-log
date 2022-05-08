@@ -1,5 +1,5 @@
-import { CreateWorkoutData, Workout } from '@training-log/contracts';
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CreateWorkoutData, Workout } from '@training-log/contracts';
 import { WorkoutService } from './workout.service';
 
 @Controller('workouts')

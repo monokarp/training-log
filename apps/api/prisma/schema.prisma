@@ -1,95 +1,102 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
-model Trainee {
-  id Int @id @default(autoincrement())
+model User {
+    id   String @id
+    name String
 
-  name     String
-  username String @unique
-
-  Workout   Workout[]
-  OneRepMax OneRepMax[]
+    ExerciseType    ExerciseType[]
+    Translation     Translation[]
+    UserPreferences UserPreferences?
+    Workout         Workout[]
+    WorkItem        WorkItem[]
 }
 
-model Workout {
-  id        Int @id @default(autoincrement())
-  traineeId Int
+model UserPreferences {
+    userId     String     @id
+    localeCode String     @db.Char(5)
+    unit       WeightUnit
 
-  date    DateTime
-  comment String?
-
-  Trainee Trainee @relation(fields: [traineeId], references: [id])
-  Set     Set[]
+    Locale Locale @relation(fields: [localeCode], references: [code])
+    User   User   @relation(fields: [userId], references: [id])
 }
 
-model Set {
-  id          Int @id @default(autoincrement())
-  workoutId   Int
-  exerciseId  Int
-  oneRepMaxId Int
+model ExerciseType {
+    id              String
+    userId          String
+    translationCode String
 
-  order     Int        @db.SmallInt
-  multiple  Int        @default(1) @db.SmallInt
-  reps      Int        @db.SmallInt
-  weight    Int        @db.SmallInt
-  unit      WeightUnit @default(kg)
-  // Ditch worksets for now?
-  isWorkSet Boolean    @default(false)
-  comment   String?
-
-  Workout   Workout   @relation(fields: [workoutId], references: [id])
-  Exercise  Exercise  @relation(fields: [exerciseId], references: [id])
-  OneRepMax OneRepMax @relation(fields: [oneRepMaxId], references: [id])
+    User         User           @relation(fields: [userId], references: [id])
+    PersonalBest PersonalBest[]
+    WorkItem     WorkItem[]
+    @@id([userId, id])
 }
 
-model Exercise {
-  id Int @id @default(autoincrement())
+model PersonalBest {
+    id Int @id @default(autoincrement())
 
-  nameCode String
+    userId     String
+    eserciseId String
+    starting   DateTime
+    weight     Int      @db.SmallInt
 
-  Set       Set[]
-  OneRepMax OneRepMax[]
+    ExerciseType ExerciseType @relation(fields: [userId, eserciseId], references: [userId, id])
 }
 
-model OneRepMax {
-  id         Int @id @default(autoincrement())
-  traineeId  Int
-  exerciseId Int
-
-  value    Int        @db.SmallInt
-  unit     WeightUnit @default(kg)
-  starting DateTime
-
-  Trainee  Trainee  @relation(fields: [traineeId], references: [id])
-  Exercise Exercise @relation(fields: [exerciseId], references: [id])
-  Set      Set[]
-}
-
-// set default or global weight unit for trainee but keep it per set
 enum WeightUnit {
-  kg
-  lbs
+    kg
+    lbs
 }
 
 model Locale {
-  code String @id @db.Char(5)
+    code String @id @db.Char(5)
 
-  Translation Translation[]
+    Translation     Translation[]
+    UserPreferences UserPreferences[]
 }
 
 model Translation {
-  localeCode String @db.Char(5)
+    localeCode String @db.Char(5)
+    userId     String
+    code       String
+    value      String
 
-  code  String
-  value String
+    Locale Locale @relation(fields: [localeCode], references: [code])
+    User   User   @relation(fields: [userId], references: [id])
 
-  Locale Locale @relation(fields: [localeCode], references: [code])
+    @@id([userId, code, localeCode])
+}
 
-  @@id([localeCode, code])
+model Workout {
+    id     Int    @id @default(autoincrement())
+    userId String
+
+    date    DateTime
+    comment String?
+
+    User     User       @relation(fields: [userId], references: [id])
+    WorkItem WorkItem[]
+}
+
+model WorkItem {
+    id         Int    @id @default(autoincrement())
+    workoutId  Int
+    userId     String
+    exerciseId String
+
+    order   Int     @db.SmallInt
+    sets    Int     @default(1) @db.SmallInt
+    reps    Int     @db.SmallInt
+    weight  Int     @db.SmallInt
+    comment String?
+
+    User         User         @relation(fields: [userId], references: [id])
+    Workout      Workout      @relation(fields: [workoutId], references: [id])
+    ExerciseType ExerciseType @relation(fields: [userId, exerciseId], references: [userId, id])
 }

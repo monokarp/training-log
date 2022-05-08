@@ -1,5 +1,5 @@
-import { CreateWorkoutData, Workout } from '@training-log/contracts';
 import { Injectable } from '@nestjs/common';
+import { CreateWorkoutData, Workout } from '@training-log/contracts';
 import { I18n } from '../shared/i18n';
 import { Prisma } from '../shared/prisma';
 
@@ -8,91 +8,63 @@ export class WorkoutRepository {
 	constructor(private prisma: Prisma, private i18n: I18n) {}
 
 	public async including1RMs(username: string): Promise<Workout[]> {
-		const trainee = await this.prisma.trainee.findUnique({ where: { username } });
-
-		if (!trainee) {
-			return [];
-		}
-
 		const data = await this.prisma.workout.findMany({
-			where: { traineeId: trainee.id },
-			orderBy: { date: 'desc' },
-			include: {
-				Set: {
-					include: {
-						Exercise: true,
-						OneRepMax: true,
-					},
-				},
-			},
+			where: { userId: username },
+			include: { WorkItem: { include: { ExerciseType: true } } },
 		});
 
 		return Promise.all(
-			data.map(async one => ({
-				date: one.date.toISOString(),
-				comment: one.comment ?? undefined,
-				sets: await Promise.all(
-					one.Set.map(async one => ({
-						exerciseName: await this.i18n.translate(one.Exercise.nameCode),
-						oneRepMax: one.OneRepMax.value,
-						order: one.order,
-						multiple: one.multiple,
-						reps: one.reps,
-						weight: one.weight,
-						unit: one.unit,
-						isWorkSet: one.isWorkSet,
-						comment: one.comment ?? undefined,
-					})),
-				),
-			})),
+			data.map(async workout => {
+				return {
+					date: workout.date,
+					comment: workout.comment,
+					sets: await Promise.all(
+						workout.WorkItem.map(async workItem => {
+							return {
+								exerciseName: await this.i18n.translate(
+									username,
+									workItem.ExerciseType.translationCode,
+								),
+								order: workItem.order,
+								sets: workItem.sets,
+								reps: workItem.reps,
+								weight: workItem.weight,
+								comment: workItem.comment,
+							};
+						}),
+					),
+				};
+			}),
 		);
 	}
 
 	public async create(data: CreateWorkoutData): Promise<boolean> {
-		const trainee = await this.prisma.trainee.findFirst({ where: { username: data.traineeUsername } });
-
-		if (!trainee) {
-			return false;
-		}
-
 		const newWorkout = await this.prisma.workout.create({
 			data: {
-				date: new Date(data.date),
-				traineeId: trainee.id,
+				userId: data.userId,
+				date: data.date,
+				comment: data.comment,
 			},
 		});
 
-		const sets = await Promise.all(
-			// TODO rework schema holy cringe
-			data.sets.map(async one => {
-				const exercise = await this.prisma.exercise.findFirst({
-					where: {
-						nameCode: one.name,
-					},
+		await Promise.all(
+			data.sets.map(async set => {
+				await this.prisma.workItem.createMany({
+					data: [
+						{
+							workoutId: newWorkout.id,
+							userId: data.userId,
+							exerciseId: set.exerciseId,
+							order: set.order,
+							sets: set.sets,
+							reps: set.reps,
+							weight: set.weight,
+							comment: set.comment,
+						},
+					],
 				});
-
-				const oneRM = await this.prisma.oneRepMax.findFirst({
-					where: {
-						traineeId: trainee.id,
-						exerciseId: exercise?.id ?? 0,
-					},
-				});
-
-				return {
-					oneRepMaxId: oneRM?.id ?? 0,
-					exerciseId: exercise?.id ?? 0,
-					workoutId: newWorkout.id,
-					order: one.order,
-					multiple: one.multiple,
-					reps: one.reps,
-					weight: one.weight,
-				};
 			}),
 		);
-
-		await this.prisma.set.createMany({
-			data: sets,
-		});
 
 		return true;
 	}

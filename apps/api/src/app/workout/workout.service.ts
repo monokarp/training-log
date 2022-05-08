@@ -1,5 +1,5 @@
-import { CreateWorkoutData, Workout } from '@training-log/contracts';
 import { Injectable } from '@nestjs/common';
+import { CreateWorkoutData, Workout } from '@training-log/contracts';
 import { WorkoutRepository } from './workout.repository';
 
 @Injectable()

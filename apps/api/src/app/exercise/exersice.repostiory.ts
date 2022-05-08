@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Exercise } from '@training-log/contracts';
+import { ExerciseType, ExerciseWithPB } from '@training-log/contracts';
 import { I18n } from '../shared/i18n';
 import { Prisma } from '../shared/prisma';
 
@@ -7,19 +7,25 @@ import { Prisma } from '../shared/prisma';
 export class ExerciseRepository {
 	constructor(private prisma: Prisma, private i18n: I18n) {}
 
-	public async including1RMs(username: string): Promise<Exercise[]> {
-		const trainee = await this.prisma.trainee.findUnique({ where: { username } });
+	public async all(userId: string): Promise<ExerciseType[]> {
+		const exercises = await this.prisma.exerciseType.findMany({
+			where: { userId },
+		});
 
-		if (!trainee) {
-			return [];
-		}
+		return Promise.all(
+			exercises.map(async one => ({
+				id: one.id,
+				userId,
+				name: await this.i18n.translate(userId, one.translationCode),
+			})),
+		);
+	}
 
-		const exercises = await this.prisma.exercise.findMany({
+	public async allIncludingPBs(userId: string): Promise<ExerciseWithPB[]> {
+		const exerciseTypesWithPB = await this.prisma.exerciseType.findMany({
+			where: { userId },
 			include: {
-				OneRepMax: {
-					where: {
-						traineeId: trainee.id,
-					},
+				PersonalBest: {
 					orderBy: {
 						starting: 'desc',
 					},
@@ -28,24 +34,13 @@ export class ExerciseRepository {
 		});
 
 		return Promise.all(
-			exercises.map(async one => {
-				const [current1rm] = one.OneRepMax;
-
-				const result: Exercise = {
-					code: one.nameCode,
-					name: await this.i18n.translate(one.nameCode),
-				};
-
-				if (current1rm) {
-					result.oneRepMax = {
-						value: current1rm.value,
-						unit: current1rm.unit,
-						starting: current1rm.starting.toISOString(),
-					};
-				}
-
-				return result;
-			}),
+			exerciseTypesWithPB.map(async one => ({
+				id: one.id,
+				userId,
+				name: await this.i18n.translate(userId, one.translationCode),
+				personalBest: one.PersonalBest[0]?.weight ?? null,
+				personalBestFrom: new Date(one.PersonalBest[0]?.starting) ?? null,
+			})),
 		);
 	}
 }
