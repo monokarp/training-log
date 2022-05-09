@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DataModule } from '../data/data.module';
 import { MatComponentsModule } from '../material/mat-components.module';
@@ -14,15 +13,7 @@ import { ProgramStore } from './program.store';
 import { ProgramViewmodel } from './viewmodel/group-workouts';
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(routes),
-		CommonModule,
-		DataModule,
-		MatComponentsModule,
-		MatFormsModule,
-		FormsModule,
-		ReactiveFormsModule,
-	],
+	imports: [RouterModule.forChild(routes), CommonModule, DataModule, MatComponentsModule, MatFormsModule],
 	providers: [ProgramService, ProgramStore, ProgramViewmodel, CreateSession],
 	declarations: [ProgramComponent, CreateSessionComponent],
 })

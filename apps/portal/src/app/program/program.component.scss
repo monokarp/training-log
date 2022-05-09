@@ -7,10 +7,7 @@
 	@extend .horizontal-flex;
 }
 
-.week {
-}
-
-.example-small-box {
+.workout-card {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -21,7 +18,7 @@
 	height: max-content;
 }
 
-.example-button-container {
+.button-container {
 	display: flex;
 	justify-content: center;
 	width: 100%;

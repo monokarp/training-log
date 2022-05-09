@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AppRoutes } from '../app.routes.enum';
-import { Trainees } from '../data/trainees';
+import { AuthService } from '../auth/auth.service';
+import { SessionStore } from '../shared/session.store';
 import { MenuStore } from './menu.store';
 
 @Injectable()
 export class MenuService {
-	constructor(private trainees: Trainees, private menuStore: MenuStore) {}
+	constructor(private menuStore: MenuStore, private authService: AuthService, private sessionStore: SessionStore) {}
 
 	public async load() {
 		this.menuStore.tabs$.next([
@@ -13,7 +14,15 @@ export class MenuService {
 			{ id: AppRoutes.Stats, text: 'Stats' },
 			{ id: AppRoutes.Admin, text: 'Admin' },
 		]);
+	}
 
-		this.menuStore.trainees$.next(await this.trainees.all());
+	public async login(userId: string): Promise<boolean> {
+		const user = await this.authService.login(userId);
+
+		if (user) {
+			this.sessionStore.activeUser$.next(user);
+		}
+
+		return !!user;
 	}
 }

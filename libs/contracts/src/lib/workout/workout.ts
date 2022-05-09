@@ -11,6 +11,7 @@ export interface Set {
 	reps: number;
 	weight: number;
 	comment: string | null;
+	personalBest: number | null;
 }
 
 export interface CreateWorkoutData {

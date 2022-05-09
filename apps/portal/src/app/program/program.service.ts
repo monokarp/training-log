@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ExerciseWithPB } from '@training-log/contracts';
 import { firstValueFrom } from 'rxjs';
+import { SessionStore } from '../shared/session.store';
 import { Exercises } from '../data/exercises';
 import { Workouts } from '../data/workouts';
-import { MenuStore } from '../menu/menu.store';
 import { CreateSessionComponent } from './create-session/create-session.component';
 import { CreateSession } from './create-session/create-session.service';
 import { ProgramStore } from './program.store';
 import { ProgramViewmodel } from './viewmodel/group-workouts';
 import { NewWorkout } from './viewmodel/types';
-import { Exercise } from '@training-log/contracts';
 
 @Injectable()
 export class ProgramService {
@@ -19,7 +19,7 @@ export class ProgramService {
 		private viewmodel: ProgramViewmodel,
 		private dialog: MatDialog,
 		private createSession: CreateSession,
-		private menuStore: MenuStore,
+		private sessionStore: SessionStore,
 		private exercises: Exercises,
 	) {}
 
@@ -29,7 +29,7 @@ export class ProgramService {
 	}
 
 	public async createNewSession(): Promise<void> {
-		const trainee = this.menuStore.selectedTrainee$.getValue();
+		const trainee = this.sessionStore.activeUser$.getValue();
 
 		if (!trainee) {
 			return;
@@ -37,10 +37,10 @@ export class ProgramService {
 
 		const result = await firstValueFrom(
 			this.dialog
-				.open<CreateSessionComponent, Exercise[], NewWorkout>(CreateSessionComponent, {
+				.open<CreateSessionComponent, ExerciseWithPB[], NewWorkout>(CreateSessionComponent, {
 					disableClose: true,
 					autoFocus: false,
-					data: await this.exercises.for(trainee.username),
+					data: await this.exercises.includingPersonalBestFor(trainee.id),
 				})
 				.afterClosed(),
 		);
@@ -48,7 +48,7 @@ export class ProgramService {
 		if (result) {
 			// TODO receive an id instead and upsert single entity
 			if (this.createSession.one(result)) {
-				return this.load(trainee.username);
+				return this.load(trainee.id);
 			}
 		}
 	}

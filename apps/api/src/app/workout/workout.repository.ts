@@ -10,7 +10,21 @@ export class WorkoutRepository {
 	public async including1RMs(username: string): Promise<Workout[]> {
 		const data = await this.prisma.workout.findMany({
 			where: { userId: username },
-			include: { WorkItem: { include: { ExerciseType: true } } },
+			include: {
+				WorkItem: {
+					include: {
+						ExerciseType: {
+							include: {
+								PersonalBest: {
+									orderBy: {
+										starting: 'desc',
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 		});
 
 		return Promise.all(
@@ -20,6 +34,8 @@ export class WorkoutRepository {
 					comment: workout.comment,
 					sets: await Promise.all(
 						workout.WorkItem.map(async workItem => {
+							const [pb] = workItem.ExerciseType.PersonalBest;
+
 							return {
 								exerciseName: await this.i18n.translate(
 									username,
@@ -30,6 +46,7 @@ export class WorkoutRepository {
 								reps: workItem.reps,
 								weight: workItem.weight,
 								comment: workItem.comment,
+								personalBest: pb?.weight ?? null,
 							};
 						}),
 					),

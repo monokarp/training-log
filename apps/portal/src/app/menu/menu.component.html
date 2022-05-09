@@ -5,19 +5,21 @@
 		(click)="onTabSelect(tab.id)">
 		{{ tab.text }}
 	</div>
-
 	<mat-form-field
-		class="trainee"
+		class="username"
 		appearance="fill">
-		<mat-label>Select trainee</mat-label>
-		<mat-select
-			[value]="menuStore.selectedTrainee$ | async"
-			(selectionChange)="onTraineeSelect($event)">
-			<mat-option
-				*ngFor="let trainee of menuStore.trainees$ | async"
-				[value]="trainee"
-				>{{ trainee.name }}
-			</mat-option>
-		</mat-select>
+		<input
+			matInput
+			placeholder="Login with username"
+			[formControl]="username" />
 	</mat-form-field>
+	<button
+		class="login-btn"
+		mat-raised-button
+		color="primary"
+		(click)="onUserSelect()"
+		[ngSwitch]="!!(sessionStore.activeUser$ | async)">
+		<mat-icon *ngSwitchCase="false">check_circle_outline</mat-icon>
+		<mat-icon *ngSwitchCase="true">refresh</mat-icon>
+	</button>
 </div>

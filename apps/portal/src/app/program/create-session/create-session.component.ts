@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Exercise } from '@training-log/contracts';
+import { ExerciseWithPB } from '@training-log/contracts';
 import { NewExercise } from '../viewmodel/types';
 
 const DateFormat = 'DD-MM-YYYY';
@@ -46,7 +46,7 @@ export class CreateSessionComponent {
 
 	constructor(
 		private dialogRef: MatDialogRef<CreateSessionComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: Exercise[],
+		@Inject(MAT_DIALOG_DATA) public data: ExerciseWithPB[],
 	) {
 		this.exerciseNames = new Set(data.map(one => one.name));
 
@@ -78,7 +78,7 @@ export class CreateSessionComponent {
 		if (this.exercise.valid && this.program.valid) {
 			this.exericses.push({
 				exercise: this.exercise.value,
-				code: this.data.find(one => one.name === this.exercise.value)?.code ?? '',
+				code: this.data.find(one => one.name === this.exercise.value)?.id ?? '',
 				program: this.program.value,
 			});
 			this.clearCurrentExercise();

@@ -1,1 +1,15 @@
-<p>admin works!</p>
+<div class="container">
+	<nav
+		mat-tab-nav-bar
+		[tabPanel]="tabPanel">
+		<a
+			mat-tab-link
+			*ngFor="let one of routes"
+			routerLink="{{ one.path }}"
+			(click)="activeLink = one.path!"
+			[active]="activeLink === one.path">
+			{{ one.data?.['name'] }}
+		</a>
+	</nav>
+	<mat-tab-nav-panel #tabPanel><router-outlet></router-outlet></mat-tab-nav-panel>
+</div>

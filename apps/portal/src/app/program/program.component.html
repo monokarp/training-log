@@ -1,9 +1,8 @@
 <div class="wrapper">
-	<div class="example-button-container">
+	<div class="button-container">
 		<button
 			mat-fab
 			color="primary"
-			aria-label="Example icon button with a home icon"
 			(click)="openCreateSessionModal()">
 			<mat-icon>note_add</mat-icon>
 		</button>
@@ -20,7 +19,7 @@
 					<div class="content">
 						<div
 							*ngFor="let exercise of session.exercises"
-							class="example-small-box mat-elevation-z4">
+							class="workout-card mat-elevation-z4">
 							<p>
 								<b>{{ exercise.name }}</b>
 							</p>
@@ -30,7 +29,7 @@
 							</div>
 						</div>
 						<div
-							class="example-small-box mat-elevation-z4"
+							class="workout-card mat-elevation-z4"
 							*ngIf="session.comment">
 							{{ session.comment }}
 						</div>

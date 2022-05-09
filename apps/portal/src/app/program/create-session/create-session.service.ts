@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { CreateWorkoutData } from '@training-log/contracts';
+import { SessionStore } from '../../shared/session.store';
 import { Workouts } from '../../data/workouts';
-import { MenuStore } from '../../menu/menu.store';
 import { NewWorkout } from '../viewmodel/types';
 
 @Injectable()
 export class CreateSession {
-	constructor(private workouts: Workouts, private menuStore: MenuStore) {}
+	constructor(private workouts: Workouts, private sessionStore: SessionStore) {}
 
 	public one(workoutData: NewWorkout) {
-		const username = this.menuStore.selectedTrainee$.getValue()?.username;
+		const username = this.sessionStore.activeUser$.getValue()?.id;
 
 		if (!username) {
 			return;
 		}
 
 		const result: CreateWorkoutData = {
-			date: workoutData.date.toISOString(),
-			traineeUsername: username,
+			date: workoutData.date,
+			userId: username,
 			sets: workoutData.exercises.flatMap((data, idx) => {
 				const lines = data.program.replace(/\r\n|\r|\n/g, ' ').split(' ');
 
@@ -26,9 +26,11 @@ export class CreateSession {
 					const [sets, reps] = work.split('x');
 
 					return {
+						// TODO update this
+						exerciseId: '',
 						name: data.code,
 						order: idx,
-						multiple: Number(sets),
+						sets: Number(sets),
 						weight: Number(weight),
 						reps: Number(reps),
 					};

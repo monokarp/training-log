@@ -9,7 +9,7 @@ export class ProgramViewmodel {
 		const result: TrainingWeek[] = [];
 
 		for (const one of workouts) {
-			const week = DateTime.fromISO(one.date).weekNumber;
+			const week = DateTime.fromJSDate(new Date(one.date)).weekNumber;
 
 			let currentWeek: TrainingWeek | undefined = result[result.length - 1];
 
@@ -29,8 +29,8 @@ export class ProgramViewmodel {
 			}
 
 			currentWeek.sessions.push({
-				date: one.date,
-				comment: one.comment,
+				date: new Date(one.date).toISOString(),
+				comment: one.comment ?? undefined,
 				exercises: Object.entries(setsByExercise).map(([k, v]) => ({ name: k, sets: v })),
 			});
 		}

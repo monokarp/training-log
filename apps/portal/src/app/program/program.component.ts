@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Set } from '@training-log/contracts';
-import { filter, map } from 'rxjs/operators';
-import { isNonEmptyString } from '../shared/type-guards/is-string';
+import { SessionStore } from '../shared/session.store';
 import { ProgramService } from './program.service';
 import { ProgramStore } from './program.store';
 
@@ -12,25 +11,22 @@ import { ProgramStore } from './program.store';
 	styleUrls: ['./program.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProgramComponent implements OnDestroy {
-	private storeUpdates = this.route.url
-		.pipe(
-			map(([firstSegment]) => firstSegment?.path),
-			filter(isNonEmptyString),
-		)
-		.subscribe(username => this.programService.load(username));
+export class ProgramComponent {
+	// private storeUpdates = this.route.url
+	// 	.pipe(
+	// 		map(([firstSegment]) => firstSegment?.path),
+	// 		filter(isNonEmptyString),
+	// 	)
+	// 	.subscribe(username => this.programService.load(username));
 
 	constructor(
 		private route: ActivatedRoute,
 		public programService: ProgramService,
 		public programStore: ProgramStore,
+		private sessionStore: SessionStore,
 	) {}
 
 	// TODO persist tab selection state in store?
-
-	public ngOnDestroy(): void {
-		this.storeUpdates.unsubscribe();
-	}
 
 	public openCreateSessionModal() {
 		this.programService.createNewSession();
@@ -38,10 +34,12 @@ export class ProgramComponent implements OnDestroy {
 
 	public format(one: Set) {
 		// TODO Workset as icon
-		return `${one.multiple}x${one.reps}@${one.weight}${one.unit}${this.format1RM(one)}${one.isWorkSet ? ' W' : ''}`;
+		return `${one.sets}x${one.reps}@${one.weight}${
+			this.sessionStore.activeUser$.getValue()?.unit ?? ''
+		}${this.format1RM(one)}`;
 	}
 
 	private format1RM(one: Set): string {
-		return one.oneRepMax ? ` ${Math.floor((one.weight / one.oneRepMax) * 100)}%` : '';
+		return one.personalBest ? ` ${Math.floor((one.weight / one.personalBest) * 100)}%` : '';
 	}
 }
