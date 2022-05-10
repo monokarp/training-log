@@ -8,7 +8,7 @@
 			routerLink="{{ one.path }}"
 			(click)="activeLink = one.path!"
 			[active]="activeLink === one.path">
-			{{ one.data?.['name'] }}
+			{{ one.name }}
 		</a>
 	</nav>
 	<mat-tab-nav-panel #tabPanel><router-outlet></router-outlet></mat-tab-nav-panel>

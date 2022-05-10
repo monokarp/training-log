@@ -1,7 +1,13 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { AppRoutes } from './app.routes.enum';
 
-export const routes: Routes = [
+const routes: Routes = [
+	{
+		path: '',
+		redirectTo: AppRoutes.Program,
+		pathMatch: 'full',
+	},
 	{
 		path: AppRoutes.Program,
 		loadChildren: () => import('./program/program.module').then(m => m.ProgramModule),
@@ -14,9 +20,10 @@ export const routes: Routes = [
 		path: AppRoutes.Admin,
 		loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
 	},
-	{
-		path: '',
-		redirectTo: AppRoutes.Program,
-		pathMatch: 'full',
-	},
 ];
+
+@NgModule({
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule],
+})
+export class AppRoutingModule {}

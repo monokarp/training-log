@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { childroutes } from './admin-child.routes';
 import { AdminRoutes } from './admin.routes.enum';
 
 @Component({
@@ -9,13 +8,13 @@ import { AdminRoutes } from './admin.routes.enum';
 	styleUrls: ['./admin.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminComponent implements OnInit {
-	public routes = childroutes.filter(route => !!route.data?.['name']);
+export class AdminComponent {
+	public routes = [
+		{ path: AdminRoutes.Exercises, name: 'Exercises' },
+		{ path: AdminRoutes.Preferences, name: 'Preferences' },
+		{ path: AdminRoutes.Translations, name: 'Translations' },
+	];
 	public activeLink: string = AdminRoutes.Exercises;
 
 	constructor(private router: Router) {}
-
-	ngOnInit(): void {
-		this.router.navigate([`../${AdminRoutes.Exercises}`]);
-	}
 }

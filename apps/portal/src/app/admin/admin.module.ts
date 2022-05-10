@@ -1,16 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminComponent } from './admin.component';
-import { routes } from './admin.routes';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from '../shared/shared.module';
-import { ExercisesComponent } from './exercises/exercises.component';
-import { TranslationsComponent } from './translations/translations.component';
-import { PreferencesComponent } from './preferences/preferences.component';
+import { NgModule } from '@angular/core';
 import { MatComponentsModule } from '../material/mat-components.module';
+import { SharedModule } from '../shared/shared.module';
+import { AdminComponent } from './admin.component';
+import { AdminRoutingModule } from './admin.routing.module';
+import { ExercisesComponent } from './exercises/exercises.component';
+import { PreferencesComponent } from './preferences/preferences.component';
+import { TranslationsComponent } from './translations/translations.component';
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), CommonModule, SharedModule, MatComponentsModule],
+	imports: [CommonModule, SharedModule, MatComponentsModule, AdminRoutingModule],
 	declarations: [AdminComponent, ExercisesComponent, TranslationsComponent, PreferencesComponent],
 })
 export class AdminModule {}

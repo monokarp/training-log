@@ -12,14 +12,6 @@ export class NavigationService {
 	}
 
 	public open(page: AppRoutes) {
-		// if (page === AppRoutes.Program) {
-		// 	const user = this.sessionStore.activeUser$.value;
-
-		// 	if (user) {
-		// 		return this.router.navigate([page, user.id]);
-		// 	}
-		// }
-
 		return this.router.navigate([page]);
 	}
 }
