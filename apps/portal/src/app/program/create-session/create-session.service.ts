@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CreateWorkoutData } from '@training-log/contracts';
-import { SessionStore } from '../../shared/session.store';
+import { SessionStore } from '../../login/session.store';
 import { Workouts } from '../../data/workouts';
 import { NewWorkout } from '../viewmodel/types';
 

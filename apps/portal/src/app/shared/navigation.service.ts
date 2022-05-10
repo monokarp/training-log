@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppRoutes } from '../app.routes.enum';
-import { SessionStore } from './session.store';
+import { SessionStore } from '../login/session.store';
 
 @Injectable()
 export class NavigationService {

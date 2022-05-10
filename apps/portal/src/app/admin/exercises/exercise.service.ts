@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ExerciseType } from '@training-log/contracts';
 import { Exercises } from '../../data/exercises';
-import { SessionStore } from '../../shared/session.store';
+import { SessionStore } from '../../login/session.store';
 import { ExercisesStore } from './exercise.store';
 
 @Injectable()

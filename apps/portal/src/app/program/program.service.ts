@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExerciseWithPB } from '@training-log/contracts';
 import { firstValueFrom } from 'rxjs';
-import { SessionStore } from '../shared/session.store';
+import { SessionStore } from '../login/session.store';
 import { Exercises } from '../data/exercises';
 import { Workouts } from '../data/workouts';
 import { CreateSessionComponent } from './create-session/create-session.component';

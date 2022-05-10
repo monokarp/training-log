@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { AppRoutes } from '../app.routes.enum';
-import { AuthService } from '../auth/auth.service';
-import { SessionStore } from '../shared/session.store';
-import { MenuStore } from './menu.store';
+import { SessionStore } from '../login/session.store';
 
 @Injectable()
 export class MenuService {
-	constructor(private menuStore: MenuStore, private authService: AuthService, private sessionStore: SessionStore) {}
+	constructor(private sessionStore: SessionStore) {}
 
-	public async load() {
-		this.menuStore.tabs$.next([
-			{ id: AppRoutes.Program, text: 'Program' },
-			{ id: AppRoutes.Stats, text: 'Stats' },
-			{ id: AppRoutes.Admin, text: 'Admin' },
-		]);
-	}
-
-	public async login(userId: string): Promise<boolean> {
-		const user = await this.authService.login(userId);
-
-		if (user) {
-			this.sessionStore.activeUser$.next(user);
-		}
-
-		return !!user;
+	public tabs$(): Observable<{ id: string; text: string }[]> {
+		return this.sessionStore.activeUser$.pipe(
+			map(user =>
+				user
+					? [
+							{ id: AppRoutes.Login, text: 'Login' },
+							{ id: AppRoutes.Program, text: 'Program' },
+							{ id: AppRoutes.Stats, text: 'Stats' },
+							{ id: AppRoutes.Admin, text: 'Admin' },
+					  ]
+					: [{ id: AppRoutes.Login, text: 'Login' }],
+			),
+		);
 	}
 }

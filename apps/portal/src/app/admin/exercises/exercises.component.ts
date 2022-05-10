@@ -16,7 +16,7 @@ export class ExercisesComponent implements OnInit {
 		(c: FormControl) => (this.service.valudateNew(c.value) ? null : { unique: { valid: false } }),
 	]);
 
-	public exercisesName = new FormControl('', [Validators.required]);
+	public exercisesName = new FormControl('', [Validators.required, Validators.pattern(/[a-zA-Z ]+/)]);
 
 	constructor(public store: ExercisesStore, private service: ExerciseService) {}
 

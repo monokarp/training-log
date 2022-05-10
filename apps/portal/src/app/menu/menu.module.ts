@@ -6,11 +6,10 @@ import { MatComponentsModule } from '../material/mat-components.module';
 import { MatFormsModule } from '../material/mat-forms.module';
 import { MenuComponent } from './menu.component';
 import { MenuService } from './menu.service';
-import { MenuStore } from './menu.store';
 
 @NgModule({
 	imports: [CommonModule, MatComponentsModule, DataModule, AuthModule, MatFormsModule],
-	providers: [MenuService, MenuStore],
+	providers: [MenuService],
 	declarations: [MenuComponent],
 	exports: [MenuComponent],
 })

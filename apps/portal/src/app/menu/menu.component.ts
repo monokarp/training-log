@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { AppRoutes } from '../app.routes.enum';
-import { SessionStore } from '../shared/session.store';
+import { SessionStore } from '../login/session.store';
 import { NavigationService } from '../shared/navigation.service';
 import { isNavigationEnd } from '../shared/type-guards/is-navigation-end';
 import { MenuService } from './menu.service';
-import { MenuStore } from './menu.store';
 
 @Component({
 	selector: 'portal-menu',
@@ -15,50 +13,29 @@ import { MenuStore } from './menu.store';
 	styleUrls: ['./menu.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
 	public currentPage$ = this.router.events.pipe(
 		filter(isNavigationEnd),
 		map(event => event.urlAfterRedirects),
 	);
 
-	public username = new FormControl();
+	public readonly routes = [
+		{ id: AppRoutes.Login, text: 'Login' },
+		{ id: AppRoutes.Program, text: 'Program' },
+		{ id: AppRoutes.Stats, text: 'Stats' },
+		{ id: AppRoutes.Admin, text: 'Admin' },
+	];
 
 	constructor(
 		private router: Router,
-		private menuService: MenuService,
-		public menuStore: MenuStore,
+		public menuService: MenuService,
 		private navigation: NavigationService,
 		public sessionStore: SessionStore,
 	) {}
 
-	public ngOnInit(): void {
-		// TODO Move to route resolution?
-		this.menuService.load();
-	}
-
-	public async onUserSelect() {
-		const user = this.sessionStore.activeUser$.getValue();
-
-		if (user) {
-			this.username.setValue('');
-			this.sessionStore.activeUser$.next(null);
-			this.username.enable();
-			return;
-		}
-
-		if (!this.username.value) {
-			return;
-		}
-
-		const result = await this.menuService.login(this.username.value);
-
-		if (result) {
-			this.username.disable();
-		}
-	}
-
 	public onTabSelect(value: string) {
 		switch (value) {
+			case AppRoutes.Login:
 			case AppRoutes.Program:
 			case AppRoutes.Stats:
 			case AppRoutes.Admin:

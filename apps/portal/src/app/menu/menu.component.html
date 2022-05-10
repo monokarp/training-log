@@ -1,25 +1,13 @@
 <div class="container">
 	<div
-		*ngFor="let tab of menuStore.tabs$ | async"
+		*ngFor="let tab of menuService.tabs$() | async"
 		[ngClass]="{ navlink: true, active: (currentPage$ | async)?.includes(tab.id) }"
 		(click)="onTabSelect(tab.id)">
 		{{ tab.text }}
 	</div>
-	<mat-form-field
-		class="username"
-		appearance="fill">
-		<input
-			matInput
-			placeholder="Login with username"
-			[formControl]="username" />
-	</mat-form-field>
-	<button
-		class="login-btn"
-		mat-raised-button
-		color="primary"
-		(click)="onUserSelect()"
-		[ngSwitch]="!!(sessionStore.activeUser$ | async)">
-		<mat-icon *ngSwitchCase="false">check_circle_outline</mat-icon>
-		<mat-icon *ngSwitchCase="true">refresh</mat-icon>
-	</button>
+	<div
+		*ngIf="sessionStore.activeUser$ | async as user"
+		class="username">
+		Logged in as {{ user.id }}
+	</div>
 </div>

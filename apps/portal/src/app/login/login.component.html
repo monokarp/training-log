@@ -1,0 +1,23 @@
+<div class="background">
+	<div class="container">
+		<img
+			class="image"
+			src="assets/images/login-bg.jpeg" />
+		<div class="input">
+			<mat-form-field
+				class="username"
+				appearance="standard">
+				<input
+					matInput
+					placeholder="Login with username"
+					[formControl]="username" />
+			</mat-form-field>
+			<button
+				class="login-btn"
+				mat-button
+				(click)="onUserSelect()">
+				LIVE IT
+			</button>
+		</div>
+	</div>
+</div>

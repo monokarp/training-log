@@ -16,7 +16,8 @@
 			<input
 				matInput
 				[formControl]="exercisesName" />
-			<mat-error *ngIf="exercisesName.invalid">Required</mat-error>
+			<mat-error *ngIf="exercisesName.hasError('required')">Required</mat-error>
+			<mat-error *ngIf="exercisesName.hasError('pattern')">Latin characters and spaces only</mat-error>
 		</mat-form-field>
 		<div class="btn">
 			<button

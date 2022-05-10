@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Set } from '@training-log/contracts';
-import { SessionStore } from '../shared/session.store';
+import { SessionStore } from '../login/session.store';
 import { ProgramService } from './program.service';
 import { ProgramStore } from './program.store';
 
