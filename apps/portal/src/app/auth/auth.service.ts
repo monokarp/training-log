@@ -9,7 +9,7 @@ export class AuthService {
 
 	public async login(userId: string): Promise<UserWithPreferences | null> {
 		try {
-			const result = await firstValueFrom(this.httpService.post(`/api/auth`, { id: userId }));
+			const result = await this.httpService.post(`/api/auth`, { id: userId });
 
 			return (result as UserWithPreferences) ?? null;
 		} catch (err) {

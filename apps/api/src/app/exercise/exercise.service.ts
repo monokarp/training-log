@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ExerciseType } from '@training-log/contracts';
+import { DeleteExerciseData, ExerciseType, NewExerciseData } from '@training-log/contracts';
 import { ExerciseWithPB } from '@training-log/contracts';
 import { ExerciseRepository } from './exersice.repostiory';
 
@@ -13,5 +13,13 @@ export class ExerciseService {
 
 	public withPB(username: string): Promise<ExerciseWithPB[]> {
 		return this.exerciseRepository.allIncludingPBs(username);
+	}
+
+	public async create(data: NewExerciseData): Promise<string> {
+		return this.exerciseRepository.create(data);
+	}
+
+	public async delete(data: DeleteExerciseData): Promise<boolean> {
+		return this.exerciseRepository.delete(data);
 	}
 }

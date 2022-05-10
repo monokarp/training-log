@@ -10,7 +10,7 @@ export class Workouts {
 
 	public async for(traineeUsername: string): Promise<Workout[]> {
 		try {
-			const result = await firstValueFrom(this.httpService.get(`/api/workouts/${traineeUsername}`));
+			const result = await this.httpService.get(`/api/workouts/${traineeUsername}`);
 
 			return (result as Workout[]) ?? [];
 		} catch (err) {
@@ -20,7 +20,7 @@ export class Workouts {
 
 	public async create(newWorkoutData: CreateWorkoutData): Promise<boolean> {
 		try {
-			const result = await firstValueFrom(this.httpService.post(`/api/workouts`, newWorkoutData));
+			const result = await this.httpService.post(`/api/workouts`, newWorkoutData);
 
 			return (result as boolean) ?? false;
 		} catch (err) {
