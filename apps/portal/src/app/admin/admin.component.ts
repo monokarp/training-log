@@ -11,6 +11,7 @@ import { AdminRoutes } from './admin.routes.enum';
 export class AdminComponent {
 	public routes = [
 		{ path: AdminRoutes.Exercises, name: 'Exercises' },
+		{ path: AdminRoutes.PersonalBests, name: 'Personal Bests' },
 		{ path: AdminRoutes.Preferences, name: 'Preferences' },
 		{ path: AdminRoutes.Translations, name: 'Translations' },
 	];

@@ -10,10 +10,19 @@ import { ExercisesStore } from './exercises/exercise.store';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { TranslationsComponent } from './translations/translations.component';
+import { PersonalBestComponent } from './personal-bests/personal-best.component';
+import { PersonalBestService } from './personal-bests/personal-best.service';
+import { PersonalBestStore } from './personal-bests/personal-best.store';
 
 @NgModule({
 	imports: [CommonModule, SharedModule, MatComponentsModule, MatFormsModule, AdminRoutingModule],
-	declarations: [AdminComponent, ExercisesComponent, TranslationsComponent, PreferencesComponent],
-	providers: [ExercisesStore, ExerciseService],
+	declarations: [
+		AdminComponent,
+		ExercisesComponent,
+		TranslationsComponent,
+		PreferencesComponent,
+		PersonalBestComponent,
+	],
+	providers: [ExercisesStore, ExerciseService, PersonalBestService, PersonalBestStore],
 })
 export class AdminModule {}

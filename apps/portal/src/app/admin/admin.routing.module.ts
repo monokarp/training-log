@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { AdminRoutes } from './admin.routes.enum';
 import { ExercisesComponent } from './exercises/exercises.component';
+import { PersonalBestComponent } from './personal-bests/personal-best.component';
 import { PreferencesComponent } from './preferences/preferences.component';
 import { TranslationsComponent } from './translations/translations.component';
 
@@ -18,23 +19,18 @@ export const routes: Routes = [
 			},
 			{
 				path: AdminRoutes.Exercises,
-				data: {
-					name: 'Exercises',
-				},
 				component: ExercisesComponent,
 			},
 			{
+				path: AdminRoutes.PersonalBests,
+				component: PersonalBestComponent,
+			},
+			{
 				path: AdminRoutes.Translations,
-				data: {
-					name: 'Translations',
-				},
 				component: TranslationsComponent,
 			},
 			{
 				path: AdminRoutes.Preferences,
-				data: {
-					name: 'Preferences',
-				},
 				component: PreferencesComponent,
 			},
 		],

@@ -1,0 +1,58 @@
+<div class="wrapper">
+	<div class="container form">
+		<div class="section">
+			<mat-form-field appearance="fill">
+				<mat-label>Session date</mat-label>
+				<input
+					matInput
+					[matDatepicker]="picker"
+					[disabled]="true"
+					[formControl]="date"
+					placeholder="{{ 'dateFormat' }}" />
+				<mat-datepicker-toggle
+					matSuffix
+					[for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker
+					#picker
+					[disabled]="false"></mat-datepicker>
+				<mat-error *ngIf="date.invalid">Required</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="section">
+			<mat-form-field appearance="fill">
+				<mat-label>Exercise type</mat-label>
+				<mat-select>
+					<mat-option
+						*ngFor="let one of exerciseStore.exercises$ | async"
+						[value]="one.id">
+						{{ one.name }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<div class="section">
+			<mat-form-field
+				class="full-width"
+				appearance="fill">
+				<input
+					matInput
+					placeholder="Exercise"
+					[formControl]="weight" />
+				<mat-error *ngIf="weight.invalid">Select from configured exercises</mat-error>
+			</mat-form-field>
+		</div>
+		<div class="section">
+			<button
+				class="action"
+				mat-raised-button
+				(click)="addPersonalBest()">
+				Add
+			</button>
+		</div>
+	</div>
+	<div class="container">
+		<div class="section">
+			<div *ngFor="let one of personalBestStore.personalBests$ | async">{{ one.weight }} {{ one.starting }}</div>
+		</div>
+	</div>
+</div>

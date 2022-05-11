@@ -42,11 +42,11 @@ model PersonalBest {
     id Int @id @default(autoincrement())
 
     userId     String
-    eserciseId String
+    exerciseId String
     starting   DateTime
     weight     Int      @db.SmallInt
 
-    ExerciseType ExerciseType @relation(fields: [userId, eserciseId], references: [userId, id])
+    ExerciseType ExerciseType @relation(fields: [userId, exerciseId], references: [userId, id])
 }
 
 enum WeightUnit {

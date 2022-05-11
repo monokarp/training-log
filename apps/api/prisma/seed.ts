@@ -31,9 +31,9 @@ async function main() {
 
 	await prisma.personalBest.createMany({
 		data: [
-			{ userId: user.id, eserciseId: 'squat', starting: new Date(), weight: 210 },
-			{ userId: user.id, eserciseId: 'bench', starting: new Date(), weight: 145 },
-			{ userId: user.id, eserciseId: 'deadlift', starting: new Date(), weight: 230 },
+			{ userId: user.id, exerciseId: 'squat', starting: new Date(), weight: 210 },
+			{ userId: user.id, exerciseId: 'bench', starting: new Date(), weight: 145 },
+			{ userId: user.id, exerciseId: 'deadlift', starting: new Date(), weight: 230 },
 		],
 	});
 

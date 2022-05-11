@@ -31,7 +31,7 @@ CREATE TABLE "ExerciseType" (
 CREATE TABLE "PersonalBest" (
     "id" SERIAL NOT NULL,
     "userId" TEXT NOT NULL,
-    "eserciseId" TEXT NOT NULL,
+    "exerciseId" TEXT NOT NULL,
     "starting" TIMESTAMP(3) NOT NULL,
     "weight" SMALLINT NOT NULL,
 
@@ -52,7 +52,7 @@ CREATE TABLE "Translation" (
     "code" TEXT NOT NULL,
     "value" TEXT NOT NULL,
 
-    CONSTRAINT "Translation_pkey" PRIMARY KEY ("userId","code")
+    CONSTRAINT "Translation_pkey" PRIMARY KEY ("userId","code","localeCode")
 );
 
 -- CreateTable
@@ -90,10 +90,7 @@ ALTER TABLE "UserPreferences" ADD CONSTRAINT "UserPreferences_localeCode_fkey" F
 ALTER TABLE "ExerciseType" ADD CONSTRAINT "ExerciseType_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ExerciseType" ADD CONSTRAINT "ExerciseType_userId_translationCode_fkey" FOREIGN KEY ("userId", "translationCode") REFERENCES "Translation"("userId", "code") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "PersonalBest" ADD CONSTRAINT "PersonalBest_userId_eserciseId_fkey" FOREIGN KEY ("userId", "eserciseId") REFERENCES "ExerciseType"("userId", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PersonalBest" ADD CONSTRAINT "PersonalBest_userId_exerciseId_fkey" FOREIGN KEY ("userId", "exerciseId") REFERENCES "ExerciseType"("userId", "id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Translation" ADD CONSTRAINT "Translation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
