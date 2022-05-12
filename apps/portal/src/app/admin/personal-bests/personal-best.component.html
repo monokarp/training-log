@@ -1,6 +1,6 @@
-<div class="wrapper">
-	<div class="container form">
-		<div class="section">
+<portal-data-form-container>
+	<portal-data-form-section type="form">
+		<portal-data-form-field>
 			<mat-form-field appearance="fill">
 				<mat-label>Session date</mat-label>
 				<input
@@ -17,8 +17,8 @@
 					[disabled]="false"></mat-datepicker>
 				<mat-error *ngIf="date.invalid">Required</mat-error>
 			</mat-form-field>
-		</div>
-		<div class="section">
+		</portal-data-form-field>
+		<portal-data-form-field>
 			<mat-form-field appearance="fill">
 				<mat-label>Exercise type</mat-label>
 				<mat-select>
@@ -29,8 +29,8 @@
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
-		</div>
-		<div class="section">
+		</portal-data-form-field>
+		<portal-data-form-field>
 			<mat-form-field
 				class="full-width"
 				appearance="fill">
@@ -40,19 +40,28 @@
 					[formControl]="weight" />
 				<mat-error *ngIf="weight.invalid">Select from configured exercises</mat-error>
 			</mat-form-field>
-		</div>
-		<div class="section">
-			<button
-				class="action"
-				mat-raised-button
+		</portal-data-form-field>
+		<portal-data-form-field type="footer">
+			<portal-data-form-action
+				text="Add"
+				icon="add"
 				(click)="addPersonalBest()">
-				Add
-			</button>
-		</div>
-	</div>
-	<div class="container">
-		<div class="section">
-			<div *ngFor="let one of personalBestStore.personalBests$ | async">{{ one.weight }} {{ one.starting }}</div>
-		</div>
-	</div>
-</div>
+			</portal-data-form-action>
+		</portal-data-form-field>
+	</portal-data-form-section>
+	<portal-data-form-section type="list">
+		<portal-data-form-field>
+			<portal-data-form-list>
+				<portal-data-form-list-item *ngFor="let one of personalBestStore.personalBests$ | async">
+					<portal-data-form-list-info> {{ one.weight }} {{ one.starting }} </portal-data-form-list-info>
+					<portal-data-form-list-actions>
+						<portal-data-form-list-action
+							icon="delete"
+							(click)="delete(one)">
+						</portal-data-form-list-action>
+					</portal-data-form-list-actions>
+				</portal-data-form-list-item>
+			</portal-data-form-list>
+		</portal-data-form-field>
+	</portal-data-form-section>
+</portal-data-form-container>

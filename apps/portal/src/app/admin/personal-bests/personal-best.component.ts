@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { PersonalBest } from '@training-log/contracts';
 import { ExerciseService } from '../exercises/exercise.service';
 import { ExercisesStore } from '../exercises/exercise.store';
 import { PersonalBestService } from './personal-best.service';
@@ -27,6 +28,10 @@ export class PersonalBestComponent implements OnInit {
 	}
 
 	public addPersonalBest() {
+		return null;
+	}
+
+	public delete(pb: PersonalBest) {
 		return null;
 	}
 }
