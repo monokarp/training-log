@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataFormListInfoComponent } from './data-form-list-info.component';
+import { TlFormContainerComponent } from './data-form-container.component';
 
-describe('DataFormListInfoComponent', () => {
-	let component: DataFormListInfoComponent;
-	let fixture: ComponentFixture<DataFormListInfoComponent>;
+describe('TlFormContainerComponent', () => {
+	let component: TlFormContainerComponent;
+	let fixture: ComponentFixture<TlFormContainerComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [DataFormListInfoComponent],
+			declarations: [TlFormContainerComponent],
 		}).compileComponents();
 	});
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(DataFormListInfoComponent);
+		fixture = TestBed.createComponent(TlFormContainerComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

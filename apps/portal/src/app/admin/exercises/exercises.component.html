@@ -1,6 +1,6 @@
-<portal-data-form-container>
-	<portal-data-form-section type="form">
-		<portal-data-form-field>
+<tl-form-container>
+	<tl-form-section type="form">
+		<tl-form-field>
 			<mat-form-field
 				appearance="standard"
 				class="input left">
@@ -12,8 +12,8 @@
 				<mat-error *ngIf="exercisesId.hasError('pattern')">Latin characters and underscore only</mat-error>
 				<mat-error *ngIf="exercisesId.hasError('unique')">Id must be unique</mat-error>
 			</mat-form-field>
-		</portal-data-form-field>
-		<portal-data-form-field>
+		</tl-form-field>
+		<tl-form-field>
 			<mat-form-field
 				appearance="standard"
 				class="input left">
@@ -24,31 +24,31 @@
 				<mat-error *ngIf="exercisesName.hasError('required')">Required</mat-error>
 				<mat-error *ngIf="exercisesName.hasError('pattern')">Latin characters and spaces only</mat-error>
 			</mat-form-field>
-		</portal-data-form-field>
-		<portal-data-form-field type="footer">
-			<portal-data-form-action
+		</tl-form-field>
+		<tl-form-field type="footer">
+			<tl-form-action
 				text="Add"
 				icon="add"
 				(click)="submit()">
-			</portal-data-form-action>
-		</portal-data-form-field>
-	</portal-data-form-section>
-	<portal-data-form-section type="list">
-		<portal-data-form-field>
-			<portal-data-form-list>
-				<portal-data-form-list-item *ngFor="let one of store.exercises$ | async; trackBy: trackExerciseType">
-					<portal-data-form-list-info>
+			</tl-form-action>
+		</tl-form-field>
+	</tl-form-section>
+	<tl-form-section type="list">
+		<tl-form-field>
+			<tl-form-list>
+				<tl-form-list-item *ngFor="let one of store.exercises$ | async; trackBy: trackExerciseType">
+					<tl-form-list-info>
 						Id: {{ one.id }} <br />
 						Name: {{ one.name }}
-					</portal-data-form-list-info>
-					<portal-data-form-list-actions>
-						<portal-data-form-list-action
+					</tl-form-list-info>
+					<tl-form-list-actions>
+						<tl-form-list-action
 							icon="delete"
 							(click)="delete(one.id)">
-						</portal-data-form-list-action>
-					</portal-data-form-list-actions>
-				</portal-data-form-list-item>
-			</portal-data-form-list>
-		</portal-data-form-field>
-	</portal-data-form-section>
-</portal-data-form-container>
+						</tl-form-list-action>
+					</tl-form-list-actions>
+				</tl-form-list-item>
+			</tl-form-list>
+		</tl-form-field>
+	</tl-form-section>
+</tl-form-container>

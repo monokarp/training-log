@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Workout } from '@training-log/contracts';
-import { firstValueFrom } from 'rxjs';
 import { CreateWorkoutData } from '@training-log/contracts';
 import { HttpService } from '../shared/http.service';
 

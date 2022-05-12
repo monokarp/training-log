@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataFormSectionComponent } from './data-form-section.component';
+import { TlFormActionComponent } from './data-form-action.component';
 
-describe('DataFormSectionComponent', () => {
-	let component: DataFormSectionComponent;
-	let fixture: ComponentFixture<DataFormSectionComponent>;
+describe('TlFormActionComponent', () => {
+	let component: TlFormActionComponent;
+	let fixture: ComponentFixture<TlFormActionComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [DataFormSectionComponent],
+			declarations: [TlFormActionComponent],
 		}).compileComponents();
 	});
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(DataFormSectionComponent);
+		fixture = TestBed.createComponent(TlFormActionComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

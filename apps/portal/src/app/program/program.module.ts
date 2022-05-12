@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { DataModule } from '../data/data.module';
 import { MatComponentsModule } from '../material/mat-components.module';
 import { MatFormsModule } from '../material/mat-forms.module';
-import { DataFormModule } from '../shared/data-form/data-form.module';
+import { TlFormModule } from '../shared/tl-form/data-form.module';
 import { CreateSessionComponent } from './create-session/create-session.component';
 import { CreateSession } from './create-session/create-session.service';
 import { ProgramComponent } from './program.component';
@@ -20,7 +20,7 @@ import { ProgramViewmodel } from './viewmodel/group-workouts';
 		DataModule,
 		MatComponentsModule,
 		MatFormsModule,
-		DataFormModule,
+		TlFormModule,
 	],
 	providers: [ProgramService, ProgramStore, ProgramViewmodel, CreateSession],
 	declarations: [ProgramComponent, CreateSessionComponent],
