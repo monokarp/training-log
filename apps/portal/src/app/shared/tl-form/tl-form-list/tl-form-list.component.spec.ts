@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TlFormListComponent } from './data-form-list.component';
+import { TlFormListComponent } from './tl-form-list.component';
 
 describe('TlFormListComponent', () => {
 	let component: TlFormListComponent;

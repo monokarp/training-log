@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { DataModule } from '../data/data.module';
 import { MatComponentsModule } from '../material/mat-components.module';
 import { MatFormsModule } from '../material/mat-forms.module';
-import { TlFormModule } from '../shared/tl-form/data-form.module';
+import { TlFormModule } from '../shared/tl-form/tl-form.module';
 import { CreateSessionComponent } from './create-session/create-session.component';
 import { CreateSession } from './create-session/create-session.service';
 import { ProgramComponent } from './program.component';

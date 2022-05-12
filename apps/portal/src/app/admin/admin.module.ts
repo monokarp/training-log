@@ -13,7 +13,7 @@ import { TranslationsComponent } from './translations/translations.component';
 import { PersonalBestComponent } from './personal-bests/personal-best.component';
 import { PersonalBestService } from './personal-bests/personal-best.service';
 import { PersonalBestStore } from './personal-bests/personal-best.store';
-import { TlFormModule } from '../shared/tl-form/data-form.module';
+import { TlFormModule } from '../shared/tl-form/tl-form.module';
 
 @NgModule({
 	imports: [CommonModule, SharedModule, MatComponentsModule, MatFormsModule, AdminRoutingModule, TlFormModule],

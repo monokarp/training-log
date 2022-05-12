@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TlFormActionComponent } from './data-form-action.component';
+import { TlFormActionComponent } from './tl-form-action.component';
 
 describe('TlFormActionComponent', () => {
 	let component: TlFormActionComponent;

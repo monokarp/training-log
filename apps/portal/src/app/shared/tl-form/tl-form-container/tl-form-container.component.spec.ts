@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TlFormContainerComponent } from './data-form-container.component';
+import { TlFormContainerComponent } from './tl-form-container.component';
 
 describe('TlFormContainerComponent', () => {
 	let component: TlFormContainerComponent;

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
 	selector: 'tl-form-list',
-	templateUrl: './data-form-list.component.html',
-	styleUrls: ['./data-form-list.component.scss'],
+	templateUrl: './tl-form-list.component.html',
+	styleUrls: ['./tl-form-list.component.scss'],
 })
 export class TlFormListComponent {}
