@@ -8,6 +8,10 @@ export class PersonalBestRepository {
 
 	public async byUserAndExerise(username: string, exerciseId: string): Promise<PersonalBest[]> {
 		return this.prisma.personalBest.findMany({
+			select: {
+				weight: true,
+				starting: true,
+			},
 			where: {
 				userId: username,
 				exerciseId,

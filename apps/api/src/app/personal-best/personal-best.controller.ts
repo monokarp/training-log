@@ -1,6 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { PersonalBest } from '@training-log/contracts';
-import { UserService } from '../user/user.service';
 import { PersonalBestService } from './personal-best.service';
 
 @Controller('personal-best')

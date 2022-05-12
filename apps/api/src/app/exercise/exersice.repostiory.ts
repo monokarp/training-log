@@ -16,7 +16,6 @@ export class ExerciseRepository {
 		return Promise.all(
 			exercises.map(async one => ({
 				id: one.id,
-				userId,
 				name: await this.i18n.translate(userId, one.translationCode),
 			})),
 		);
@@ -25,6 +24,7 @@ export class ExerciseRepository {
 	public async allIncludingPBs(userId: string): Promise<ExerciseWithPB[]> {
 		const exerciseTypesWithPB = await this.prisma.exerciseType.findMany({
 			where: { userId },
+			orderBy: { id: 'asc' },
 			include: {
 				PersonalBest: {
 					orderBy: {
@@ -37,7 +37,6 @@ export class ExerciseRepository {
 		return Promise.all(
 			exerciseTypesWithPB.map(async one => ({
 				id: one.id,
-				userId,
 				name: await this.i18n.translate(userId, one.translationCode),
 				personalBest: one.PersonalBest[0]?.weight ?? null,
 				personalBestFrom: new Date(one.PersonalBest[0]?.starting) ?? null,
@@ -66,7 +65,7 @@ export class ExerciseRepository {
 		return newEntity.id;
 	}
 
-	public async delete(data: DeleteExerciseData): Promise<boolean> {
+	public async delete(data: DeleteExerciseData): Promise<string | null> {
 		const entity = await this.prisma.exerciseType.findUnique({
 			where: {
 				userId_id: data,
@@ -78,11 +77,11 @@ export class ExerciseRepository {
 		});
 
 		if (!entity) {
-			return true;
+			return null;
 		}
 
 		if (entity.WorkItem.length) {
-			throw new Error(`This exercise is referred to by ${entity.WorkItem.length} existing workouts`);
+			return `This exercise is referred to by ${entity.WorkItem.length} existing work items`;
 		}
 
 		await this.prisma.$transaction([
@@ -104,6 +103,6 @@ export class ExerciseRepository {
 			}),
 		]);
 
-		return true;
+		return null;
 	}
 }

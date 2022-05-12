@@ -8,7 +8,10 @@
 		"start": "nx serve",
 		"build": "nx build",
 		"test": "nx test",
-		"lint": "npx nx run-many --target=lint --all"
+		"lint": "npx nx run-many --target=lint --all",
+		"pg:start": "docker-compose up -d",
+		"db:migrate": "npx prisma migrate dev --preview-feature --skip-generate --name \"init\"",
+		"test:api": "nx test api --skip-nx-cache -- --runInBand"
 	},
 	"private": true,
 	"prisma": {
@@ -30,6 +33,7 @@
 		"@nestjs/common": "^8.0.0",
 		"@nestjs/core": "^8.0.0",
 		"@nestjs/platform-express": "^8.0.0",
+		"@nestjs/platform-fastify": "^8.4.4",
 		"@nrwl/angular": "14.0.5",
 		"@prisma/client": "^3.12.0",
 		"luxon": "^2.3.2",

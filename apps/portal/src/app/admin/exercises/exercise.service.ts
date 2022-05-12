@@ -38,7 +38,7 @@ export class ExerciseService {
 
 			const entitites = this.exerciseStore.exercises$.getValue();
 
-			entitites.push({ id, name, userId: user.id });
+			entitites.push({ id, name });
 
 			this.exerciseStore.exercises$.next(entitites.sort(byIdASC));
 		}

@@ -19,7 +19,7 @@ export class ExerciseService {
 		return this.exerciseRepository.create(data);
 	}
 
-	public async delete(data: DeleteExerciseData): Promise<boolean> {
+	public async delete(data: DeleteExerciseData): Promise<string | null> {
 		return this.exerciseRepository.delete(data);
 	}
 }

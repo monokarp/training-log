@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Put } from '@nestjs/common';
 import { DeleteExerciseData, ExerciseType, ExerciseWithPB, NewExerciseData } from '@training-log/contracts';
 import { ExerciseService } from './exercise.service';
 
@@ -17,13 +17,27 @@ export class ExerciseController {
 	}
 
 	@Put('create')
+	@HttpCode(HttpStatus.CREATED)
 	public async create(@Body() body: { data: NewExerciseData }): Promise<{ id: string }> {
 		const id = await this.exerciseService.create(body.data);
+
 		return { id };
 	}
 
 	@Delete()
-	public delete(@Body() body: DeleteExerciseData): Promise<boolean> {
-		return this.exerciseService.delete(body);
+	public async delete(@Body() body: DeleteExerciseData): Promise<boolean> {
+		const error = await this.exerciseService.delete(body);
+
+		if (error) {
+			throw new HttpException(
+				{
+					status: HttpStatus.CONFLICT,
+					error,
+				},
+				HttpStatus.CONFLICT,
+			);
+		}
+
+		return true;
 	}
 }

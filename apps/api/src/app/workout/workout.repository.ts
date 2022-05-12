@@ -10,8 +10,10 @@ export class WorkoutRepository {
 	public async including1RMs(username: string): Promise<Workout[]> {
 		const data = await this.prisma.workout.findMany({
 			where: { userId: username },
+			orderBy: { date: 'asc' },
 			include: {
 				WorkItem: {
+					orderBy: { order: 'asc' },
 					include: {
 						ExerciseType: {
 							include: {
@@ -55,7 +57,7 @@ export class WorkoutRepository {
 		);
 	}
 
-	public async create(data: CreateWorkoutData): Promise<boolean> {
+	public async create(data: CreateWorkoutData): Promise<number> {
 		const newWorkout = await this.prisma.workout.create({
 			data: {
 				userId: data.userId,
@@ -83,6 +85,6 @@ export class WorkoutRepository {
 			}),
 		);
 
-		return true;
+		return newWorkout.id;
 	}
 }

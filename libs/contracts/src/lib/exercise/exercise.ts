@@ -1,6 +1,5 @@
 export interface ExerciseType {
 	id: string;
-	userId: string;
 	name: string;
 }
 
