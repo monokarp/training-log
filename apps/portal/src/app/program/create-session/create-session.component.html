@@ -1,6 +1,6 @@
-<div class="wrapper">
-	<div class="container form">
-		<div class="section">
+<portal-data-form-container>
+	<portal-data-form-section type="form">
+		<portal-data-form-field>
 			<mat-form-field
 				appearance="fill"
 				class="full-width">
@@ -19,8 +19,8 @@
 					[disabled]="false"></mat-datepicker>
 				<mat-error *ngIf="date.invalid">Required</mat-error>
 			</mat-form-field>
-		</div>
-		<div class="section">
+		</portal-data-form-field>
+		<portal-data-form-field>
 			<mat-form-field
 				class="full-width"
 				appearance="fill">
@@ -38,8 +38,8 @@
 				</mat-autocomplete>
 				<mat-error *ngIf="exercise.invalid">Select from configured exercises</mat-error>
 			</mat-form-field>
-		</div>
-		<div class="section">
+		</portal-data-form-field>
+		<portal-data-form-field>
 			<mat-form-field
 				class="full-width"
 				appearance="fill">
@@ -51,64 +51,54 @@
 					placeholder="{{ 'Program\n5x5@100' }}"></textarea>
 				<mat-error *ngIf="program.invalid">{{ 'Incorrect format: {sets}x{reps}@{weight}' }}</mat-error>
 			</mat-form-field>
-		</div>
-		<div class="section">
-			<button
-				class="action"
-				mat-raised-button
+		</portal-data-form-field>
+		<portal-data-form-field type="footer">
+			<portal-data-form-action
+				text="Clear"
+				icon="clear_all"
 				(click)="clearCurrentExercise()">
-				Clear
-			</button>
-			<button
-				class="action"
-				mat-raised-button
-				color="primary"
+			</portal-data-form-action>
+			<portal-data-form-action
+				text="Add"
+				icon="arrow_forward"
 				(click)="addExercise()">
-				Add
-			</button>
-		</div>
-	</div>
-	<div class="container">
-		<div class="section">
-			<div class="cards">
-				<div
-					class="card"
-					*ngFor="let one of exericses; index as idx">
-					<div class="exercise-card">
+			</portal-data-form-action>
+		</portal-data-form-field>
+	</portal-data-form-section>
+	<portal-data-form-section type="list">
+		<portal-data-form-field>
+			<portal-data-form-list>
+				<portal-data-form-list-item *ngFor="let one of exericses; index as idx">
+					<portal-data-form-list-info>
 						<div class="card-header">
 							{{ one.exercise }}
 						</div>
 						<span *ngFor="let line of one.program.split('\n')">{{ line }}</span>
-					</div>
-					<div class="card-actions">
-						<mat-icon
-							class="icon"
+					</portal-data-form-list-info>
+					<portal-data-form-list-actions>
+						<portal-data-form-list-action
+							icon="delete"
 							(click)="removeExercise(idx)">
-							delete
-						</mat-icon>
-						<mat-icon
-							class="icon"
+						</portal-data-form-list-action>
+						<portal-data-form-list-action
+							icon="arrow_back"
 							(click)="copyToCurrent(one)">
-							arrow_back
-						</mat-icon>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="section footer">
-			<button
-				class="action"
-				mat-raised-button
+						</portal-data-form-list-action>
+					</portal-data-form-list-actions>
+				</portal-data-form-list-item>
+			</portal-data-form-list>
+		</portal-data-form-field>
+		<portal-data-form-field type="footer">
+			<portal-data-form-action
+				text="Cancel"
+				icon="cancel"
 				(click)="cancel()">
-				Cancel
-			</button>
-			<button
-				class="action"
-				mat-raised-button
-				color="primary"
+			</portal-data-form-action>
+			<portal-data-form-action
+				text="Save"
+				icon="check"
 				(click)="submit()">
-				Save
-			</button>
-		</div>
-	</div>
-</div>
+			</portal-data-form-action>
+		</portal-data-form-field>
+	</portal-data-form-section>
+</portal-data-form-container>

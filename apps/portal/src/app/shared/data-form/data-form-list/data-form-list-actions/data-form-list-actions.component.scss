@@ -1,0 +1,7 @@
+@import '../../data-form.scss';
+
+:host {
+	@extend .vert-flex;
+	width: fit-content;
+	padding: 0.5rem;
+}

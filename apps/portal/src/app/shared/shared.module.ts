@@ -7,5 +7,6 @@ import { NavigationService } from './navigation.service';
 @NgModule({
 	imports: [CommonModule, HttpClientModule],
 	providers: [HttpService, NavigationService],
+	declarations: [],
 })
 export class SharedModule {}

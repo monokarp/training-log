@@ -1,0 +1,14 @@
+@import '../data-form.scss';
+
+:host {
+	margin-top: 0.25rem;
+}
+
+.action {
+	@extend .horiz-flex, .half-width;
+	align-items: center;
+
+	.icon {
+		padding: 0.25rem;
+	}
+}

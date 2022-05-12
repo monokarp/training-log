@@ -1,0 +1,22 @@
+@import '../data-form.scss';
+
+:host {
+	@extend .vert-flex, .half-width;
+
+	&:first-of-type {
+		margin-right: 0.5rem;
+		justify-content: center;
+	}
+
+	&.form {
+		.field {
+			&:not(:first-of-type) {
+				margin-top: 0.5rem;
+			}
+
+			&:last-of-type {
+				margin-top: 1rem;
+			}
+		}
+	}
+}

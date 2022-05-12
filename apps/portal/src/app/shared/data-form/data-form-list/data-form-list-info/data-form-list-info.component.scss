@@ -1,0 +1,9 @@
+@import '../../data-form.scss';
+
+:host {
+	@extend .vert-flex, .full-width;
+	align-items: flex-start;
+	justify-content: flex-start;
+	padding: 1rem;
+	height: max-content;
+}

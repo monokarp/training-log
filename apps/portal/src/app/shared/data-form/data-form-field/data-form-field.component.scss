@@ -1,0 +1,14 @@
+@import '../data-form.scss';
+
+:host {
+	@extend .horiz-flex, .full-width;
+
+	&:not(:last-child) {
+		margin-bottom: 0.5rem;
+	}
+
+	&.footer {
+		margin-top: auto;
+		justify-content: space-evenly;
+	}
+}

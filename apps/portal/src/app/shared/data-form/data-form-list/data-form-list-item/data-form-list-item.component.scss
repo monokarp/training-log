@@ -1,0 +1,11 @@
+@import '../../data-form.scss';
+
+:host {
+	@extend .horiz-flex;
+	background-color: lightgrey;
+	border-radius: 0.5rem;
+
+	&:not(:last-of-type) {
+		margin-bottom: 0.25rem;
+	}
+}

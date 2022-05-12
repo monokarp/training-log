@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { UserWithPreferences } from '@training-log/contracts';
-import { firstValueFrom } from 'rxjs';
 import { HttpService } from '../shared/http.service';
 
 @Injectable()

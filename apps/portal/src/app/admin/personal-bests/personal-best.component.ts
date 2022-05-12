@@ -26,5 +26,7 @@ export class PersonalBestComponent implements OnInit {
 		this.personalBestService.loadStore();
 	}
 
-	public addPersonalBest() {}
+	public addPersonalBest() {
+		return null;
+	}
 }

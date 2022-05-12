@@ -20,8 +20,6 @@ export class LoginComponent {
 	) {}
 
 	public async onUserSelect() {
-		const user = this.sessionStore.activeUser$.getValue();
-
 		if (!this.username.value) {
 			return;
 		}
