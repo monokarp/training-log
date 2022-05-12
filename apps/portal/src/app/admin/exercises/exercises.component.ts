@@ -12,11 +12,11 @@ import { ExercisesStore } from './exercise.store';
 export class ExercisesComponent implements OnInit {
 	public exercisesId = new FormControl('', [
 		Validators.required,
-		Validators.pattern(/[a-zA-Z_]+/),
+		Validators.pattern(/^[a-zA-Z_]+$/),
 		(c: FormControl) => (this.service.valudateNew(c.value) ? null : { unique: { valid: false } }),
 	]);
 
-	public exercisesName = new FormControl('', [Validators.required, Validators.pattern(/[a-zA-Z ]+/)]);
+	public exercisesName = new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]);
 
 	constructor(public store: ExercisesStore, private service: ExerciseService) {}
 

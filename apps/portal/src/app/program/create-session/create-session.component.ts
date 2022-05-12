@@ -36,7 +36,7 @@ export class CreateSessionComponent {
 	public dateFormat = DateFormat;
 
 	public exercise: FormControl;
-	public date = new FormControl('', [Validators.required]);
+	public date = new FormControl({ value: '', disabled: true }, [Validators.required]);
 	public program = new FormControl('', [
 		Validators.required,
 		Validators.pattern(/^(?:[0-9]+x[0-9]+@[0-9]+(?:\r\n|\r|\n)?)+$/),

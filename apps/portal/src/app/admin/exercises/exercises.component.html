@@ -1,51 +1,54 @@
-<div class="container">
-	<div class="row input">
-		<mat-form-field
-			appearance="standard"
-			class="input left">
-			<input
-				matInput
-				[formControl]="exercisesId" />
-			<mat-error *ngIf="exercisesId.hasError('required')">Required</mat-error>
-			<mat-error *ngIf="exercisesId.hasError('pattern')">Latin characters and underscore only</mat-error>
-			<mat-error *ngIf="exercisesId.hasError('unique')">Id must be unique</mat-error>
-		</mat-form-field>
-		<mat-form-field
-			appearance="standard"
-			class="input left">
-			<input
-				matInput
-				[formControl]="exercisesName" />
-			<mat-error *ngIf="exercisesName.hasError('required')">Required</mat-error>
-			<mat-error *ngIf="exercisesName.hasError('pattern')">Latin characters and spaces only</mat-error>
-		</mat-form-field>
-		<div class="btn">
-			<button
-				mat-icon-button
+<portal-data-form-container class="padded">
+	<portal-data-form-section type="form">
+		<portal-data-form-field>
+			<mat-form-field
+				appearance="standard"
+				class="input left">
+				<input
+					matInput
+					placeholder="Id"
+					[formControl]="exercisesId" />
+				<mat-error *ngIf="exercisesId.hasError('required')">Required</mat-error>
+				<mat-error *ngIf="exercisesId.hasError('pattern')">Latin characters and underscore only</mat-error>
+				<mat-error *ngIf="exercisesId.hasError('unique')">Id must be unique</mat-error>
+			</mat-form-field>
+		</portal-data-form-field>
+		<portal-data-form-field>
+			<mat-form-field
+				appearance="standard"
+				class="input left">
+				<input
+					matInput
+					placeholder="Name"
+					[formControl]="exercisesName" />
+				<mat-error *ngIf="exercisesName.hasError('required')">Required</mat-error>
+				<mat-error *ngIf="exercisesName.hasError('pattern')">Latin characters and spaces only</mat-error>
+			</mat-form-field>
+		</portal-data-form-field>
+		<portal-data-form-field type="footer">
+			<portal-data-form-action
+				text="Add"
+				icon="add"
 				(click)="submit()">
-				<mat-icon>add</mat-icon>
-			</button>
-		</div>
-	</div>
-	<div class="row header">
-		<div class="label left">Id</div>
-		<div class="label right">Name</div>
-	</div>
-	<div
-		class="row"
-		*ngFor="let one of store.exercises$ | async; trackBy: trackExerciseType">
-		<div class="label left">
-			{{ one.id }}
-		</div>
-		<div class="label right">
-			{{ one.name }}
-		</div>
-		<div class="btn">
-			<button
-				mat-icon-button
-				(click)="delete(one.id)">
-				<mat-icon>delete</mat-icon>
-			</button>
-		</div>
-	</div>
-</div>
+			</portal-data-form-action>
+		</portal-data-form-field>
+	</portal-data-form-section>
+	<portal-data-form-section type="list">
+		<portal-data-form-field>
+			<portal-data-form-list>
+				<portal-data-form-list-item *ngFor="let one of store.exercises$ | async; trackBy: trackExerciseType">
+					<portal-data-form-list-info>
+						Id: {{ one.id }} <br />
+						Name: {{ one.name }}
+					</portal-data-form-list-info>
+					<portal-data-form-list-actions>
+						<portal-data-form-list-action
+							icon="delete"
+							(click)="delete(one.id)">
+						</portal-data-form-list-action>
+					</portal-data-form-list-actions>
+				</portal-data-form-list-item>
+			</portal-data-form-list>
+		</portal-data-form-field>
+	</portal-data-form-section>
+</portal-data-form-container>
