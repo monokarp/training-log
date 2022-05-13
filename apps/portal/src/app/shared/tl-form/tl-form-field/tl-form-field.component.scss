@@ -13,4 +13,10 @@
 		margin-top: auto;
 		justify-content: space-evenly;
 	}
+
+	::ng-deep {
+		mat-form-field {
+			@extend .full-width;
+		}
+	}
 }
