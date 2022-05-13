@@ -3,7 +3,7 @@
 		<tl-form-field>
 			<mat-form-field
 				appearance="standard"
-				class="input left">
+				class="full-width">
 				<input
 					matInput
 					placeholder="Id"
@@ -16,7 +16,7 @@
 		<tl-form-field>
 			<mat-form-field
 				appearance="standard"
-				class="input left">
+				class="full-width">
 				<input
 					matInput
 					placeholder="Name"
@@ -26,6 +26,11 @@
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field type="footer">
+			<tl-form-action
+				text="Clear"
+				icon="clear_all"
+				(click)="clearInputs()">
+			</tl-form-action>
 			<tl-form-action
 				text="Add"
 				icon="add"

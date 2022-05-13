@@ -15,11 +15,11 @@ export class ExerciseService {
 		return this.exerciseRepository.allIncludingPBs(username);
 	}
 
-	public async create(data: NewExerciseData): Promise<string> {
+	public create(data: NewExerciseData): Promise<string> {
 		return this.exerciseRepository.create(data);
 	}
 
-	public async delete(data: DeleteExerciseData): Promise<string | null> {
+	public delete(data: DeleteExerciseData): Promise<string | null> {
 		return this.exerciseRepository.delete(data);
 	}
 }

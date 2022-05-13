@@ -39,7 +39,7 @@ export class ExercisesComponent implements OnInit {
 		return exercise.id;
 	}
 
-	private clearInputs() {
+	public clearInputs() {
 		this.exercisesId.setValue('');
 		this.exercisesId.markAsUntouched();
 

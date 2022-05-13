@@ -29,18 +29,20 @@ export class ExerciseService {
 		const user = this.sessionStore.activeUser$.getValue();
 
 		if (user) {
-			await this.exercises.create({
+			const result = await this.exercises.create({
 				id,
 				name,
 				userId: user.id,
 				localeCode: user.localeCode,
 			});
 
-			const entitites = this.exerciseStore.exercises$.getValue();
+			if (result) {
+				const entitites = this.exerciseStore.exercises$.getValue();
 
-			entitites.push({ id, name });
+				entitites.push({ id: result, name });
 
-			this.exerciseStore.exercises$.next(entitites.sort(byIdASC));
+				this.exerciseStore.exercises$.next(entitites.sort(byIdASC));
+			}
 		}
 	}
 

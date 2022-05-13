@@ -1,12 +1,13 @@
 <tl-form-container>
 	<tl-form-section type="form">
 		<tl-form-field>
-			<mat-form-field appearance="fill">
+			<mat-form-field
+				class="full-width"
+				appearance="standard">
 				<mat-label>Session date</mat-label>
 				<input
 					matInput
 					[matDatepicker]="picker"
-					[disabled]="true"
 					[formControl]="date"
 					placeholder="{{ 'dateFormat' }}" />
 				<mat-datepicker-toggle
@@ -19,29 +20,38 @@
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field>
-			<mat-form-field appearance="fill">
-				<mat-label>Exercise type</mat-label>
-				<mat-select>
+			<mat-form-field
+				class="full-width"
+				appearance="standard">
+				<mat-label>Select an exercise</mat-label>
+				<mat-select [formControl]="exercise">
 					<mat-option
 						*ngFor="let one of exerciseStore.exercises$ | async"
 						[value]="one.id">
 						{{ one.name }}
 					</mat-option>
 				</mat-select>
+				<mat-error *ngIf="exercise.invalid">Required</mat-error>
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field>
 			<mat-form-field
 				class="full-width"
-				appearance="fill">
+				appearance="standard">
 				<input
 					matInput
-					placeholder="Exercise"
+					type="number"
+					placeholder="Weight"
 					[formControl]="weight" />
-				<mat-error *ngIf="weight.invalid">Select from configured exercises</mat-error>
+				<mat-error *ngIf="weight.invalid">Required</mat-error>
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field type="footer">
+			<tl-form-action
+				text="Clear"
+				icon="clear_all"
+				(click)="clearInputs()">
+			</tl-form-action>
 			<tl-form-action
 				text="Add"
 				icon="add"
@@ -52,8 +62,11 @@
 	<tl-form-section type="list">
 		<tl-form-field>
 			<tl-form-list>
-				<tl-form-list-item *ngFor="let one of personalBestStore.personalBests$ | async">
-					<tl-form-list-info> {{ one.weight }} {{ one.starting }} </tl-form-list-info>
+				<tl-form-list-item *ngFor="let one of personalBests$ | async">
+					<tl-form-list-info>
+						<div>Weight: {{ one.weight }}</div>
+						<div>Set on: {{ one.starting | date: 'EEE, MMM d, y' }}</div>
+					</tl-form-list-info>
 					<tl-form-list-actions>
 						<tl-form-list-action
 							icon="delete"

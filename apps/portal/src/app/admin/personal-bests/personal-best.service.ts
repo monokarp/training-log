@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PersonalBestData } from '@training-log/contracts';
 import { PersonalBests } from '../../data/personal-bests';
 import { SessionStore } from '../../login/session.store';
 import { PersonalBestStore } from './personal-best.store';
@@ -15,8 +16,41 @@ export class PersonalBestService {
 		const user = this.sessionStore.activeUser$.getValue();
 
 		if (user) {
-			const entitites = await this.personalBests.allFor(user.id, 'squat');
+			const entitites = await this.personalBests.allFor(user.id);
 			this.store.personalBests$.next(entitites);
+		}
+	}
+
+	public async create(data: PersonalBestData) {
+		const user = this.sessionStore.activeUser$.getValue();
+
+		if (user) {
+			const result = await this.personalBests.create({ userId: user.id, ...data });
+
+			if (result) {
+				const entitites = this.store.personalBests$.getValue();
+
+				entitites.push({
+					id: result,
+					...data,
+				});
+
+				this.store.personalBests$.next(entitites);
+			}
+		}
+	}
+
+	public async delete(id: number) {
+		const user = this.sessionStore.activeUser$.getValue();
+
+		if (user) {
+			const result = await this.personalBests.delete(id);
+
+			if (result) {
+				const entitites = this.store.personalBests$.getValue();
+
+				this.store.personalBests$.next(entitites.filter(one => one.id !== id));
+			}
 		}
 	}
 }

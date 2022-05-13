@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { TlFormActionComponent } from './tl-form-action/tl-form-action.component';
 import { TlFormContainerComponent } from './tl-form-container/tl-form-container.component';
@@ -24,7 +25,7 @@ const components = [
 ];
 
 @NgModule({
-	imports: [CommonModule, MatIconModule],
+	imports: [CommonModule, MatIconModule, MatFormFieldModule],
 	declarations: components,
 	exports: components,
 })

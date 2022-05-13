@@ -2,6 +2,7 @@
 
 :host {
 	@extend .horiz-flex, .full-width;
+
 	justify-content: center;
 
 	&:not(:last-child) {
