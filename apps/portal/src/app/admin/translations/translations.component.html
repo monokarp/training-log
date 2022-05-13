@@ -1,1 +1,69 @@
-<p>translations works!</p>
+<tl-form-container>
+	<tl-form-section type="form">
+		<tl-form-field>
+			<mat-form-field appearance="standard">
+				<input
+					matInput
+					placeholder="Translation code"
+					[formControl]="code" />
+				<mat-error *ngIf="code.invalid">Required</mat-error>
+			</mat-form-field>
+		</tl-form-field>
+		<tl-form-field>
+			<mat-form-field appearance="standard">
+				<mat-select
+					[formControl]="locale"
+					placeholder="Locale"
+					(selectionChange)="localeSelection($event)">
+					<mat-option
+						*ngFor="let one of translationsStore.locales$ | async"
+						[value]="one">
+						{{ one }}
+					</mat-option>
+				</mat-select>
+				<mat-error *ngIf="locale.invalid">Required</mat-error>
+			</mat-form-field>
+		</tl-form-field>
+		<tl-form-field>
+			<mat-form-field appearance="standard">
+				<input
+					matInput
+					placeholder="Translation"
+					[formControl]="value" />
+				<mat-error *ngIf="value.invalid">Required</mat-error>
+			</mat-form-field>
+		</tl-form-field>
+		<tl-form-field type="footer">
+			<tl-form-action
+				text="Clear"
+				icon="clear_all"
+				(click)="clearInputs()">
+			</tl-form-action>
+			<tl-form-action
+				text="Update"
+				icon="add"
+				(click)="update()">
+			</tl-form-action>
+		</tl-form-field>
+	</tl-form-section>
+	<tl-form-section type="list">
+		<tl-form-field>
+			<tl-form-list>
+				<tl-form-list-item *ngFor="let one of translationsStore.translations$ | async">
+					<tl-form-list-info>
+						<div>
+							<b>Code: {{ one.code }}</b>
+						</div>
+						<div *ngFor="let tln of one.translations">{{ tln.locale }}: {{ tln.value }}</div>
+					</tl-form-list-info>
+					<tl-form-list-actions>
+						<tl-form-list-action
+							icon="arrow_back"
+							(click)="selectforEdit(one)">
+						</tl-form-list-action>
+					</tl-form-list-actions>
+				</tl-form-list-item>
+			</tl-form-list>
+		</tl-form-field>
+	</tl-form-section>
+</tl-form-container>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AppRoutes } from '../app.routes.enum';
 import { AuthService } from '../auth/auth.service';
@@ -9,6 +9,7 @@ import { SessionStore } from './session.store';
 	selector: 'portal-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
 	public username = new FormControl();

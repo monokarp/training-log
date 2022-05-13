@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { PersonalBest } from '@training-log/contracts';
 import { combineLatest } from 'rxjs';
@@ -12,6 +12,7 @@ import { PersonalBestStore } from './personal-best.store';
 	selector: 'portal-personal-bests',
 	templateUrl: './personal-best.component.html',
 	styleUrls: ['./personal-best.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalBestComponent implements OnInit {
 	public date = new FormControl({ value: '', disabled: true }, [Validators.required]);

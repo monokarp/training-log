@@ -14,6 +14,8 @@ import { PersonalBestComponent } from './personal-bests/personal-best.component'
 import { PersonalBestService } from './personal-bests/personal-best.service';
 import { PersonalBestStore } from './personal-bests/personal-best.store';
 import { TlFormModule } from '../shared/tl-form/tl-form.module';
+import { TranslationsStore } from './translations/translations.store';
+import { TranslationsService } from './translations/translations.service';
 
 @NgModule({
 	imports: [CommonModule, SharedModule, MatComponentsModule, MatFormsModule, AdminRoutingModule, TlFormModule],
@@ -24,6 +26,13 @@ import { TlFormModule } from '../shared/tl-form/tl-form.module';
 		PreferencesComponent,
 		PersonalBestComponent,
 	],
-	providers: [ExercisesStore, ExerciseService, PersonalBestService, PersonalBestStore],
+	providers: [
+		ExercisesStore,
+		ExerciseService,
+		PersonalBestService,
+		PersonalBestStore,
+		TranslationsStore,
+		TranslationsService,
+	],
 })
 export class AdminModule {}

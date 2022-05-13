@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ExerciseType } from '@training-log/contracts';
 import { ExerciseService } from './exercise.service';
@@ -8,6 +8,7 @@ import { ExercisesStore } from './exercise.store';
 	selector: 'portal-exercises',
 	templateUrl: './exercises.component.html',
 	styleUrls: ['./exercises.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExercisesComponent implements OnInit {
 	public exercisesId = new FormControl('', [
