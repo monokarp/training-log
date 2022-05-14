@@ -5,9 +5,10 @@ import { Workouts } from './workouts';
 import { Exercises } from './exercises';
 import { PersonalBests } from './personal-bests';
 import { Translations } from './translations';
+import { Preferences } from './preferences';
 
 @NgModule({
 	imports: [CommonModule, SharedModule],
-	providers: [Workouts, Exercises, PersonalBests, Translations],
+	providers: [Workouts, Exercises, PersonalBests, Translations, Preferences],
 })
 export class DataModule {}

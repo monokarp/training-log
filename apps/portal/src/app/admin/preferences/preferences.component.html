@@ -1,1 +1,52 @@
-<p>preferences works!</p>
+<tl-form-container>
+	<tl-form-section type="form">
+		<tl-form-field>
+			<mat-form-field appearance="standard">
+				<mat-select
+					[formControl]="unit"
+					placeholder="Select weight unit">
+					<mat-option
+						*ngFor="let one of preferencesStore.units$ | async"
+						[value]="one">
+						{{ one }}
+					</mat-option>
+				</mat-select>
+				<mat-error *ngIf="unit.invalid">Required</mat-error>
+			</mat-form-field>
+		</tl-form-field>
+		<tl-form-field>
+			<mat-form-field appearance="standard">
+				<mat-select
+					[formControl]="locale"
+					placeholder="Select locale">
+					<mat-option
+						*ngFor="let one of preferencesStore.locales$ | async"
+						[value]="one">
+						{{ one }}
+					</mat-option>
+				</mat-select>
+				<mat-error *ngIf="unit.invalid">Required</mat-error>
+			</mat-form-field>
+		</tl-form-field>
+		<tl-form-field type="footer">
+			<tl-form-action
+				text="Update"
+				icon="add"
+				(click)="update()">
+			</tl-form-action>
+		</tl-form-field>
+	</tl-form-section>
+	<tl-form-section type="list">
+		<tl-form-field>
+			<tl-form-list>
+				<tl-form-list-item *ngIf="sessionStore.activeUser$ | async as user">
+					<tl-form-list-info>
+						<div>User: {{ user.id }}</div>
+						<div>Units: {{ user.unit }}</div>
+						<div>Locale: {{ user.localeCode }}</div>
+					</tl-form-list-info>
+				</tl-form-list-item>
+			</tl-form-list>
+		</tl-form-field>
+	</tl-form-section>
+</tl-form-container>

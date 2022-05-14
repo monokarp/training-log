@@ -22,15 +22,29 @@ describe(PersonalBestModule.name, () => {
 		await app.close();
 	});
 
-	test('get personal bests for an exercise', async () => {
+	test('get personal bests for a user', async () => {
 		const result = await app.inject({
 			method: 'GET',
-			url: '/personal-best/mnk/deadlift',
+			url: '/personal-best/mnk',
 		});
 
 		expect(result.statusCode).toEqual(200);
 		expect(JSON.parse(result.payload)).toEqual([
 			{
+				exerciseId: 'squat',
+				id: expect.any(Number),
+				starting: '2022-01-01T00:00:00.000Z',
+				weight: 210,
+			},
+			{
+				exerciseId: 'bench',
+				id: expect.any(Number),
+				starting: '2022-01-01T00:00:00.000Z',
+				weight: 145,
+			},
+			{
+				exerciseId: 'deadlift',
+				id: expect.any(Number),
 				weight: 230,
 				starting: '2022-01-01T00:00:00.000Z',
 			},

@@ -16,9 +16,12 @@ import { PersonalBestStore } from './personal-bests/personal-best.store';
 import { TlFormModule } from '../shared/tl-form/tl-form.module';
 import { TranslationsStore } from './translations/translations.store';
 import { TranslationsService } from './translations/translations.service';
+import { PreferencesStore } from './preferences/preferences.store';
+import { PreferencesService } from './preferences/preferences.service';
 
 @NgModule({
 	imports: [CommonModule, SharedModule, MatComponentsModule, MatFormsModule, AdminRoutingModule, TlFormModule],
+	// TODO split children into modules
 	declarations: [
 		AdminComponent,
 		ExercisesComponent,
@@ -33,6 +36,8 @@ import { TranslationsService } from './translations/translations.service';
 		PersonalBestStore,
 		TranslationsStore,
 		TranslationsService,
+		PreferencesStore,
+		PreferencesService,
 	],
 })
 export class AdminModule {}

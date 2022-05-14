@@ -11,3 +11,7 @@ export interface UserPreferences {
 }
 
 export interface UserWithPreferences extends User, UserPreferences {}
+
+export interface PreferencesUpdateData extends UserPreferences {
+	userId: string;
+}

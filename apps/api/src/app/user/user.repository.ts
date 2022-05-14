@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserWithPreferences } from '@training-log/contracts';
+import { PreferencesUpdateData, User, UserPreferences, UserWithPreferences } from '@training-log/contracts';
 import { Prisma } from '../shared/prisma';
 
 @Injectable()

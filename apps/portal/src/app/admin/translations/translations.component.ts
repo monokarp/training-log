@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, NgControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { TranslationData, TranslationModel } from '@training-log/contracts';
+import { TranslationModel } from '@training-log/contracts';
 import { TranslationsService } from './translations.service';
 import { TranslationsStore } from './translations.store';
 
