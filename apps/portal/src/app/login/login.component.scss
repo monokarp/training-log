@@ -1,3 +1,5 @@
+@import 'colors';
+
 .background {
 	height: 100%;
 	display: flex;
@@ -12,14 +14,14 @@
 	margin: 2rem auto;
 	padding: 1rem;
 	border-radius: 1rem;
-	background-color: white;
+	background-color: $color_white;
 
 	.image {
 		width: 30rem;
 	}
 
 	.input {
-		background-color: white;
+		background-color: $color_white;
 		display: flex;
 		flex-direction: column;
 		width: 100%;

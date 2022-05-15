@@ -1,8 +1,9 @@
 @import 'tl-form';
+@import 'colors';
 
 :host {
 	@extend .horiz-flex;
-	background-color: lightgrey;
+	background-color: $color_grey;
 	border-radius: 0.5rem;
 
 	&:not(:last-of-type) {

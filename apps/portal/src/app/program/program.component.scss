@@ -1,22 +1,8 @@
-.horizontal-flex {
-	display: flex;
-	flex-direction: row;
-}
+@import 'tl-form';
 
-.content {
-	@extend .horizontal-flex;
-}
-
-.workout-card {
-	background-color: white;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: flex-start;
-	margin: 1rem;
+.year {
 	padding: 1rem;
-	border-radius: 0.5rem;
-	height: max-content;
+	font-size: 1.5rem;
 }
 
 .button-container {

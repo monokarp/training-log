@@ -1,7 +1,9 @@
+@import 'colors';
+
 .container {
 	display: flex;
 	flex-direction: row;
-	background-color: white;
+	background-color: $color_white;
 	align-items: center;
 	height: 4rem;
 

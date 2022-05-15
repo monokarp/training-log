@@ -35,6 +35,7 @@ $portal-theme: mat.define-light-theme(
 @include mat.all-component-themes($portal-theme);
 
 /* You can add global styles to this file, and also import other style files */
+@import 'colors';
 
 html,
 body {
@@ -44,5 +45,5 @@ body {
 	margin: 0;
 	font-family: Roboto, 'Helvetica Neue', sans-serif;
 	font-size: 16px;
-	background-color: lightgray;
+	background-color: $color_grey;
 }

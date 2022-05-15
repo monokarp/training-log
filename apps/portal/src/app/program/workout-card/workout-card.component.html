@@ -1,0 +1,25 @@
+<div
+	*ngIf="session"
+	class="content">
+	<div
+		class="workout-card mat-elevation-z4"
+		*ngIf="session.comment">
+		{{ session.comment }}
+	</div>
+	<div
+		*ngFor="let exercise of session.exercises"
+		class="workout-card mat-elevation-z4">
+		<p>
+			<b>{{ exercise.name }}</b>
+		</p>
+		<div
+			class="full-width"
+			*ngFor="let set of exercise.sets">
+			<div class="info">
+				<div>{{ format(set) }}</div>
+				<div class="percent">{{ format1RM(set) }}</div>
+			</div>
+			<div *ngIf="set.comment">{{ set.comment }}</div>
+		</div>
+	</div>
+</div>

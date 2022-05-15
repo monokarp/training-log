@@ -14,29 +14,12 @@
 			class="week"
 			*ngFor="let one of model.weeks">
 			<mat-tab-group>
-				<mat-tab label="{{ one.week }}"></mat-tab>
+				<mat-tab label="Week {{ one.week }}"></mat-tab>
 				<mat-tab
 					*ngFor="let session of one.sessions"
-					label="{{ session.date }}">
+					label="{{ session.date | date: 'EEEE, MMMM d' }}">
 					<ng-template matTabContent>
-						<div class="content">
-							<div
-								class="workout-card mat-elevation-z4"
-								*ngIf="session.comment">
-								{{ session.comment }}
-							</div>
-							<div
-								*ngFor="let exercise of session.exercises"
-								class="workout-card mat-elevation-z4">
-								<p>
-									<b>{{ exercise.name }}</b>
-								</p>
-								<div *ngFor="let set of exercise.sets">
-									<span>{{ format(set) }}</span>
-									<span *ngIf="set.comment">{{ set.comment }}</span>
-								</div>
-							</div>
-						</div>
+						<portal-workout-card [session]="session"></portal-workout-card>
 					</ng-template>
 				</mat-tab>
 			</mat-tab-group>

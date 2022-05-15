@@ -12,6 +12,7 @@ import { routes } from './program.routes';
 import { ProgramService } from './program.service';
 import { ProgramStore } from './program.store';
 import { ProgramViewmodel } from './viewmodel/group-workouts';
+import { WorkoutCardComponent } from './workout-card/workout-card.component';
 
 @NgModule({
 	imports: [
@@ -23,6 +24,6 @@ import { ProgramViewmodel } from './viewmodel/group-workouts';
 		TlFormModule,
 	],
 	providers: [ProgramService, ProgramStore, ProgramViewmodel, CreateSession],
-	declarations: [ProgramComponent, CreateSessionComponent],
+	declarations: [ProgramComponent, CreateSessionComponent, WorkoutCardComponent],
 })
 export class ProgramModule {}
