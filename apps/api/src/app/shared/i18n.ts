@@ -1,5 +1,5 @@
-import { Locale, LocaleCode } from '@training-log/contracts';
 import { Injectable } from '@nestjs/common';
+import { LocaleCode } from '@training-log/contracts';
 import { Prisma } from './prisma';
 
 export const MissingTranslation = 'N/A';

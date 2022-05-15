@@ -6,6 +6,10 @@ import { WorkoutRepository } from './workout.repository';
 export class WorkoutService {
 	constructor(private workoutRepository: WorkoutRepository) {}
 
+	public one(id: number): Promise<Workout | null> {
+		return this.workoutRepository.one(id);
+	}
+
 	public including1RMs(username: string): Promise<Workout[]> {
 		return this.workoutRepository.including1RMs(username);
 	}

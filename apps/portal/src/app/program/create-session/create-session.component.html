@@ -7,14 +7,14 @@
 					matInput
 					[matDatepicker]="picker"
 					[formControl]="date"
-					placeholder="{{ dateFormat }}" />
+					[disabled]="true" />
 				<mat-datepicker-toggle
 					matSuffix
 					[for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker
 					#picker
 					[disabled]="false"></mat-datepicker>
-				<mat-error *ngIf="date.invalid">Required</mat-error>
+				<mat-error *ngIf="date.hasError('required')">Required</mat-error>
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field>

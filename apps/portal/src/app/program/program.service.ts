@@ -23,9 +23,12 @@ export class ProgramService {
 		private exercises: Exercises,
 	) {}
 
-	public async load(username: string): Promise<void> {
-		// TODO set selected trainee (from url)
-		this.programStore.trainingWeeks$.next(this.viewmodel.groupAll(await this.workouts.for(username)));
+	public async load(): Promise<void> {
+		const user = this.sessionStore.activeUser$.getValue();
+
+		if (user) {
+			this.programStore.models$.next(this.viewmodel.groupAll(await this.workouts.for(user.id)));
+		}
 	}
 
 	public async createNewSession(): Promise<void> {
@@ -46,9 +49,18 @@ export class ProgramService {
 		);
 
 		if (result) {
-			// TODO receive an id instead and upsert single entity
-			if (this.createSession.one(result)) {
-				return this.load(trainee.id);
+			const newWorkoutId = await this.createSession.one(result);
+
+			if (newWorkoutId) {
+				const newWorkout = await this.workouts.one(newWorkoutId);
+
+				if (newWorkout) {
+					const models = this.programStore.models$.getValue();
+
+					this.viewmodel.upsertInPlace(newWorkout, models);
+
+					this.programStore.models$.next(models);
+				}
 			}
 		}
 	}

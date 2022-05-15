@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Set } from '@training-log/contracts';
 import { SessionStore } from '../login/session.store';
 import { ProgramService } from './program.service';
@@ -11,22 +10,16 @@ import { ProgramStore } from './program.store';
 	styleUrls: ['./program.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProgramComponent {
-	// private storeUpdates = this.route.url
-	// 	.pipe(
-	// 		map(([firstSegment]) => firstSegment?.path),
-	// 		filter(isNonEmptyString),
-	// 	)
-	// 	.subscribe(username => this.programService.load(username));
-
+export class ProgramComponent implements OnInit {
 	constructor(
-		private route: ActivatedRoute,
 		public programService: ProgramService,
 		public programStore: ProgramStore,
 		private sessionStore: SessionStore,
 	) {}
 
-	// TODO persist tab selection state in store?
+	ngOnInit(): void {
+		this.programService.load();
+	}
 
 	public openCreateSessionModal() {
 		this.programService.createNewSession();

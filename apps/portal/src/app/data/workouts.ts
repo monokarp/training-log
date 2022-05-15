@@ -7,23 +7,33 @@ import { HttpService } from '../shared/http.service';
 export class Workouts {
 	constructor(private httpService: HttpService) {}
 
+	public async one(id: number): Promise<Workout | null> {
+		try {
+			const result = await this.httpService.get<Workout>(`/api/workouts/one/${id}`);
+
+			return { ...result, date: new Date(result.date) } ?? null;
+		} catch (err) {
+			return null;
+		}
+	}
+
 	public async for(traineeUsername: string): Promise<Workout[]> {
 		try {
-			const result = await this.httpService.get(`/api/workouts/${traineeUsername}`);
+			const result = await this.httpService.get<Workout[]>(`/api/workouts/${traineeUsername}`);
 
-			return (result as Workout[]) ?? [];
+			return result ? result.map(one => ({ ...one, date: new Date(one.date) })) : [];
 		} catch (err) {
 			return [];
 		}
 	}
 
-	public async create(newWorkoutData: CreateWorkoutData): Promise<boolean> {
+	public async create(newWorkoutData: CreateWorkoutData): Promise<number | null> {
 		try {
 			const result = await this.httpService.post(`/api/workouts`, newWorkoutData);
 
-			return (result as boolean) ?? false;
+			return (result as { id: number })?.id ?? null;
 		} catch (err) {
-			return false;
+			return null;
 		}
 	}
 }

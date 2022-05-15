@@ -6,8 +6,8 @@ import { firstValueFrom, Observable, timeout } from 'rxjs';
 export class HttpService {
 	constructor(private http: HttpClient) {}
 
-	public get(url: string): Promise<unknown> {
-		return this.request(this.http.get(url));
+	public get<R = unknown>(url: string): Promise<R> {
+		return this.request(this.http.get(url)) as Promise<R>;
 	}
 
 	public post<D>(url: string, data: D): Promise<unknown> {

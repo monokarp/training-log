@@ -8,11 +8,11 @@ import { NewWorkout } from '../viewmodel/types';
 export class CreateSession {
 	constructor(private workouts: Workouts, private sessionStore: SessionStore) {}
 
-	public one(workoutData: NewWorkout) {
+	public async one(workoutData: NewWorkout): Promise<number | null> {
 		const username = this.sessionStore.activeUser$.getValue()?.id;
 
 		if (!username) {
-			return;
+			return null;
 		}
 
 		const result: CreateWorkoutData = {
@@ -26,9 +26,8 @@ export class CreateSession {
 					const [sets, reps] = work.split('x');
 
 					return {
-						// TODO update this
-						exerciseId: '',
-						name: data.code,
+						exerciseId: data.code,
+						name: data.exercise,
 						order: idx,
 						sets: Number(sets),
 						weight: Number(weight),

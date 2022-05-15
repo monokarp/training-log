@@ -108,7 +108,7 @@ describe(WorkoutModule.name, () => {
 
 	test('create new workout', async () => {
 		const result = await app.inject({
-			method: 'PUT',
+			method: 'POST',
 			url: '/workouts',
 			payload: {
 				data: {
@@ -126,111 +126,44 @@ describe(WorkoutModule.name, () => {
 		expect(result.statusCode).toEqual(201);
 		expect(JSON.parse(result.payload)).toEqual({ id: expect.any(Number) });
 
-		await getAllWorkouts(app, 'mnk', [
-			{
-				date: '2022-01-01T00:00:00.000Z',
-				comment: 'This is the initially seeded workout',
-				sets: [
-					{ exerciseName: 'Squat', order: 0, sets: 1, reps: 5, weight: 70, comment: null, personalBest: 210 },
-					{
-						exerciseName: 'Squat',
-						order: 1,
-						sets: 1,
-						reps: 5,
-						weight: 120,
-						comment: null,
-						personalBest: 210,
-					},
-					{
-						exerciseName: 'Squat',
-						order: 2,
-						sets: 3,
-						reps: 5,
-						weight: 170,
-						comment: 'Missed last rep',
-						personalBest: 210,
-					},
-					{
-						exerciseName: 'Deadlift',
-						order: 3,
-						sets: 1,
-						reps: 5,
-						weight: 70,
-						comment: null,
-						personalBest: 230,
-					},
-					{
-						exerciseName: 'Deadlift',
-						order: 4,
-						sets: 1,
-						reps: 5,
-						weight: 120,
-						comment: null,
-						personalBest: 230,
-					},
-					{
-						exerciseName: 'Deadlift',
-						order: 5,
-						sets: 1,
-						reps: 5,
-						weight: 170,
-						comment: null,
-						personalBest: 230,
-					},
-					{
-						exerciseName: 'Deadlift',
-						order: 6,
-						sets: 1,
-						reps: 5,
-						weight: 200,
-						comment: 'Felt easy',
-						personalBest: 230,
-					},
-					{
-						exerciseName: 'Bench Press',
-						order: 7,
-						sets: 1,
-						reps: 3,
-						weight: 70,
-						comment: null,
-						personalBest: 145,
-					},
-					{
-						exerciseName: 'Bench Press',
-						order: 8,
-						sets: 5,
-						reps: 3,
-						weight: 110,
-						comment: null,
-						personalBest: 145,
-					},
-				],
-			},
-			{
-				date: '2022-02-02T00:00:00.000Z',
-				comment: 'test workout',
-				sets: [
-					{
-						exerciseName: 'Squat',
-						order: 0,
-						sets: 5,
-						reps: 5,
-						weight: 160,
-						comment: 'LIGHT WEIGHT BABY',
-						personalBest: 210,
-					},
-					{
-						exerciseName: 'Deadlift',
-						order: 1,
-						sets: 1,
-						reps: 10,
-						weight: 200,
-						comment: null,
-						personalBest: 230,
-					},
-				],
-			},
-		]);
+		const newWorkout = await app.inject({
+			method: 'GET',
+			url: `/workouts/one/${JSON.parse(result.payload).id}`,
+		});
+
+		expect(newWorkout.statusCode).toEqual(200);
+		expect(JSON.parse(newWorkout.payload)).toEqual({
+			date: '2022-02-02T00:00:00.000Z',
+			comment: 'test workout',
+			sets: [
+				{
+					exerciseName: 'Squat',
+					order: 0,
+					sets: 5,
+					reps: 5,
+					weight: 160,
+					comment: 'LIGHT WEIGHT BABY',
+					personalBest: 210,
+				},
+				{
+					exerciseName: 'Deadlift',
+					order: 1,
+					sets: 1,
+					reps: 10,
+					weight: 200,
+					comment: null,
+					personalBest: 230,
+				},
+			],
+		});
+
+		const allWorkouts = await app.inject({
+			method: 'GET',
+			url: '/workouts/mnk',
+		});
+
+		expect(allWorkouts.statusCode).toEqual(200);
+		expect(JSON.parse(allWorkouts.payload)).toHaveLength(2);
 	});
 });
 
