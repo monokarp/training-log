@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { PersonalBest } from '@training-log/contracts';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ExerciseSelectComponent } from '../../shared/exercise-select/exercise-select.component';
 import { ExerciseService } from '../exercises/exercise.service';
 import { ExercisesStore } from '../exercises/exercise.store';
 import { PersonalBestService } from './personal-best.service';
@@ -14,14 +15,13 @@ import { PersonalBestStore } from './personal-best.store';
 	styleUrls: ['./personal-best.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PersonalBestComponent implements OnInit {
+export class PersonalBestComponent implements OnInit, AfterViewInit {
 	public date = new FormControl({ value: '', disabled: true }, [Validators.required]);
 	public weight = new FormControl('', [Validators.required]);
-	public exercise = new FormControl('', [Validators.required]);
 
-	public personalBests$ = combineLatest([this.personalBestStore.personalBests$, this.exercise.valueChanges]).pipe(
-		map(([all, selectedId]) => (selectedId ? all.filter(one => one.exerciseId === selectedId) : all)),
-	);
+	@ViewChild(ExerciseSelectComponent) exercise!: ExerciseSelectComponent;
+
+	public personalBests$: Observable<PersonalBest[]> | undefined;
 
 	constructor(
 		public exerciseStore: ExercisesStore,
@@ -35,13 +35,19 @@ export class PersonalBestComponent implements OnInit {
 		this.personalBestService.loadStore();
 	}
 
+	ngAfterViewInit(): void {
+		this.personalBests$ = combineLatest([this.personalBestStore.personalBests$, this.exercise.selectedId$]).pipe(
+			map(([all, selectedId]) => (selectedId ? all.filter(one => one.exerciseId === selectedId) : all)),
+		);
+	}
+
 	public async addPersonalBest() {
-		if ([this.date, this.weight, this.exercise].some(one => one.invalid)) {
+		if ([this.date, this.weight].some(one => one.invalid) || !this.exercise.selected()) {
 			return;
 		}
 
 		await this.personalBestService.create({
-			exerciseId: this.exercise.value,
+			exerciseId: this.exercise.selected(),
 			weight: this.weight.value,
 			starting: this.date.value,
 		});
@@ -54,9 +60,11 @@ export class PersonalBestComponent implements OnInit {
 	}
 
 	public clearInputs() {
-		[this.date, this.weight, this.exercise].forEach(one => {
+		[this.date, this.weight].forEach(one => {
 			one.setValue('');
 			one.markAsUntouched();
 		});
+
+		this.exercise.reset();
 	}
 }

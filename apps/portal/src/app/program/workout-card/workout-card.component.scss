@@ -1,6 +1,8 @@
 @import 'tl-form';
 @import 'colors';
 
+@import 'variables';
+
 .content {
 	@extend .horiz-flex;
 }
@@ -21,7 +23,7 @@
 	justify-content: flex-start;
 	margin: 1rem;
 	padding: 1rem;
-	border-radius: 0.5rem;
+	border-radius: $app_border_radius;
 	height: max-content;
 	width: 13rem;
 	line-height: 1.25rem;

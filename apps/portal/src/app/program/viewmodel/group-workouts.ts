@@ -7,8 +7,6 @@ import { TrainingSession, TrainingWeek, TrainingYear } from './types';
 export class ProgramViewmodel {
 	public groupAll(workouts: Workout[]): TrainingYear[] {
 		const byYear = groupBy(workouts, one => DateTime.fromJSDate(one.date).weekYear);
-		console.log(workouts);
-		console.log(byYear);
 
 		const result = byYear
 			.map(([year, workouts]) => {

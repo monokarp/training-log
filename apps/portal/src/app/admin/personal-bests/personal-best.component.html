@@ -18,17 +18,7 @@
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field>
-			<mat-form-field appearance="standard">
-				<mat-label>Select an exercise</mat-label>
-				<mat-select [formControl]="exercise">
-					<mat-option
-						*ngFor="let one of exerciseStore.exercises$ | async"
-						[value]="one.id">
-						{{ one.name }}
-					</mat-option>
-				</mat-select>
-				<mat-error *ngIf="exercise.invalid">Required</mat-error>
-			</mat-form-field>
+			<portal-exercise-select [data]="(exerciseStore.exercises$ | async)!"> </portal-exercise-select>
 		</tl-form-field>
 		<tl-form-field>
 			<mat-form-field appearance="standard">

@@ -1,10 +1,11 @@
 @import 'tl-form';
 @import 'colors';
+@import 'variables';
 
 :host {
 	@extend .horiz-flex;
 	background-color: $color_grey;
-	border-radius: 0.5rem;
+	border-radius: $app_border_radius;
 
 	&:not(:last-of-type) {
 		margin-bottom: 0.25rem;

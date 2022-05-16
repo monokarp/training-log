@@ -18,21 +18,7 @@
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field>
-			<mat-form-field appearance="standard">
-				<input
-					matInput
-					placeholder="Exercise"
-					[formControl]="exercise"
-					[matAutocomplete]="auto" />
-				<mat-autocomplete #auto="matAutocomplete">
-					<mat-option
-						*ngFor="let one of data"
-						[value]="one.name"
-						>{{ one.name }}</mat-option
-					>
-				</mat-autocomplete>
-				<mat-error *ngIf="exercise.invalid">Select from configured exercises</mat-error>
-			</mat-form-field>
+			<portal-exercise-select [data]="data"> </portal-exercise-select>
 		</tl-form-field>
 		<tl-form-field>
 			<mat-form-field appearance="standard">
@@ -42,7 +28,7 @@
 					class="program"
 					[formControl]="program"
 					placeholder="{{ 'Program\n5x5@100' }}"></textarea>
-				<mat-error *ngIf="program.invalid">{{ 'Incorrect format: {sets}x{reps}@{weight}' }}</mat-error>
+				<mat-error *ngIf="program.invalid">{{ 'Expected format: {sets}x{reps}@{weight}' }}</mat-error>
 			</mat-form-field>
 		</tl-form-field>
 		<tl-form-field type="footer">
