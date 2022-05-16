@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DeleteExerciseData, ExerciseType, ExerciseWithPB, NewExerciseData } from '@training-log/contracts';
 import { HttpService } from '../shared/http.service';
@@ -36,13 +37,13 @@ export class Exercises {
 		}
 	}
 
-	public async delete(data: DeleteExerciseData): Promise<boolean> {
+	public async delete(data: DeleteExerciseData): Promise<string | null> {
 		try {
 			await this.httpService.delete(`/api/exercises`, data);
 
-			return true;
-		} catch (err) {
-			return false;
+			return null;
+		} catch (err: unknown) {
+			return (err as HttpErrorResponse).error.message;
 		}
 	}
 }

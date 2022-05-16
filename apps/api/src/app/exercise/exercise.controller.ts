@@ -32,7 +32,7 @@ export class ExerciseController {
 			throw new HttpException(
 				{
 					status: HttpStatus.CONFLICT,
-					error,
+					message: error,
 				},
 				HttpStatus.CONFLICT,
 			);

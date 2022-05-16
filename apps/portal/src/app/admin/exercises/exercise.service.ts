@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ExerciseType } from '@training-log/contracts';
 import { Exercises } from '../../data/exercises';
 import { SessionStore } from '../../login/session.store';
+import { TlNotification } from '../../shared/tl-form/tl-notification';
 import { ExercisesStore } from './exercise.store';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class ExerciseService {
 		private exerciseStore: ExercisesStore,
 		private exercises: Exercises,
 		private sessionStore: SessionStore,
+		private notification: TlNotification,
 	) {}
 
 	public async loadStore() {
@@ -55,10 +57,12 @@ export class ExerciseService {
 				userId: user.id,
 			});
 
-			if (result) {
+			if (!result) {
 				const entitites = this.exerciseStore.exercises$.getValue();
 
 				this.exerciseStore.exercises$.next(entitites.filter(one => one.id !== id).sort(byIdASC));
+			} else {
+				this.notification.warn(result);
 			}
 		}
 	}

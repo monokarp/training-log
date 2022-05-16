@@ -1,0 +1,29 @@
+@import 'colors';
+@import 'tl-form';
+
+:host {
+	margin-top: 0.25rem;
+}
+
+.notification {
+	@extend .full-width, .horiz-flex;
+	height: 1.5rem;
+	font-size: 1rem;
+
+	justify-content: center;
+	align-items: center;
+
+	.icon {
+		margin-left: 1rem;
+	}
+
+	&.warning {
+		background-color: $color_orange;
+		color: $color_black;
+	}
+
+	&.info {
+		background-color: $color_blue;
+		color: $color_white;
+	}
+}

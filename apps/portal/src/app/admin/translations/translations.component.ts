@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslationModel } from '@training-log/contracts';
+import { TlNotification } from '../../shared/tl-form/tl-notification';
 import { TranslationsService } from './translations.service';
 import { TranslationsStore } from './translations.store';
 
@@ -13,10 +14,16 @@ import { TranslationsStore } from './translations.store';
 })
 export class TranslationsComponent implements OnInit {
 	public code = new FormControl({ value: '', disabled: true });
-	public locale = new FormControl('');
+	public locale = new FormControl('', [Validators.required]);
 	public value = new FormControl('', [Validators.required]);
 
-	constructor(private translationsService: TranslationsService, public translationsStore: TranslationsStore) {}
+	private controls = [this.code, this.locale, this.value];
+
+	constructor(
+		private translationsService: TranslationsService,
+		public translationsStore: TranslationsStore,
+		private notification: TlNotification,
+	) {}
 
 	ngOnInit(): void {
 		this.translationsService.loadStore();
@@ -42,7 +49,13 @@ export class TranslationsComponent implements OnInit {
 	}
 
 	public update() {
-		if ([this.code, this.locale, this.value].some(one => one.invalid)) {
+		if (!this.code.value) {
+			this.notification.info('Select a code for edit');
+			return;
+		}
+
+		if (this.controls.some(one => one.invalid)) {
+			this.controls.forEach(one => one.markAsTouched());
 			return;
 		}
 
@@ -54,7 +67,7 @@ export class TranslationsComponent implements OnInit {
 	}
 
 	public clearInputs() {
-		[this.code, this.locale, this.value].forEach(one => {
+		this.controls.forEach(one => {
 			one.setValue('');
 			one.markAsUntouched();
 		});

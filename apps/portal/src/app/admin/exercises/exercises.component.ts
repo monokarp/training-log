@@ -29,6 +29,9 @@ export class ExercisesComponent implements OnInit {
 		if (this.exercisesId.valid && this.exercisesName.valid) {
 			await this.service.createNew(this.exercisesId.value, this.exercisesName.value);
 			this.clearInputs();
+		} else {
+			this.exercisesId.markAsTouched();
+			this.exercisesName.markAsTouched();
 		}
 	}
 

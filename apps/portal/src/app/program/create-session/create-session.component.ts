@@ -67,12 +67,12 @@ export class CreateSessionComponent {
 	}
 
 	public addExercise() {
-		const selectedExercise = this.exercise.selected();
+		const { id, name } = this.exercise.selected();
 
-		if (selectedExercise && this.program.valid) {
+		if (id && this.program.valid) {
 			this.exericses.push({
-				exercise: selectedExercise,
-				code: this.data.find(one => one.name === selectedExercise)?.id ?? '',
+				exercise: name,
+				code: id,
 				program: this.program.value,
 			});
 			this.clearCurrentExercise();

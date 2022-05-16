@@ -1,5 +1,9 @@
 @import 'tl-form';
 
+:host {
+	padding: unset;
+}
+
 .program {
 	min-height: 5rem;
 }

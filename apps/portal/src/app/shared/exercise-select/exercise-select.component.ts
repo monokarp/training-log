@@ -31,7 +31,7 @@ export class ExerciseSelectComponent implements OnInit {
 		);
 
 		this.selectedId$ = this.control.valueChanges.pipe(
-			map((name: string) => this.data.find(one => one.name === name)?.id),
+			map((name: string) => this.idByName(name)),
 			filter(isNonEmptyString),
 		);
 	}
@@ -42,8 +42,16 @@ export class ExerciseSelectComponent implements OnInit {
 		}
 	}
 
-	public selected(): string {
-		return this.control.valid ? this.control.value : '';
+	public selected(): { id: string; name: string } {
+		return this.control.valid
+			? {
+					id: this.idByName(this.control.value),
+					name: this.control.value,
+			  }
+			: {
+					id: '',
+					name: '',
+			  };
 	}
 
 	public select(value: string): void {
@@ -53,6 +61,14 @@ export class ExerciseSelectComponent implements OnInit {
 	public reset(): void {
 		this.control.setValue('');
 		this.control.markAsUntouched();
+	}
+
+	public markAsTouched() {
+		this.control.markAsTouched();
+	}
+
+	private idByName(name: string) {
+		return this.data.find(one => one.name === name)?.id ?? '';
 	}
 
 	private validateExerciseName(c: FormControl) {

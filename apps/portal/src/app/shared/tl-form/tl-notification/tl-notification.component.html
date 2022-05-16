@@ -1,0 +1,12 @@
+<div
+	*ngIf="isDisplayed | async"
+	[class]="'notification ' + theme">
+	<div>
+		{{ text | async }}
+	</div>
+	<mat-icon
+		class="icon"
+		(click)="hide()"
+		>close</mat-icon
+	>
+</div>

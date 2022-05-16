@@ -16,7 +16,7 @@ import { PersonalBestStore } from './personal-best.store';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalBestComponent implements OnInit, AfterViewInit {
-	public date = new FormControl({ value: '', disabled: true }, [Validators.required]);
+	public date = new FormControl('', [Validators.required]);
 	public weight = new FormControl('', [Validators.required]);
 
 	@ViewChild(ExerciseSelectComponent) exercise!: ExerciseSelectComponent;
@@ -30,24 +30,29 @@ export class PersonalBestComponent implements OnInit, AfterViewInit {
 		private personalBestService: PersonalBestService,
 	) {}
 
-	ngOnInit(): void {
+	public ngOnInit(): void {
 		this.exerciseService.loadStore();
 		this.personalBestService.loadStore();
 	}
 
-	ngAfterViewInit(): void {
+	public ngAfterViewInit(): void {
 		this.personalBests$ = combineLatest([this.personalBestStore.personalBests$, this.exercise.selectedId$]).pipe(
 			map(([all, selectedId]) => (selectedId ? all.filter(one => one.exerciseId === selectedId) : all)),
 		);
 	}
 
 	public async addPersonalBest() {
-		if ([this.date, this.weight].some(one => one.invalid) || !this.exercise.selected()) {
+		const { id } = this.exercise.selected();
+
+		if ([this.date, this.weight].some(one => one.invalid) || !id) {
+			this.date.markAsTouched();
+			this.weight.markAsTouched();
+			this.exercise.markAsTouched();
 			return;
 		}
 
 		await this.personalBestService.create({
-			exerciseId: this.exercise.selected(),
+			exerciseId: id,
 			weight: this.weight.value,
 			starting: this.date.value,
 		});

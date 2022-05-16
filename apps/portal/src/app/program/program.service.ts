@@ -43,6 +43,7 @@ export class ProgramService {
 				.open<CreateSessionComponent, ExerciseWithPB[], NewWorkout>(CreateSessionComponent, {
 					disableClose: true,
 					autoFocus: false,
+					panelClass: 'no-padding',
 					data: await this.exercises.includingPersonalBestFor(trainee.id),
 				})
 				.afterClosed(),
