@@ -5,6 +5,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExerciseWithPB } from '@training-log/contracts';
 import { ExerciseSelectComponent } from '../../../ui-components/common-ui/exercise-select/exercise-select.component';
+import { TlNotification } from '../../../ui-components/tl-form/tl-notification';
 import { NewExercise } from '../viewmodel/types';
 
 const DateFormat = 'DD-MM-YYYY';
@@ -47,6 +48,7 @@ export class CreateSessionComponent {
 	constructor(
 		private dialogRef: MatDialogRef<CreateSessionComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: ExerciseWithPB[],
+		private notification: TlNotification,
 	) {}
 
 	public submit(): void {
@@ -59,6 +61,8 @@ export class CreateSessionComponent {
 				date: this.date.value,
 				exercises: this.exericses,
 			});
+		} else {
+			this.notification.warn("Can't submit an empty session");
 		}
 	}
 
@@ -76,6 +80,9 @@ export class CreateSessionComponent {
 				program: this.program.value,
 			});
 			this.clearCurrentExercise();
+		} else {
+			this.exercise.markAsTouched();
+			this.program.markAsTouched();
 		}
 	}
 
