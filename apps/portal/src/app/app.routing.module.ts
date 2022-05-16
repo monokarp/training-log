@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoutes } from './app.routes.enum';
-import { UserLoggedIn } from './auth/auth.route-guard';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './pages/login/login.component';
+import { UserLoggedIn } from './shared/auth/auth.route-guard';
 
 const routes: Routes = [
 	{
@@ -16,17 +16,17 @@ const routes: Routes = [
 	},
 	{
 		path: AppRoutes.Program,
-		loadChildren: () => import('./program/program.module').then(m => m.ProgramModule),
+		loadChildren: () => import('./pages/program/program.module').then(m => m.ProgramModule),
 		canActivate: [UserLoggedIn],
 	},
 	{
 		path: AppRoutes.Stats,
-		loadChildren: () => import('./stats/stats.module').then(m => m.StatsModule),
+		loadChildren: () => import('./pages/stats/stats.module').then(m => m.StatsModule),
 		canActivate: [UserLoggedIn],
 	},
 	{
 		path: AppRoutes.Admin,
-		loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+		loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminModule),
 		canActivate: [UserLoggedIn],
 	},
 ];
