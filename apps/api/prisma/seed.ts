@@ -12,11 +12,11 @@ async function main() {
 		data: [{ code: 'en-US' }, { code: 'ru-RU' }],
 	});
 
-	const user = await prisma.user.create({
+	const traineeUser = await prisma.user.create({
 		data: {
-			name: 'Олег',
-			id: 'mnk',
-			password: await bcrypt.hash('mnk', Number(env.SALT_ROUNDS)),
+			name: 'Trainee User',
+			id: 'trainee',
+			password: await bcrypt.hash('trainee', Number(env.SALT_ROUNDS)),
 			UserPreferences: {
 				create: { unit: 'kg', localeCode: 'en-US' },
 			},
@@ -38,27 +38,28 @@ async function main() {
 					],
 				},
 			},
+			PersonalBest: {
+				createMany: {
+					data: [
+						{ exerciseId: 'squat', starting: '2022-01-01T00:00:00.000Z', weight: 210 },
+						{ exerciseId: 'bench', starting: '2022-01-01T00:00:00.000Z', weight: 145 },
+						{ exerciseId: 'deadlift', starting: '2022-01-01T00:00:00.000Z', weight: 230 },
+					],
+				},
+			},
 		},
-	});
-
-	await prisma.personalBest.createMany({
-		data: [
-			{ userId: user.id, exerciseId: 'squat', starting: '2022-01-01T00:00:00.000Z', weight: 210 },
-			{ userId: user.id, exerciseId: 'bench', starting: '2022-01-01T00:00:00.000Z', weight: 145 },
-			{ userId: user.id, exerciseId: 'deadlift', starting: '2022-01-01T00:00:00.000Z', weight: 230 },
-		],
 	});
 
 	await prisma.workout.create({
 		data: {
-			userId: user.id,
+			userId: traineeUser.id,
 			date: '2022-01-01T00:00:00.000Z',
 			comment: 'This is the initially seeded workout',
 			WorkItem: {
 				createMany: {
 					data: [
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'squat',
 							order: 0,
 							sets: 1,
@@ -66,7 +67,7 @@ async function main() {
 							weight: 70,
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'squat',
 							order: 1,
 							sets: 1,
@@ -74,7 +75,7 @@ async function main() {
 							weight: 120,
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'squat',
 							order: 2,
 							sets: 3,
@@ -83,7 +84,7 @@ async function main() {
 							comment: 'Missed last rep',
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'deadlift',
 							order: 3,
 							sets: 1,
@@ -91,7 +92,7 @@ async function main() {
 							weight: 70,
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'deadlift',
 							order: 4,
 							sets: 1,
@@ -99,7 +100,7 @@ async function main() {
 							weight: 120,
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'deadlift',
 							order: 5,
 							sets: 1,
@@ -107,7 +108,7 @@ async function main() {
 							weight: 170,
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'deadlift',
 							order: 6,
 							sets: 1,
@@ -116,7 +117,7 @@ async function main() {
 							comment: 'Felt easy',
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'bench',
 							order: 7,
 							sets: 1,
@@ -124,7 +125,7 @@ async function main() {
 							weight: 70,
 						},
 						{
-							userId: user.id,
+							userId: traineeUser.id,
 							exerciseId: 'bench',
 							order: 8,
 							sets: 5,
@@ -133,6 +134,20 @@ async function main() {
 						},
 					],
 				},
+			},
+		},
+	});
+
+	await prisma.user.create({
+		data: {
+			name: 'Coach User',
+			id: 'coach',
+			password: await bcrypt.hash('coach', Number(env.SALT_ROUNDS)),
+			TraineeManagementRights: {
+				create: { targetId: 'trainee' },
+			},
+			UserPreferences: {
+				create: { unit: 'kg', localeCode: 'ru-RU' },
 			},
 		},
 	});

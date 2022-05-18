@@ -20,6 +20,14 @@ CREATE TABLE "UserPreferences" (
 );
 
 -- CreateTable
+CREATE TABLE "TraineeManagementRights" (
+    "ownerId" TEXT NOT NULL,
+    "targetId" TEXT NOT NULL,
+
+    CONSTRAINT "TraineeManagementRights_pkey" PRIMARY KEY ("ownerId","targetId")
+);
+
+-- CreateTable
 CREATE TABLE "ExerciseType" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
@@ -88,7 +96,13 @@ ALTER TABLE "UserPreferences" ADD CONSTRAINT "UserPreferences_userId_fkey" FOREI
 ALTER TABLE "UserPreferences" ADD CONSTRAINT "UserPreferences_localeCode_fkey" FOREIGN KEY ("localeCode") REFERENCES "Locale"("code") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "TraineeManagementRights" ADD CONSTRAINT "TraineeManagementRights_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "ExerciseType" ADD CONSTRAINT "ExerciseType_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PersonalBest" ADD CONSTRAINT "PersonalBest_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PersonalBest" ADD CONSTRAINT "PersonalBest_userId_exerciseId_fkey" FOREIGN KEY ("userId", "exerciseId") REFERENCES "ExerciseType"("userId", "id") ON DELETE RESTRICT ON UPDATE CASCADE;

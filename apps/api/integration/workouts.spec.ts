@@ -23,7 +23,7 @@ describe(WorkoutModule.name, () => {
 	});
 
 	test('get user workouts', async () => {
-		await getAllWorkouts(app, 'mnk', [
+		await getAllWorkouts(app, 'trainee', [
 			{
 				date: '2022-01-01T00:00:00.000Z',
 				comment: 'This is the initially seeded workout',
@@ -111,7 +111,7 @@ describe(WorkoutModule.name, () => {
 			method: 'POST',
 			url: '/workouts',
 			payload: {
-				userId: 'mnk',
+				userId: 'trainee',
 				date: new Date('2022-02-02T00:00:00.000Z'),
 				comment: 'test workout',
 				sets: [
@@ -157,7 +157,7 @@ describe(WorkoutModule.name, () => {
 
 		const allWorkouts = await app.inject({
 			method: 'GET',
-			url: '/workouts/mnk',
+			url: '/workouts/trainee',
 		});
 
 		expect(allWorkouts.statusCode).toEqual(200);

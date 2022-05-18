@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserWithPreferences } from '@training-log/contracts';
+import { User, UserFullData, UserWithPreferences } from '@training-log/contracts';
 import { Prisma } from '../shared/prisma';
+import { isNotNull } from '@training-log/shared';
 
 @Injectable()
 export class UserRepository {
@@ -10,13 +11,7 @@ export class UserRepository {
 		return this.prisma.user.findUnique({ where: { id } });
 	}
 
-	public async passwordHash(id: string): Promise<string | null> {
-		const data = await this.prisma.user.findUnique({ select: { password: true }, where: { id } });
-
-		return data ? data.password : null;
-	}
-
-	public async withPreferences(id: string): Promise<{ user: UserWithPreferences; pw: string } | null> {
+	public async withPreferences(id: string): Promise<UserWithPreferences | null> {
 		const user = await this.prisma.user.findUnique({
 			where: { id },
 			include: { UserPreferences: true },
@@ -27,13 +22,35 @@ export class UserRepository {
 		}
 
 		return {
-			user: {
-				id: user.id,
-				name: user.name,
-				unit: user.UserPreferences.unit,
-				localeCode: user.UserPreferences.localeCode,
+			id: user.id,
+			name: user.name,
+			unit: user.UserPreferences.unit,
+			localeCode: user.UserPreferences.localeCode,
+		};
+	}
+
+	public async fullData(id: string): Promise<UserFullData | null> {
+		const user = await this.prisma.user.findUnique({
+			where: { id },
+			include: {
+				UserPreferences: true,
+				TraineeManagementRights: true,
 			},
-			pw: user.password,
+		});
+
+		if (!user?.UserPreferences) {
+			return null;
+		}
+
+		return {
+			id: user.id,
+			name: user.name,
+			unit: user.UserPreferences.unit,
+			localeCode: user.UserPreferences.localeCode,
+			password: user.password,
+			trainees: (
+				await Promise.all(user.TraineeManagementRights.map(one => this.withPreferences(one.targetId)))
+			).filter(isNotNull),
 		};
 	}
 }

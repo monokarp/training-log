@@ -29,7 +29,7 @@ describe(AuthModule.name, () => {
 		const result = await app.inject({
 			method: 'POST',
 			url: '/auth',
-			payload: { username: 'mnk', password: 'mnk' },
+			payload: { username: 'coach', password: 'coach' },
 		});
 
 		const responseBody = JSON.parse(result.payload);
@@ -37,11 +37,19 @@ describe(AuthModule.name, () => {
 		expect(result.statusCode).toEqual(201);
 		expect(responseBody).toEqual({
 			user: {
-				name: 'Олег',
-				id: 'mnk',
-				localeCode: 'en-US',
+				name: 'Coach User',
+				id: 'coach',
+				localeCode: 'ru-RU',
 				unit: 'kg',
 			},
+			trainees: [
+				{
+					name: 'Trainee User',
+					id: 'trainee',
+					localeCode: 'en-US',
+					unit: 'kg',
+				},
+			],
 			token: expect.any(String),
 		});
 
@@ -51,14 +59,14 @@ describe(AuthModule.name, () => {
 	test('secured endpoint', async () => {
 		const unauthorized = await app.inject({
 			method: 'GET',
-			url: '/preferences/mnk',
+			url: '/preferences/coach',
 		});
 
 		expect(unauthorized.statusCode).toEqual(401);
 
 		const authorized = await app.inject({
 			method: 'GET',
-			url: '/preferences/mnk',
+			url: '/preferences/coach',
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -66,7 +74,7 @@ describe(AuthModule.name, () => {
 
 		expect(authorized.statusCode).toEqual(200);
 		expect(JSON.parse(authorized.payload)).toEqual({
-			localeCode: 'en-US',
+			localeCode: 'ru-RU',
 			unit: 'kg',
 		});
 	});

@@ -24,7 +24,7 @@ export class ProgramService {
 	) {}
 
 	public async load(): Promise<void> {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			this.programStore.models$.next(this.viewmodel.groupAll(await this.workouts.for(user.id)));
@@ -32,7 +32,7 @@ export class ProgramService {
 	}
 
 	public async createNewSession(): Promise<void> {
-		const trainee = this.sessionStore.activeUser$.getValue();
+		const trainee = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (!trainee) {
 			return;

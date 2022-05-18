@@ -18,8 +18,8 @@ import { LocalStrategy } from './passport-strategies/local';
 		PassportModule,
 		JwtModule.register({
 			secret: env.JWT_SECRET,
-			// TODO 7d
-			signOptions: { expiresIn: '60s' },
+			// TODO add refresh tokens
+			signOptions: { expiresIn: '1d' },
 		}),
 	],
 	controllers: [AuthController],

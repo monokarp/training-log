@@ -15,7 +15,7 @@ export class PreferencesService {
 	) {}
 
 	public async loadStore() {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			this.preferencesStore.units$.next(['kg', 'lbs']);
@@ -24,13 +24,13 @@ export class PreferencesService {
 	}
 
 	public async save(preferences: UserPreferences) {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const result = await this.preferences.updateOne({ userId: user.id, ...preferences });
 
 			if (result) {
-				this.sessionStore.activeUser$.next({
+				this.sessionStore.currentlyManagedUser$.next({
 					...user,
 					localeCode: preferences.localeCode,
 					unit: preferences.unit,

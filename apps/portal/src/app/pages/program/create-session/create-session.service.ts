@@ -9,7 +9,7 @@ export class CreateSession {
 	constructor(private workouts: Workouts, private sessionStore: SessionStore) {}
 
 	public async one(workoutData: NewWorkout): Promise<number | null> {
-		const username = this.sessionStore.activeUser$.getValue()?.id;
+		const username = this.sessionStore.currentlyManagedUser$.getValue()?.id;
 
 		if (!username) {
 			return null;

@@ -25,7 +25,7 @@ describe(PersonalBestModule.name, () => {
 	test('get personal bests for a user', async () => {
 		const result = await app.inject({
 			method: 'GET',
-			url: '/personal-best/mnk',
+			url: '/personal-best/trainee',
 		});
 
 		expect(result.statusCode).toEqual(200);

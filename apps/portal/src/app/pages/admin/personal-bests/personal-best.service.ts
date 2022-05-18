@@ -13,7 +13,7 @@ export class PersonalBestService {
 	) {}
 
 	public async loadStore() {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const entitites = await this.personalBests.allFor(user.id);
@@ -22,7 +22,7 @@ export class PersonalBestService {
 	}
 
 	public async create(data: PersonalBestData) {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const result = await this.personalBests.create({ userId: user.id, ...data });
@@ -41,7 +41,7 @@ export class PersonalBestService {
 	}
 
 	public async delete(id: number) {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const result = await this.personalBests.delete(id);

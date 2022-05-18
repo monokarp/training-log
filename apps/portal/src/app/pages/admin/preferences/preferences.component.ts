@@ -23,7 +23,7 @@ export class PreferencesComponent implements OnInit {
 	public async ngOnInit() {
 		await this.service.loadStore();
 
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			this.unit.setValue(user.unit);

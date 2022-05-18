@@ -13,7 +13,7 @@ export class TranslationsService {
 	) {}
 
 	public async loadStore() {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const [entitites, locales] = await Promise.all([
@@ -41,7 +41,7 @@ export class TranslationsService {
 	}
 
 	public async updateOne(data: TranslationData) {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const result = await this.translations.updateOne({ userId: user.id, ...data });

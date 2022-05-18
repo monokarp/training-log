@@ -12,11 +12,13 @@ model User {
     name     String
     password String
 
-    ExerciseType    ExerciseType[]
-    Translation     Translation[]
-    UserPreferences UserPreferences?
-    Workout         Workout[]
-    WorkItem        WorkItem[]
+    ExerciseType            ExerciseType[]
+    Translation             Translation[]
+    UserPreferences         UserPreferences?
+    Workout                 Workout[]
+    WorkItem                WorkItem[]
+    TraineeManagementRights TraineeManagementRights[]
+    PersonalBest            PersonalBest[]
 }
 
 model UserPreferences {
@@ -26,6 +28,15 @@ model UserPreferences {
 
     Locale Locale @relation(fields: [localeCode], references: [code])
     User   User   @relation(fields: [userId], references: [id])
+}
+
+model TraineeManagementRights {
+    ownerId  String
+    targetId String
+
+    Owner User @relation(fields: [ownerId], references: [id])
+
+    @@id([ownerId, targetId])
 }
 
 model ExerciseType {
@@ -47,6 +58,7 @@ model PersonalBest {
     starting   DateTime
     weight     Int      @db.SmallInt
 
+    User         User         @relation(fields: [userId], references: [id])
     ExerciseType ExerciseType @relation(fields: [userId, exerciseId], references: [userId, id])
 }
 

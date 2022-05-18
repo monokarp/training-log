@@ -8,7 +8,7 @@ export class MenuService {
 	constructor(private sessionStore: SessionStore) {}
 
 	public tabs$(): Observable<{ id: string; text: string }[]> {
-		return this.sessionStore.activeUser$.pipe(
+		return this.sessionStore.currentlyManagedUser$.pipe(
 			map(user =>
 				user
 					? [

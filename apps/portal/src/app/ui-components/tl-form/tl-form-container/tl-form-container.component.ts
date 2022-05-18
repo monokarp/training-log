@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { TlNotification } from '../tl-notification';
 import { TlNotificationComponent } from '../tl-notification/tl-notification.component';
 

@@ -23,7 +23,8 @@
 		"strict": true,
 		"target": "es2019",
 		"paths": {
-			"@training-log/contracts": ["libs/contracts/src/index.ts"]
+			"@training-log/contracts": ["libs/contracts/src/index.ts"],
+			"@training-log/shared": ["libs/shared/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ExerciseType } from '@training-log/contracts';
 import { filter, map, Observable, startWith } from 'rxjs';
-import { isNonEmptyString } from '../../../shared/core/type-guards/is-string';
+import { isNonEmptyString } from '@training-log/shared';
 
 @Component({
 	selector: 'portal-exercise-select',

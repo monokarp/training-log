@@ -14,7 +14,9 @@ export class WorkoutCardComponent {
 	constructor(private sessionStore: SessionStore) {}
 
 	public format(one: Set) {
-		return `${one.sets} x ${one.reps} @ ${one.weight}${this.sessionStore.activeUser$.getValue()?.unit ?? ''}`;
+		return `${one.sets} x ${one.reps} @ ${one.weight}${
+			this.sessionStore.currentlyManagedUser$.getValue()?.unit ?? ''
+		}`;
 	}
 
 	public format1RM(one: Set): string {

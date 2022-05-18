@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserWithPreferences } from '@training-log/contracts';
+import { User, UserFullData } from '@training-log/contracts';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class UserService {
 		return this.userRepository.one(id);
 	}
 
-	public async withPreferences(id: string): Promise<{ user: UserWithPreferences; pw: string } | null> {
-		return this.userRepository.withPreferences(id);
+	public async fullData(id: string): Promise<UserFullData | null> {
+		return this.userRepository.fullData(id);
 	}
 }

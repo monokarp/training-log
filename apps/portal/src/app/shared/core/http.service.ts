@@ -37,7 +37,7 @@ export class HttpService {
 				timeout(this.timeout),
 				catchError((err: HttpErrorResponse) => {
 					if (err.status === HttpStatusCode.Unauthorized) {
-						this.sessionStore.activeUser$.next(null);
+						this.sessionStore.currentlyManagedUser$.next(null);
 						this.sessionStore.authToken$.next(null);
 						this.navigation.open(AppRoutes.Login);
 					}

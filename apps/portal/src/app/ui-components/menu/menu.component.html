@@ -6,8 +6,9 @@
 		{{ tab.text }}
 	</div>
 	<div
-		*ngIf="sessionStore.activeUser$ | async as user"
+		*ngIf="userData$ | async as userData"
 		class="username">
-		Logged in as {{ user.id }}
+		<div>Logged in as {{ userData.user.name }}</div>
+		<div *ngIf="userData.user.id !== userData.trainee.id">Currently managing {{ userData.trainee.name }}</div>
 	</div>
 </div>

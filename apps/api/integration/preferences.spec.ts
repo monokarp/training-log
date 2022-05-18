@@ -23,7 +23,7 @@ describe(PreferencesModule.name, () => {
 	});
 
 	test('get preferences', async () => {
-		getPreferences(app, 'mnk', {
+		getPreferences(app, 'trainee', {
 			localeCode: 'en-US',
 			unit: 'kg',
 		});
@@ -34,7 +34,7 @@ describe(PreferencesModule.name, () => {
 			method: 'PUT',
 			url: '/preferences',
 			payload: {
-				userId: 'mnk',
+				userId: 'trainee',
 				localeCode: 'ru-RU',
 				unit: 'lbs',
 			},
@@ -42,7 +42,7 @@ describe(PreferencesModule.name, () => {
 
 		expect(result.statusCode).toEqual(200);
 
-		getPreferences(app, 'mnk', {
+		getPreferences(app, 'trainee', {
 			localeCode: 'ru-RU',
 			unit: 'lbs',
 		});

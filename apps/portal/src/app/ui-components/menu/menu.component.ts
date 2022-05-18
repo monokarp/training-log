@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter, map } from 'rxjs/operators';
+import { isNotNull } from '@training-log/shared';
+import { combineLatest } from 'rxjs';
+import { filter, map, startWith } from 'rxjs/operators';
 import { AppRoutes } from '../../app.routes.enum';
 import { SessionStore } from '../../pages/login/session.store';
 import { NavigationService } from '../../shared/core/navigation.service';
@@ -17,6 +19,14 @@ export class MenuComponent {
 	public currentPage$ = this.router.events.pipe(
 		filter(isNavigationEnd),
 		map(event => event.urlAfterRedirects),
+	);
+
+	public userData$ = combineLatest([
+		this.sessionStore.activeUser$.pipe(filter(isNotNull)),
+		this.sessionStore.currentlyManagedUser$.pipe(filter(isNotNull)),
+	]).pipe(
+		map(([user, trainee]) => ({ user, trainee })),
+		startWith(null),
 	);
 
 	public readonly routes = [

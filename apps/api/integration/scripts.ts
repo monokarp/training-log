@@ -24,6 +24,7 @@ export async function clearTables(clientInstance: PrismaClient) {
 	await clientInstance.translation.deleteMany();
 	await clientInstance.exerciseType.deleteMany();
 	await clientInstance.userPreferences.deleteMany();
+	await clientInstance.traineeManagementRights.deleteMany();
 	await clientInstance.user.deleteMany();
 	await clientInstance.locale.deleteMany();
 }

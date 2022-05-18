@@ -24,7 +24,7 @@ describe(ExerciseModule.name, () => {
 	});
 
 	test('get all user exercise types', async () => {
-		await getAllExercises(app, 'mnk', [
+		await getAllExercises(app, 'trainee', [
 			{ id: 'bench', name: 'Bench Press' },
 			{ id: 'deadlift', name: 'Deadlift' },
 			{ id: 'squat', name: 'Squat' },
@@ -34,7 +34,7 @@ describe(ExerciseModule.name, () => {
 	test('get all including personal bests', async () => {
 		const result = await app.inject({
 			method: 'GET',
-			url: '/exercises/withpb/mnk',
+			url: '/exercises/withpb/trainee',
 		});
 
 		expect(result.statusCode).toEqual(200);
@@ -50,7 +50,7 @@ describe(ExerciseModule.name, () => {
 			method: 'PUT',
 			url: '/exercises/create',
 			payload: {
-				userId: 'mnk',
+				userId: 'trainee',
 				localeCode: 'en-US',
 				id: 'squat_p',
 				name: 'Paused Squat',
@@ -59,7 +59,7 @@ describe(ExerciseModule.name, () => {
 
 		expect(result.statusCode).toEqual(201);
 
-		await getAllExercises(app, 'mnk', [
+		await getAllExercises(app, 'trainee', [
 			{ id: 'bench', name: 'Bench Press' },
 			{ id: 'deadlift', name: 'Deadlift' },
 			{ id: 'squat', name: 'Squat' },
@@ -71,12 +71,12 @@ describe(ExerciseModule.name, () => {
 		const result = await app.inject({
 			method: 'DELETE',
 			url: '/exercises',
-			payload: { userId: 'mnk', id: 'squat_p' },
+			payload: { userId: 'trainee', id: 'squat_p' },
 		});
 
 		expect(result.statusCode).toEqual(200);
 
-		await getAllExercises(app, 'mnk', [
+		await getAllExercises(app, 'trainee', [
 			{ id: 'bench', name: 'Bench Press' },
 			{ id: 'deadlift', name: 'Deadlift' },
 			{ id: 'squat', name: 'Squat' },
@@ -87,7 +87,7 @@ describe(ExerciseModule.name, () => {
 		const result = await app.inject({
 			method: 'DELETE',
 			url: '/exercises',
-			payload: { userId: 'mnk', id: 'squat' },
+			payload: { userId: 'trainee', id: 'squat' },
 		});
 
 		expect(result.statusCode).toEqual(409);

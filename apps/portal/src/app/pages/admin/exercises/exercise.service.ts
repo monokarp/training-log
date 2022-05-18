@@ -15,7 +15,7 @@ export class ExerciseService {
 	) {}
 
 	public async loadStore() {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const entitites = await this.exercises.allFor(user.id);
@@ -28,7 +28,7 @@ export class ExerciseService {
 	}
 
 	public async createNew(id: string, name: string) {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const result = await this.exercises.create({
@@ -49,7 +49,7 @@ export class ExerciseService {
 	}
 
 	public async delete(id: string) {
-		const user = this.sessionStore.activeUser$.getValue();
+		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
 			const result = await this.exercises.delete({

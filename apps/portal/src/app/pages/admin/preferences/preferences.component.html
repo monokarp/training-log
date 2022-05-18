@@ -39,7 +39,7 @@
 	<tl-form-section type="list">
 		<tl-form-field>
 			<tl-form-list>
-				<tl-form-list-item *ngIf="sessionStore.activeUser$ | async as user">
+				<tl-form-list-item *ngIf="sessionStore.currentlyManagedUser$ | async as user">
 					<tl-form-list-info>
 						<div>User: {{ user.id }}</div>
 						<div>Units: {{ user.unit }}</div>

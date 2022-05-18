@@ -4,6 +4,7 @@
 		"api": "apps/api",
 		"contracts": "libs/contracts",
 		"portal": "apps/portal",
-		"portal-e2e": "apps/portal-e2e"
+		"portal-e2e": "apps/portal-e2e",
+		"shared": "libs/shared"
 	}
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserWithPreferences } from '@training-log/contracts';
+import { UserFullData } from '@training-log/contracts';
 import { UserService } from '../user/user.service';
 import { CryptoService } from './crypto.service';
 import { JwtService } from '@nestjs/jwt';
@@ -12,21 +12,21 @@ export class AuthService {
 		private jwtService: JwtService,
 	) {}
 
-	public async validate(id: string, pw: string): Promise<UserWithPreferences | null> {
-		const userData = await this.userService.withPreferences(id);
+	public async validate(id: string, pw: string): Promise<UserFullData | null> {
+		const userData = await this.userService.fullData(id);
 
 		if (!userData) {
 			return null;
 		}
 
-		if (!(await this.cryptoService.compare(pw, userData.pw))) {
+		if (!(await this.cryptoService.compare(pw, userData.password))) {
 			return null;
 		}
 
-		return userData.user;
+		return userData;
 	}
 
-	public login(user: UserWithPreferences): string {
+	public login(user: UserFullData): string {
 		const payload = { sub: user.id };
 
 		return this.jwtService.sign(payload);
