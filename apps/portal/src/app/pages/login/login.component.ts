@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { AppRoutes } from '../../app.routes.enum';
 import { AuthService } from '../../shared/auth/auth.service';
 import { NavigationService } from '../../shared/core/navigation.service';
@@ -12,7 +12,8 @@ import { SessionStore } from './session.store';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-	public username = new FormControl();
+	public username = new FormControl('', [Validators.required]);
+	public password = new FormControl('', [Validators.required]);
 
 	constructor(
 		private sessionStore: SessionStore,
@@ -21,14 +22,16 @@ export class LoginComponent {
 	) {}
 
 	public async onUserSelect() {
-		if (!this.username.value) {
+		if (this.username.invalid || this.password.invalid) {
 			return;
 		}
 
-		const userData = await this.authService.login(this.username.value);
+		// TODO move to auth svc?
+		const userData = await this.authService.login(this.username.value, this.password.value);
 
 		if (userData) {
-			this.sessionStore.activeUser$.next(userData);
+			this.sessionStore.activeUser$.next(userData.user);
+			this.sessionStore.authToken$.next(userData.token);
 
 			this.navigation.open(AppRoutes.Program);
 		}

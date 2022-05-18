@@ -18,8 +18,8 @@ export class ExerciseController {
 
 	@Put('create')
 	@HttpCode(HttpStatus.CREATED)
-	public async create(@Body() body: { data: NewExerciseData }): Promise<{ id: string }> {
-		const id = await this.exerciseService.create(body.data);
+	public async create(@Body() body: NewExerciseData): Promise<{ id: string }> {
+		const id = await this.exerciseService.create(body);
 
 		return { id };
 	}

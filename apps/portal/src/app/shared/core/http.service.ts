@@ -1,28 +1,62 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom, Observable, timeout } from 'rxjs';
+import { catchError, firstValueFrom, Observable, throwError, timeout } from 'rxjs';
+import { AppRoutes } from '../../app.routes.enum';
+import { SessionStore } from '../../pages/login/session.store';
+import { NavigationService } from './navigation.service';
 
 @Injectable()
 export class HttpService {
-	constructor(private http: HttpClient) {}
+	private readonly timeout = 1000;
 
-	public get<R = unknown>(url: string): Promise<R> {
-		return this.request(this.http.get(url)) as Promise<R>;
+	private get authToken() {
+		return this.sessionStore.authToken$.getValue();
 	}
 
-	public post<D>(url: string, data: D): Promise<unknown> {
-		return this.request(this.http.post(url, { data }));
+	constructor(private http: HttpClient, private sessionStore: SessionStore, private navigation: NavigationService) {}
+
+	public get<R = unknown>(url: string): Promise<R> {
+		return this.request(this.http.get(url, this.options())) as Promise<R>;
+	}
+
+	public post<D, R = unknown>(url: string, data: D): Promise<R> {
+		return this.request(this.http.post(url, data, this.options())) as Promise<R>;
 	}
 
 	public put<D, R>(url: string, data: D): Promise<R> {
-		return this.request(this.http.put<R>(url, { data }));
+		return this.request(this.http.put<R>(url, data, this.options()));
 	}
 
 	public delete<D>(url: string, data: D) {
-		return this.request(this.http.delete(url, { body: data }));
+		return this.request(this.http.delete(url, { ...this.options(), body: data }));
 	}
 
 	private request<T>(source: Observable<T>): Promise<T> {
-		return firstValueFrom(source.pipe(timeout(1000)));
+		return firstValueFrom(
+			source.pipe(
+				timeout(this.timeout),
+				catchError((err: HttpErrorResponse) => {
+					if (err.status === HttpStatusCode.Unauthorized) {
+						this.sessionStore.activeUser$.next(null);
+						this.sessionStore.authToken$.next(null);
+						this.navigation.open(AppRoutes.Login);
+					}
+
+					return throwError(() => err);
+				}),
+			),
+		);
+	}
+
+	private options() {
+		return { headers: this.headers() };
+	}
+
+	private headers(headers: Record<string, string> = {}): HttpHeaders {
+		if (this.authToken) {
+			headers['Authorization'] = `Bearer ${this.authToken}`;
+		}
+
+		return new HttpHeaders(headers);
 	}
 }

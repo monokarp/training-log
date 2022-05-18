@@ -7,7 +7,10 @@ export class PreferencesRepository {
 	constructor(private prisma: Prisma) {}
 
 	public async for(userId: string): Promise<UserPreferences> {
-		const prefs = await this.prisma.userPreferences.findUnique({ where: { userId } });
+		const prefs = await this.prisma.userPreferences.findUnique({
+			select: { unit: true, localeCode: true },
+			where: { userId },
+		});
 
 		if (!prefs) {
 			throw new Error(`No preferences for user ${userId}`);

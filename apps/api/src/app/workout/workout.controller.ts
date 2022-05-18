@@ -17,8 +17,8 @@ export class WorkoutController {
 	}
 
 	@Post()
-	public async create(@Body() body: { data: CreateWorkoutData }): Promise<{ id: number }> {
-		const id = await this.workoutService.create(body.data);
+	public async create(@Body() body: CreateWorkoutData): Promise<{ id: number }> {
+		const id = await this.workoutService.create(body);
 
 		return { id };
 	}

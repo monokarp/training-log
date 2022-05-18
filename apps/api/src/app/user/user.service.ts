@@ -10,7 +10,7 @@ export class UserService {
 		return this.userRepository.one(id);
 	}
 
-	public async withPreferences(id: string): Promise<UserWithPreferences | null> {
+	public async withPreferences(id: string): Promise<{ user: UserWithPreferences; pw: string } | null> {
 		return this.userRepository.withPreferences(id);
 	}
 }

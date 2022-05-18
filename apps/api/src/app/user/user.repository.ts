@@ -10,7 +10,13 @@ export class UserRepository {
 		return this.prisma.user.findUnique({ where: { id } });
 	}
 
-	public async withPreferences(id: string): Promise<UserWithPreferences | null> {
+	public async passwordHash(id: string): Promise<string | null> {
+		const data = await this.prisma.user.findUnique({ select: { password: true }, where: { id } });
+
+		return data ? data.password : null;
+	}
+
+	public async withPreferences(id: string): Promise<{ user: UserWithPreferences; pw: string } | null> {
 		const user = await this.prisma.user.findUnique({
 			where: { id },
 			include: { UserPreferences: true },
@@ -21,10 +27,13 @@ export class UserRepository {
 		}
 
 		return {
-			id: user.id,
-			name: user.name,
-			unit: user.UserPreferences.unit,
-			localeCode: user.UserPreferences.localeCode,
+			user: {
+				id: user.id,
+				name: user.name,
+				unit: user.UserPreferences.unit,
+				localeCode: user.UserPreferences.localeCode,
+			},
+			pw: user.password,
 		};
 	}
 }

@@ -5,4 +5,5 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class SessionStore {
 	public readonly activeUser$ = new BehaviorSubject<UserWithPreferences | null>(null);
+	public readonly authToken$ = new BehaviorSubject<string | null>(null);
 }

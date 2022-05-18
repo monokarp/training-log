@@ -5,12 +5,21 @@
 			src="assets/images/login-bg.jpeg" />
 		<div class="input">
 			<mat-form-field
-				class="username"
+				class="field"
 				appearance="standard">
 				<input
 					matInput
-					placeholder="Login with username"
+					placeholder="Username"
 					[formControl]="username" />
+			</mat-form-field>
+			<mat-form-field
+				class="field"
+				appearance="standard">
+				<input
+					matInput
+					type="password"
+					placeholder="Password"
+					[formControl]="password" />
 			</mat-form-field>
 			<button
 				class="login-btn"

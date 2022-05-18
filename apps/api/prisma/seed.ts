@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
+import { env } from 'process';
 import { clearTables } from '../integration/scripts';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -14,6 +16,7 @@ async function main() {
 		data: {
 			name: 'Олег',
 			id: 'mnk',
+			password: await bcrypt.hash('mnk', Number(env.SALT_ROUNDS)),
 			UserPreferences: {
 				create: { unit: 'kg', localeCode: 'en-US' },
 			},

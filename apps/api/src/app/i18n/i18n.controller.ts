@@ -18,8 +18,8 @@ export class I18nController {
 	}
 
 	@Put('translations')
-	public async updateOne(@Body() body: { data: UpdateTranslationData }, @Res() res: FastifyResponse): Promise<void> {
-		const createdNew = await this.i18nService.upsertOne(body.data);
+	public async updateOne(@Body() body: UpdateTranslationData, @Res() res: FastifyResponse): Promise<void> {
+		const createdNew = await this.i18nService.upsertOne(body);
 
 		res.status(createdNew ? HttpStatus.CREATED : HttpStatus.OK).send();
 	}

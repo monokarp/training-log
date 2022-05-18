@@ -6,11 +6,14 @@ import { HttpService } from '../core/http.service';
 export class AuthService {
 	constructor(private httpService: HttpService) {}
 
-	public async login(userId: string): Promise<UserWithPreferences | null> {
+	public async login(userId: string, password: string): Promise<{ user: UserWithPreferences; token: string } | null> {
 		try {
-			const result = await this.httpService.post(`/api/auth`, { id: userId });
+			const data = await this.httpService.post<
+				{ username: string; password: string },
+				{ user: UserWithPreferences; token: string }
+			>(`/api/auth`, { username: userId, password });
 
-			return (result as UserWithPreferences) ?? null;
+			return data;
 		} catch (err) {
 			return null;
 		}

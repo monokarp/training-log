@@ -50,12 +50,10 @@ describe(ExerciseModule.name, () => {
 			method: 'PUT',
 			url: '/exercises/create',
 			payload: {
-				data: {
-					userId: 'mnk',
-					localeCode: 'en-US',
-					id: 'squat_p',
-					name: 'Paused Squat',
-				},
+				userId: 'mnk',
+				localeCode: 'en-US',
+				id: 'squat_p',
+				name: 'Paused Squat',
 			},
 		});
 
@@ -93,7 +91,7 @@ describe(ExerciseModule.name, () => {
 		});
 
 		expect(result.statusCode).toEqual(409);
-		expect(JSON.parse(result.payload).error).toEqual('This exercise is referred to by 3 existing work items');
+		expect(JSON.parse(result.payload).message).toEqual('This exercise is referred to by 3 existing work items');
 	});
 });
 

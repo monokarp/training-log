@@ -13,8 +13,8 @@ export class PersonalBestController {
 
 	@Put()
 	@HttpCode(HttpStatus.CREATED)
-	public async create(@Body() body: { data: CreatePersonalBestData }): Promise<number> {
-		return this.personalBestService.create(body.data);
+	public async create(@Body() body: CreatePersonalBestData): Promise<number> {
+		return this.personalBestService.create(body);
 	}
 
 	@Delete()

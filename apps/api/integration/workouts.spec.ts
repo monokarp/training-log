@@ -111,15 +111,13 @@ describe(WorkoutModule.name, () => {
 			method: 'POST',
 			url: '/workouts',
 			payload: {
-				data: {
-					userId: 'mnk',
-					date: new Date('2022-02-02T00:00:00.000Z'),
-					comment: 'test workout',
-					sets: [
-						{ exerciseId: 'squat', order: 0, sets: 5, reps: 5, weight: 160, comment: 'LIGHT WEIGHT BABY' },
-						{ exerciseId: 'deadlift', order: 1, sets: 1, reps: 10, weight: 200 },
-					],
-				},
+				userId: 'mnk',
+				date: new Date('2022-02-02T00:00:00.000Z'),
+				comment: 'test workout',
+				sets: [
+					{ exerciseId: 'squat', order: 0, sets: 5, reps: 5, weight: 160, comment: 'LIGHT WEIGHT BABY' },
+					{ exerciseId: 'deadlift', order: 1, sets: 1, reps: 10, weight: 200 },
+				],
 			},
 		});
 

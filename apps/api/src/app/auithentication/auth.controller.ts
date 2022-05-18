@@ -1,13 +1,23 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Request, Controller, Post, UseGuards } from '@nestjs/common';
 import { UserWithPreferences } from '@training-log/contracts';
-import { UserService } from '../user/user.service';
+import { SkipJwtAuth } from './skip-jwt-auth.decorator';
+import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './guards/local.guard';
 
 @Controller('auth')
 export class AuthController {
-	constructor(private userService: UserService) {}
+	constructor(private authService: AuthService) {}
 
 	@Post()
-	public authenticate(@Body() body: { data: { id: string } }): Promise<UserWithPreferences | null> {
-		return this.userService.withPreferences(body.data.id);
+	@SkipJwtAuth()
+	@UseGuards(LocalAuthGuard)
+	public authenticate(@Request() req: unknown & { user: UserWithPreferences }): {
+		user: UserWithPreferences;
+		token: string;
+	} {
+		return {
+			user: req.user,
+			token: this.authService.login(req.user),
+		};
 	}
 }

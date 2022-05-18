@@ -6,13 +6,13 @@ import { PreferencesService } from './preferences.service';
 export class PreferencesController {
 	constructor(private preferencesService: PreferencesService) {}
 
-	@Get()
+	@Get(':userId')
 	public preferencesFor(@Param('userId') userId: string): Promise<UserPreferences> {
 		return this.preferencesService.for(userId);
 	}
 
 	@Put()
-	public async updatePreferencesFor(@Body() body: { data: PreferencesUpdateData }): Promise<void> {
-		return this.preferencesService.updateOne(body.data);
+	public async updatePreferencesFor(@Body() body: PreferencesUpdateData): Promise<void> {
+		return this.preferencesService.updateOne(body);
 	}
 }

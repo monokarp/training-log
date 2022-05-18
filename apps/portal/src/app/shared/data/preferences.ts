@@ -8,7 +8,7 @@ export class Preferences {
 
 	public async for(userId: string): Promise<UserPreferences> {
 		try {
-			const result = await this.httpService.get(`/api/preferences${userId}`);
+			const result = await this.httpService.get(`/api/preferences/${userId}`);
 
 			return result as UserPreferences;
 		} catch (err) {
