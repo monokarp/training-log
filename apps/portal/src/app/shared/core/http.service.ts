@@ -1,9 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, Observable, throwError, timeout } from 'rxjs';
-import { AppRoutes } from '../../app.routes.enum';
+import { SessionService } from '../../pages/login/session.service';
 import { SessionStore } from '../../pages/login/session.store';
-import { NavigationService } from './navigation.service';
 
 @Injectable()
 export class HttpService {
@@ -13,7 +12,7 @@ export class HttpService {
 		return this.sessionStore.authToken$.getValue();
 	}
 
-	constructor(private http: HttpClient, private sessionStore: SessionStore, private navigation: NavigationService) {}
+	constructor(private http: HttpClient, private sessionStore: SessionStore, private sessionService: SessionService) {}
 
 	public get<R = unknown>(url: string): Promise<R> {
 		return this.request(this.http.get(url, this.options())) as Promise<R>;
@@ -37,9 +36,7 @@ export class HttpService {
 				timeout(this.timeout),
 				catchError((err: HttpErrorResponse) => {
 					if (err.status === HttpStatusCode.Unauthorized) {
-						this.sessionStore.currentlyManagedUser$.next(null);
-						this.sessionStore.authToken$.next(null);
-						this.navigation.open(AppRoutes.Login);
+						this.sessionService.logout();
 					}
 
 					return throwError(() => err);

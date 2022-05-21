@@ -6,5 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 export class SessionStore {
 	public readonly currentlyManagedUser$ = new BehaviorSubject<UserWithPreferences | null>(null);
 	public readonly activeUser$ = new BehaviorSubject<UserWithPreferences | null>(null);
+	public readonly trainees$ = new BehaviorSubject<UserWithPreferences[]>([]);
 	public readonly authToken$ = new BehaviorSubject<string | null>(null);
 }

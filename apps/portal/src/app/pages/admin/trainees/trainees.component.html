@@ -1,0 +1,56 @@
+<tl-form-container>
+	<tl-form-section type="form">
+		<tl-form-field>
+			<mat-label>Show:</mat-label>
+			<mat-radio-group
+				class="options"
+				color="primary"
+				value="{{ mode.getValue() }}">
+				<mat-radio-button
+					*ngFor="let one of displayModes"
+					[value]="one"
+					(change)="onModeSelect($event)"
+					>{{ one }}
+				</mat-radio-button>
+			</mat-radio-group>
+		</tl-form-field>
+		<tl-form-field>
+			<mat-form-field appearance="standard">
+				<input
+					matInput
+					placeholder="User Id"
+					[formControl]="userId" />
+				<mat-error *ngIf="userId.hasError('required')">Required</mat-error>
+				<mat-error *ngIf="userId.hasError('invalidUserId')">TODO update text</mat-error>
+			</mat-form-field>
+		</tl-form-field>
+		<tl-form-field type="footer">
+			<tl-form-action
+				*ngIf="(mode | async) === 'Coaches'"
+				text="Add"
+				icon="add"
+				(click)="add()">
+			</tl-form-action>
+			<tl-form-action
+				text="Revoke"
+				icon="remove"
+				(click)="revoke()">
+			</tl-form-action>
+		</tl-form-field>
+	</tl-form-section>
+	<tl-form-section type="list">
+		<tl-form-field>
+			<tl-form-list>
+				<tl-form-list-item *ngFor="let one of listData$ | async">
+					<tl-form-list-info> {{ one.name }} ({{ one.id }}) </tl-form-list-info>
+					<tl-form-list-actions>
+						<tl-form-list-action
+							icon="arrow_back"
+							(click)="select(one)">
+						</tl-form-list-action>
+					</tl-form-list-actions>
+				</tl-form-list-item>
+			</tl-form-list>
+		</tl-form-field>
+	</tl-form-section>
+</tl-form-container>

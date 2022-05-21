@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
 import { UserAuthResult } from '@training-log/contracts';
-import { SessionStore } from '../../pages/login/session.store';
+import { SessionService } from '../../pages/login/session.service';
 import { HttpService } from '../core/http.service';
 
 @Injectable()
 export class AuthService {
-	constructor(private httpService: HttpService, private sessionStore: SessionStore) {}
+	constructor(private httpService: HttpService, private sessionService: SessionService) {}
 
 	public async login(userId: string, password: string): Promise<boolean> {
 		const userData = await this.requestSession(userId, password);
 
 		if (userData) {
-			this.sessionStore.activeUser$.next(userData.user);
-
-			const [first] = userData.trainees;
-
-			this.sessionStore.currentlyManagedUser$.next(first ? first : userData.user);
-
-			this.sessionStore.authToken$.next(userData.token);
+			this.sessionService.login(userData);
 
 			return true;
 		}

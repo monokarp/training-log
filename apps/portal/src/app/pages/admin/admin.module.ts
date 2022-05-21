@@ -19,6 +19,9 @@ import { CoreModule } from '../../shared/core/core.module';
 import { MatComponentsModule } from '../../ui-components/material/mat-components.module';
 import { MatFormsModule } from '../../ui-components/material/mat-forms.module';
 import { CommonUiModule } from '../../ui-components/common-ui/common-ui.module';
+import { TraineesComponent } from './trainees/trainees.component';
+import { TraineesService } from './trainees/trainees.service';
+import { TraineesStore } from './trainees/trainees.store';
 
 @NgModule({
 	imports: [
@@ -37,6 +40,7 @@ import { CommonUiModule } from '../../ui-components/common-ui/common-ui.module';
 		TranslationsComponent,
 		PreferencesComponent,
 		PersonalBestComponent,
+		TraineesComponent,
 	],
 	providers: [
 		ExercisesStore,
@@ -47,6 +51,8 @@ import { CommonUiModule } from '../../ui-components/common-ui/common-ui.module';
 		TranslationsService,
 		PreferencesStore,
 		PreferencesService,
+		TraineesService,
+		TraineesStore,
 	],
 })
 export class AdminModule {}

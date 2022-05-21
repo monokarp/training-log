@@ -11,7 +11,8 @@
 		"lint": "npx nx run-many --target=lint --all",
 		"pg:start": "docker-compose up -d",
 		"db:migrate": "npx prisma migrate dev --preview-feature --skip-generate --name \"init\"",
-		"test:api": "nx test api --skip-nx-cache -- --runInBand"
+		"db:seed": "npx prisma db seed",
+		"test:api": "npm run db:seed && nx test api --skip-nx-cache -- --runInBand"
 	},
 	"private": true,
 	"prisma": {

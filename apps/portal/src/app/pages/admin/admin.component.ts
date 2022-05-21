@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AdminRoutes } from './admin.routes.enum';
 
 @Component({
@@ -14,8 +13,7 @@ export class AdminComponent {
 		{ path: AdminRoutes.PersonalBests, name: 'Personal Bests' },
 		{ path: AdminRoutes.Preferences, name: 'Preferences' },
 		{ path: AdminRoutes.Translations, name: 'Translations' },
+		{ path: AdminRoutes.Trainees, name: 'Trainees' },
 	];
 	public activeLink: string = AdminRoutes.Exercises;
-
-	constructor(private router: Router) {}
 }

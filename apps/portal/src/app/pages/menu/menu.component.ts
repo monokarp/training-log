@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserWithPreferences } from '@training-log/contracts';
 import { isNotNull } from '@training-log/shared';
 import { combineLatest } from 'rxjs';
-import { filter, map, startWith } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { AppRoutes } from '../../app.routes.enum';
-import { SessionStore } from '../../pages/login/session.store';
 import { NavigationService } from '../../shared/core/navigation.service';
 import { isNavigationEnd } from '../../shared/core/type-guards/is-navigation-end';
+import { SessionService } from '../login/session.service';
+import { SessionStore } from '../login/session.store';
 import { MenuService } from './menu.service';
 
 @Component({
@@ -21,27 +23,27 @@ export class MenuComponent {
 		map(event => event.urlAfterRedirects),
 	);
 
-	public userData$ = combineLatest([
+	public trainees$ = combineLatest([
 		this.sessionStore.activeUser$.pipe(filter(isNotNull)),
-		this.sessionStore.currentlyManagedUser$.pipe(filter(isNotNull)),
-	]).pipe(
-		map(([user, trainee]) => ({ user, trainee })),
-		startWith(null),
-	);
-
-	public readonly routes = [
-		{ id: AppRoutes.Login, text: 'Login' },
-		{ id: AppRoutes.Program, text: 'Program' },
-		{ id: AppRoutes.Stats, text: 'Stats' },
-		{ id: AppRoutes.Admin, text: 'Admin' },
-	];
+		this.sessionStore.trainees$,
+	]).pipe(map(([user, trainees]) => (trainees.length ? [user, ...trainees] : null)));
 
 	constructor(
 		private router: Router,
 		public menuService: MenuService,
 		private navigation: NavigationService,
 		public sessionStore: SessionStore,
+		private sessionService: SessionService,
 	) {}
+
+	public onTraineeSelect(data: { value: UserWithPreferences }) {
+		// TODO move to svc? consider reactively updating admin subviews on user change
+		this.sessionStore.currentlyManagedUser$.next(data.value);
+	}
+
+	public logout() {
+		this.sessionService.logout();
+	}
 
 	public onTabSelect(value: string) {
 		switch (value) {

@@ -3,4 +3,5 @@ export const enum AdminRoutes {
 	PersonalBests = 'personal-bests',
 	Translations = 'translations',
 	Preferences = 'preferences',
+	Trainees = 'trainees',
 }

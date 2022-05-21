@@ -1,0 +1,6 @@
+@import 'tl-form';
+
+.options {
+	@extend .horiz-flex, .full-width;
+	justify-content: space-evenly;
+}

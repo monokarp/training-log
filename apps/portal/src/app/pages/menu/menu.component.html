@@ -1,0 +1,31 @@
+<div class="container">
+	<div
+		*ngFor="let tab of menuService.tabs$() | async"
+		[ngClass]="{ navlink: true, active: (currentPage$ | async)?.includes(tab.id) }"
+		(click)="onTabSelect(tab.id)">
+		{{ tab.text }}
+	</div>
+	<div
+		*ngIf="sessionStore.activeUser$ | async as user"
+		class="user-info">
+		<div class="label">Logged in as:<br />{{ user.name }}</div>
+		<mat-icon
+			class="logout-btn"
+			(click)="logout()"
+			>exit_to_app</mat-icon
+		>
+		<mat-form-field
+			*ngIf="trainees$ | async as data"
+			class="managed"
+			appearance="standard">
+			<mat-label>Currently managing:</mat-label>
+			<mat-select (selectionChange)="onTraineeSelect($event)">
+				<mat-option
+					*ngFor="let one of data"
+					[value]="one">
+					{{ one.name }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+</div>

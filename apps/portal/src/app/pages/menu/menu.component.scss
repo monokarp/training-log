@@ -1,8 +1,8 @@
 @import 'colors';
+@import 'tl-form';
 
 .container {
-	display: flex;
-	flex-direction: row;
+	@extend .horiz-flex;
 	background-color: $color_white;
 	align-items: center;
 	height: 4rem;
@@ -16,8 +16,22 @@
 		}
 	}
 
-	.username {
+	.user-info {
+		@extend .horiz-flex;
 		margin-left: auto;
 		margin-right: 1rem;
+		align-items: center;
+
+		.label {
+			margin-right: 0.5rem;
+		}
+
+		.logout-btn {
+			margin-right: 2rem;
+		}
+
+		.managed {
+			height: 3.5rem;
+		}
 	}
 }

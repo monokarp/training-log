@@ -5,6 +5,7 @@ import { AdminRoutes } from './admin.routes.enum';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { PersonalBestComponent } from './personal-bests/personal-best.component';
 import { PreferencesComponent } from './preferences/preferences.component';
+import { TraineesComponent } from './trainees/trainees.component';
 import { TranslationsComponent } from './translations/translations.component';
 
 export const routes: Routes = [
@@ -32,6 +33,10 @@ export const routes: Routes = [
 			{
 				path: AdminRoutes.Preferences,
 				component: PreferencesComponent,
+			},
+			{
+				path: AdminRoutes.Trainees,
+				component: TraineesComponent,
 			},
 		],
 	},

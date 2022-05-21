@@ -26,3 +26,13 @@ export interface UserAuthResult {
 	trainees: UserWithPreferences[];
 	token: string;
 }
+
+export interface ManagementRight {
+	ownerId: string;
+	targetId: string;
+}
+
+export interface UserManagementRights {
+	coaches: User[];
+	trainees: User[];
+}
