@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWorkoutData, Workout } from '@training-log/contracts';
+import { NewWorkout, Workout } from '@training-log/contracts';
 import { WorkoutRepository } from './workout.repository';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class WorkoutService {
 		return this.workoutRepository.including1RMs(username);
 	}
 
-	public create(data: CreateWorkoutData) {
+	public create(data: NewWorkout) {
 		return this.workoutRepository.create(data);
 	}
 }

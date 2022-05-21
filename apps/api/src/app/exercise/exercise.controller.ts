@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Put } from '@nestjs/common';
-import { DeleteExerciseData, ExerciseType, ExerciseWithPB, NewExerciseData } from '@training-log/contracts';
+import { ExerciseType, ExerciseWithPB } from '@training-log/contracts';
+import { DeleteExerciseDTO } from './dto/delete-exercise';
+import { NewExerciseDTO } from './dto/new-exercise';
 import { ExerciseService } from './exercise.service';
 
 @Controller('exercises')
@@ -18,14 +20,14 @@ export class ExerciseController {
 
 	@Put('create')
 	@HttpCode(HttpStatus.CREATED)
-	public async create(@Body() body: NewExerciseData): Promise<{ id: string }> {
+	public async create(@Body() body: NewExerciseDTO): Promise<{ id: string }> {
 		const id = await this.exerciseService.create(body);
 
 		return { id };
 	}
 
 	@Delete()
-	public async delete(@Body() body: DeleteExerciseData): Promise<boolean> {
+	public async delete(@Body() body: DeleteExerciseDTO): Promise<boolean> {
 		const error = await this.exerciseService.delete(body);
 
 		if (error) {

@@ -8,14 +8,14 @@ export interface ExerciseWithPB extends ExerciseType {
 	personalBestFrom: Date | null;
 }
 
-export interface NewExerciseData {
+export interface NewExercise {
 	userId: string;
 	localeCode: string;
 	id: string;
 	name: string;
 }
 
-export interface DeleteExerciseData {
+export interface DeleteExercise {
 	userId: string;
 	id: string;
 }

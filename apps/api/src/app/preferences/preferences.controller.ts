@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Put } from '@nestjs/common';
-import { PreferencesUpdateData, UserPreferences } from '@training-log/contracts';
+import { UserPreferences } from '@training-log/contracts';
+import { UpdatePreferencesDTO } from './dto/update-preferences';
 import { PreferencesService } from './preferences.service';
 
 @Controller('preferences')
@@ -12,7 +13,7 @@ export class PreferencesController {
 	}
 
 	@Put()
-	public async updatePreferencesFor(@Body() body: PreferencesUpdateData): Promise<void> {
+	public async updatePreferencesFor(@Body() body: UpdatePreferencesDTO): Promise<void> {
 		return this.preferencesService.updateOne(body);
 	}
 }

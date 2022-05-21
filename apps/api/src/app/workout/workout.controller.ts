@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateWorkoutData, Workout } from '@training-log/contracts';
+import { Workout } from '@training-log/contracts';
+import { NewWorkoutDTO } from './dto/new-workout';
 import { WorkoutService } from './workout.service';
 
 @Controller('workouts')
@@ -17,7 +18,7 @@ export class WorkoutController {
 	}
 
 	@Post()
-	public async create(@Body() body: CreateWorkoutData): Promise<{ id: number }> {
+	public async create(@Body() body: NewWorkoutDTO): Promise<{ id: number }> {
 		const id = await this.workoutService.create(body);
 
 		return { id };

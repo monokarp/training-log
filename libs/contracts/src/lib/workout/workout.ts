@@ -14,14 +14,14 @@ export interface Set {
 	personalBest: number | null;
 }
 
-export interface CreateWorkoutData {
+export interface NewWorkout {
 	userId: string;
 	date: Date;
 	comment?: string;
-	sets: CreateSetData[];
+	sets: NewSet[];
 }
 
-export interface CreateSetData {
+export interface NewSet {
 	exerciseId: string;
 	order: number;
 	sets: number;

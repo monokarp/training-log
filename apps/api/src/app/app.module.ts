@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auithentication/auth.module';
+import { AuthModule } from './auth/auth.module';
 import { ExerciseModule } from './exercise/exercise.module';
 import { I18nModule } from './i18n/i18n.module';
 import { ManagementRightsModule } from './management-rights/management-rights.module';

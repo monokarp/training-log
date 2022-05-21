@@ -8,6 +8,6 @@ export interface PersonalBest extends PersonalBestData {
 	id: number;
 }
 
-export interface CreatePersonalBestData extends PersonalBestData {
+export interface NewPersonalBest extends PersonalBestData {
 	userId: string;
 }

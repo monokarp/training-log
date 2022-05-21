@@ -1,6 +1,6 @@
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
-import { AuthModule } from '../src/app/auithentication/auth.module';
+import { AuthModule } from '../src/app/auth/auth.module';
 import { PreferencesModule } from '../src/app/preferences/preferences.module';
 import { resetDatabase } from './scripts';
 

@@ -1,6 +1,6 @@
 import { Request, Controller, Post, UseGuards } from '@nestjs/common';
 import { UserAuthResult, UserFullData } from '@training-log/contracts';
-import { SkipJwtAuth } from './skip-jwt-auth.decorator';
+import { SkipJwtAuth } from './decorators/skip-jwt-auth';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local.guard';
 
@@ -11,7 +11,7 @@ export class AuthController {
 	@Post()
 	@SkipJwtAuth()
 	@UseGuards(LocalAuthGuard)
-	public authenticate(@Request() req: unknown & { user: UserFullData }): UserAuthResult {
+	public authenticate(@Request() req: Request & { user: UserFullData }): UserAuthResult {
 		// eslint-ignore-next-line @typescript-eslint/no-unused-vars
 		const { password, trainees, ...userData } = req.user;
 

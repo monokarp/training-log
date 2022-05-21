@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Put } from '@nestjs/common';
-import { CreatePersonalBestData, PersonalBest } from '@training-log/contracts';
+import { PersonalBest } from '@training-log/contracts';
+import { CreatePersonalBestDTO } from './dto/create-pb';
 import { PersonalBestService } from './personal-best.service';
 
 @Controller('personal-best')
@@ -13,7 +14,7 @@ export class PersonalBestController {
 
 	@Put()
 	@HttpCode(HttpStatus.CREATED)
-	public async create(@Body() body: CreatePersonalBestData): Promise<number> {
+	public async create(@Body() body: CreatePersonalBestDTO): Promise<number> {
 		return this.personalBestService.create(body);
 	}
 
