@@ -3,6 +3,7 @@ import { UserFullData } from '@training-log/contracts';
 import { UserService } from '../user/user.service';
 import { CryptoService } from './crypto.service';
 import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './jwt-payload.type';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +28,7 @@ export class AuthService {
 	}
 
 	public login(user: UserFullData): string {
-		const payload = { sub: user.id };
+		const payload: JwtPayload = { sub: user.id, traineeIds: user.trainees.map(one => one.id) };
 
 		return this.jwtService.sign(payload);
 	}

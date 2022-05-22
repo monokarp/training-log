@@ -9,7 +9,7 @@ import { CreateSessionComponent } from './create-session/create-session.componen
 import { CreateSession } from './create-session/create-session.service';
 import { ProgramStore } from './program.store';
 import { ProgramViewmodel } from './viewmodel/group-workouts';
-import { NewWorkout } from './viewmodel/types';
+import { NewWorkoutModel } from './viewmodel/types';
 
 @Injectable()
 export class ProgramService {
@@ -40,7 +40,7 @@ export class ProgramService {
 
 		const result = await firstValueFrom(
 			this.dialog
-				.open<CreateSessionComponent, ExerciseWithPB[], NewWorkout>(CreateSessionComponent, {
+				.open<CreateSessionComponent, ExerciseWithPB[], NewWorkoutModel>(CreateSessionComponent, {
 					disableClose: true,
 					autoFocus: false,
 					panelClass: 'no-padding',
@@ -53,7 +53,7 @@ export class ProgramService {
 			const newWorkoutId = await this.createSession.one(result);
 
 			if (newWorkoutId) {
-				const newWorkout = await this.workouts.one(newWorkoutId);
+				const newWorkout = await this.workouts.one(newWorkoutId, trainee.id);
 
 				if (newWorkout) {
 					const models = this.programStore.models$.getValue();

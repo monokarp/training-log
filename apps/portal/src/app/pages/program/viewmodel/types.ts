@@ -21,12 +21,12 @@ export interface TrainingExercise {
 	sets: Set[];
 }
 
-export interface NewWorkout {
+export interface NewWorkoutModel {
 	date: Date;
-	exercises: NewExercise[];
+	exercises: NewExerciseModel[];
 }
 
-export interface NewExercise {
+export interface NewExerciseModel {
 	exercise: string;
 	code: string;
 	program: string;

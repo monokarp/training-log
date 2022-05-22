@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TranslationData, UpdateTranslationData } from '@training-log/contracts';
+import { TranslationData, UpdateTranslation, WithUser } from '@training-log/contracts';
 import { I18nRepository } from './i18n.repository';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class I18nService {
 		return this.i18nRepository.translationsFor(userId);
 	}
 
-	public async upsertOne(data: UpdateTranslationData): Promise<boolean> {
+	public async upsertOne(data: WithUser<UpdateTranslation>): Promise<boolean> {
 		return this.i18nRepository.upsertOne(data);
 	}
 

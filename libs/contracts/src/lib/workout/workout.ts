@@ -15,7 +15,6 @@ export interface Set {
 }
 
 export interface NewWorkout {
-	userId: string;
 	date: Date;
 	comment?: string;
 	sets: NewSet[];

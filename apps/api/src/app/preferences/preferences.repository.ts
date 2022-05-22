@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UpdatePreferences, UserPreferences } from '@training-log/contracts';
+import { UserPreferences, WithUser } from '@training-log/contracts';
 import { Prisma } from '../shared/prisma';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class PreferencesRepository {
 		return prefs;
 	}
 
-	public async updateOne(data: UpdatePreferences): Promise<void> {
+	public async updateOne(data: WithUser<UserPreferences>): Promise<void> {
 		await this.prisma.userPreferences.update({ where: { userId: data.userId }, data });
 	}
 }

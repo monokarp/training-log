@@ -4,7 +4,3 @@ export interface UserPreferences {
 	unit: WeightUnit;
 	localeCode: string;
 }
-
-export interface UpdatePreferences extends UserPreferences {
-	userId: string;
-}

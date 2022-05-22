@@ -1,5 +1,6 @@
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
+import { CoachOnly } from '../src/app/auth/guards/coach-only';
 import { PreferencesModule } from '../src/app/preferences/preferences.module';
 import { resetDatabase } from './scripts';
 
@@ -9,7 +10,10 @@ describe(PreferencesModule.name, () => {
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [PreferencesModule],
-		}).compile();
+		})
+			.overrideGuard(CoachOnly)
+			.useValue({ canActivate: () => true })
+			.compile();
 
 		app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
 
@@ -18,12 +22,12 @@ describe(PreferencesModule.name, () => {
 	});
 
 	afterAll(async () => {
-		await resetDatabase();
 		await app.close();
+		await resetDatabase();
 	});
 
 	test('get preferences', async () => {
-		getPreferences(app, 'trainee', {
+		getPreferences('trainee', {
 			localeCode: 'en-US',
 			unit: 'kg',
 		});
@@ -32,9 +36,8 @@ describe(PreferencesModule.name, () => {
 	test('update preferences', async () => {
 		const result = await app.inject({
 			method: 'PUT',
-			url: '/preferences',
+			url: 'trainee/preferences',
 			payload: {
-				userId: 'trainee',
 				localeCode: 'ru-RU',
 				unit: 'lbs',
 			},
@@ -42,19 +45,19 @@ describe(PreferencesModule.name, () => {
 
 		expect(result.statusCode).toEqual(200);
 
-		getPreferences(app, 'trainee', {
+		getPreferences('trainee', {
 			localeCode: 'ru-RU',
 			unit: 'lbs',
 		});
 	});
+
+	async function getPreferences(userId: string, expected: unknown) {
+		const result = await app.inject({
+			method: 'GET',
+			url: `${userId}/preferences`,
+		});
+
+		expect(result.statusCode).toEqual(200);
+		expect(JSON.parse(result.payload)).toEqual(expected);
+	}
 });
-
-async function getPreferences(app: NestFastifyApplication, userId: string, expected: unknown) {
-	const result = await app.inject({
-		method: 'GET',
-		url: `/preferences/${userId}`,
-	});
-
-	expect(result.statusCode).toEqual(200);
-	expect(JSON.parse(result.payload)).toEqual(expected);
-}

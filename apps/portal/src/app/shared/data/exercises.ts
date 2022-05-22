@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DeleteExerciseData, ExerciseType, ExerciseWithPB, NewExerciseData } from '@training-log/contracts';
+import { DeleteExercise, ExerciseType, ExerciseWithPB, NewExercise, WithUser } from '@training-log/contracts';
 import { HttpService } from '../core/http.service';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class Exercises {
 
 	public async allFor(userId: string): Promise<ExerciseType[]> {
 		try {
-			const result = await this.httpService.get(`/api/exercises/all/${userId}`);
+			const result = await this.httpService.get(`/api/${userId}/exercises`);
 
 			return (result as ExerciseType[]) ?? [];
 		} catch (err) {
@@ -19,7 +19,7 @@ export class Exercises {
 
 	public async includingPersonalBestFor(userId: string): Promise<ExerciseWithPB[]> {
 		try {
-			const result = await this.httpService.get(`/api/exercises/withpb/${userId}`);
+			const result = await this.httpService.get(`/api/${userId}/exercises/withpb`);
 
 			return (result as ExerciseWithPB[]) ?? [];
 		} catch (err) {
@@ -27,9 +27,11 @@ export class Exercises {
 		}
 	}
 
-	public async create(data: NewExerciseData): Promise<string | null> {
+	public async create(data: WithUser<NewExercise>): Promise<string | null> {
+		const { userId, ...payload } = data;
+
 		try {
-			const result = await this.httpService.put<{ id: string }, NewExerciseData>(`/api/exercises/create`, data);
+			const result = await this.httpService.put<{ id: string }, NewExercise>(`/api/${userId}/exercises`, payload);
 
 			return (result.id as string) ?? null;
 		} catch (err) {
@@ -37,9 +39,9 @@ export class Exercises {
 		}
 	}
 
-	public async delete(data: DeleteExerciseData): Promise<string | null> {
+	public async delete(id: string, userId: string): Promise<string | null> {
 		try {
-			await this.httpService.delete(`/api/exercises`, data);
+			await this.httpService.delete(`/api/${userId}/exercises`, { id });
 
 			return null;
 		} catch (err: unknown) {

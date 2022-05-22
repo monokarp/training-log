@@ -1,5 +1,6 @@
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
+import { CoachOnly } from '../src/app/auth/guards/coach-only';
 import { WorkoutModule } from '../src/app/workout/workout.module';
 import { resetDatabase } from './scripts';
 
@@ -9,7 +10,10 @@ describe(WorkoutModule.name, () => {
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [WorkoutModule],
-		}).compile();
+		})
+			.overrideGuard(CoachOnly)
+			.useValue({ canActivate: () => true })
+			.compile();
 
 		app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
 
@@ -18,12 +22,12 @@ describe(WorkoutModule.name, () => {
 	});
 
 	afterAll(async () => {
-		await resetDatabase();
 		await app.close();
+		await resetDatabase();
 	});
 
 	test('get user workouts', async () => {
-		await getAllWorkouts(app, 'trainee', [
+		await getAllWorkouts('trainee', [
 			{
 				date: '2022-01-01T00:00:00.000Z',
 				comment: 'This is the initially seeded workout',
@@ -109,7 +113,7 @@ describe(WorkoutModule.name, () => {
 	test('create new workout', async () => {
 		const result = await app.inject({
 			method: 'POST',
-			url: '/workouts',
+			url: 'trainee/workouts',
 			payload: {
 				userId: 'trainee',
 				date: new Date('2022-02-02T00:00:00.000Z'),
@@ -126,7 +130,7 @@ describe(WorkoutModule.name, () => {
 
 		const newWorkout = await app.inject({
 			method: 'GET',
-			url: `/workouts/one/${JSON.parse(result.payload).id}`,
+			url: `trainee/workouts/${JSON.parse(result.payload).id}`,
 		});
 
 		expect(newWorkout.statusCode).toEqual(200);
@@ -157,20 +161,20 @@ describe(WorkoutModule.name, () => {
 
 		const allWorkouts = await app.inject({
 			method: 'GET',
-			url: '/workouts/trainee',
+			url: 'trainee/workouts',
 		});
 
 		expect(allWorkouts.statusCode).toEqual(200);
 		expect(JSON.parse(allWorkouts.payload)).toHaveLength(2);
 	});
+
+	async function getAllWorkouts(userId: string, expected: unknown[]) {
+		const result = await app.inject({
+			method: 'GET',
+			url: `${userId}/workouts`,
+		});
+
+		expect(result.statusCode).toEqual(200);
+		expect(JSON.parse(result.payload)).toEqual(expected);
+	}
 });
-
-async function getAllWorkouts(app: NestFastifyApplication, userId: string, expected: unknown[]) {
-	const result = await app.inject({
-		method: 'GET',
-		url: `/workouts/${userId}`,
-	});
-
-	expect(result.statusCode).toEqual(200);
-	expect(JSON.parse(result.payload)).toEqual(expected);
-}

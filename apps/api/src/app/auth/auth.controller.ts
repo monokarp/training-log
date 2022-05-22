@@ -2,7 +2,7 @@ import { Request, Controller, Post, UseGuards } from '@nestjs/common';
 import { UserAuthResult, UserFullData } from '@training-log/contracts';
 import { SkipJwtAuth } from './decorators/skip-jwt-auth';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards/local.guard';
+import { LocalAuthGuard } from './guards/local';
 
 @Controller('auth')
 export class AuthController {
@@ -12,7 +12,7 @@ export class AuthController {
 	@SkipJwtAuth()
 	@UseGuards(LocalAuthGuard)
 	public authenticate(@Request() req: Request & { user: UserFullData }): UserAuthResult {
-		// eslint-ignore-next-line @typescript-eslint/no-unused-vars
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { password, trainees, ...userData } = req.user;
 
 		return {

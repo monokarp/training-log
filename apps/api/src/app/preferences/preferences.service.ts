@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UpdatePreferences, UserPreferences } from '@training-log/contracts';
+import { UserPreferences, WithUser } from '@training-log/contracts';
 import { PreferencesRepository } from './preferences.repository';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class PreferencesService {
 		return this.preferencesRepository.for(userId);
 	}
 
-	public async updateOne(data: UpdatePreferences): Promise<void> {
+	public async updateOne(data: WithUser<UserPreferences>): Promise<void> {
 		return this.preferencesRepository.updateOne(data);
 	}
 }

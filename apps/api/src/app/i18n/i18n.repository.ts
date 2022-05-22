@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TranslationData, UpdateTranslationData } from '@training-log/contracts';
+import { TranslationData, UpdateTranslation, WithUser } from '@training-log/contracts';
 import { Prisma } from '../shared/prisma';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class I18nRepository {
 		return this.prisma.locale.findMany({ select: { code: true } });
 	}
 
-	public async upsertOne(data: UpdateTranslationData): Promise<boolean> {
+	public async upsertOne(data: WithUser<UpdateTranslation>): Promise<boolean> {
 		const entity = await this.prisma.translation.findUnique({
 			where: {
 				userId_code_localeCode: {

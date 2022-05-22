@@ -1,8 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { NewWorkout, Workout, Set } from '@training-log/contracts';
+import { ExerciseType, PersonalBest, WorkItem, Workout as PrismaWorkout } from '@prisma/client';
+import { NewWorkout, Workout, Set, WithUser } from '@training-log/contracts';
 import { I18n } from '../shared/i18n';
 import { Prisma } from '../shared/prisma';
-import { FullWorkItem, FullWorkout } from './prisma-types';
+
+type FullWorkout = PrismaWorkout & {
+	WorkItem: FullWorkItem[];
+};
+
+type FullWorkItem = WorkItem & {
+	ExerciseType: ExerciseType & {
+		PersonalBest: PersonalBest[];
+	};
+};
 
 @Injectable()
 export class WorkoutRepository {
@@ -58,7 +68,7 @@ export class WorkoutRepository {
 		return Promise.all(data.map(async workout => this.mapWorkout(workout, username)));
 	}
 
-	public async create(data: NewWorkout): Promise<number> {
+	public async create(data: WithUser<NewWorkout>): Promise<number> {
 		const newWorkout = await this.prisma.workout.create({
 			data: {
 				userId: data.userId,

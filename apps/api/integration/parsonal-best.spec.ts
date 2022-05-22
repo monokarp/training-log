@@ -1,5 +1,6 @@
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
+import { CoachOnly } from '../src/app/auth/guards/coach-only';
 import { PersonalBestModule } from '../src/app/personal-best/personal-best.module';
 import { resetDatabase } from './scripts';
 
@@ -9,7 +10,10 @@ describe(PersonalBestModule.name, () => {
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [PersonalBestModule],
-		}).compile();
+		})
+			.overrideGuard(CoachOnly)
+			.useValue({ canActivate: () => true })
+			.compile();
 
 		app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
 
@@ -18,14 +22,14 @@ describe(PersonalBestModule.name, () => {
 	});
 
 	afterAll(async () => {
-		await resetDatabase();
 		await app.close();
+		await resetDatabase();
 	});
 
 	test('get personal bests for a user', async () => {
 		const result = await app.inject({
 			method: 'GET',
-			url: '/personal-best/trainee',
+			url: 'trainee/personal-best',
 		});
 
 		expect(result.statusCode).toEqual(200);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreatePersonalBestData, PersonalBest } from '@training-log/contracts';
+import { PersonalBest, PersonalBestData, WithUser } from '@training-log/contracts';
 import { HttpService } from '../core/http.service';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class PersonalBests {
 
 	public async allFor(userId: string): Promise<PersonalBest[]> {
 		try {
-			const result = await this.httpService.get(`/api/personal-best/${userId}`);
+			const result = await this.httpService.get(`/api/${userId}/personal-best`);
 
 			return (result as PersonalBest[]) ?? [];
 		} catch (err) {
@@ -16,9 +16,11 @@ export class PersonalBests {
 		}
 	}
 
-	public async create(data: CreatePersonalBestData): Promise<number | null> {
+	public async create(data: WithUser<PersonalBestData>): Promise<number | null> {
+		const { userId, ...payload } = data;
+
 		try {
-			const result = await this.httpService.put(`/api/personal-best`, data);
+			const result = await this.httpService.put(`/api/${userId}/personal-best`, payload);
 
 			return (result as number) ?? null;
 		} catch (err) {
@@ -26,9 +28,9 @@ export class PersonalBests {
 		}
 	}
 
-	public async delete(id: number): Promise<boolean> {
+	public async delete(id: number, userId: string): Promise<boolean> {
 		try {
-			const result = await this.httpService.delete(`/api/personal-best`, id);
+			const result = await this.httpService.delete(`/api/${userId}/personal-best`, id);
 
 			return (result as boolean) ?? false;
 		} catch (err) {

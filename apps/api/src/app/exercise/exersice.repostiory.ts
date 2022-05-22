@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeleteExercise, ExerciseType, ExerciseWithPB, NewExercise } from '@training-log/contracts';
+import { DeleteExercise, ExerciseType, ExerciseWithPB, NewExercise, WithUser } from '@training-log/contracts';
 import { I18n } from '../shared/i18n';
 import { Prisma } from '../shared/prisma';
 
@@ -44,7 +44,7 @@ export class ExerciseRepository {
 		);
 	}
 
-	public async create(data: NewExercise): Promise<string> {
+	public async create(data: WithUser<NewExercise>): Promise<string> {
 		await this.prisma.translation.create({
 			data: {
 				userId: data.userId,
@@ -65,7 +65,7 @@ export class ExerciseRepository {
 		return newEntity.id;
 	}
 
-	public async delete(data: DeleteExercise): Promise<string | null> {
+	public async delete(data: WithUser<DeleteExercise>): Promise<string | null> {
 		const entity = await this.prisma.exerciseType.findUnique({
 			where: {
 				userId_id: data,

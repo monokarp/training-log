@@ -1,10 +1,7 @@
-import { UpdatePreferences, WeightUnit } from '@training-log/contracts';
-import { IsIn, IsLocale, IsNotEmpty } from 'class-validator';
+import { UserPreferences, WeightUnit } from '@training-log/contracts';
+import { IsIn, IsLocale } from 'class-validator';
 
-export abstract class UpdatePreferencesDTO implements UpdatePreferences {
-	@IsNotEmpty()
-	userId!: string;
-
+export abstract class UpdatePreferencesDTO implements UserPreferences {
 	@IsIn(['kg', 'lbs'])
 	unit!: WeightUnit;
 

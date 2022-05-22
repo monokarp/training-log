@@ -1,14 +1,11 @@
-import { NewPersonalBest } from '@training-log/contracts';
-import { IsNotEmpty, IsInt, IsDate } from 'class-validator';
+import { PersonalBestData } from '@training-log/contracts';
+import { IsNotEmpty, IsInt, IsDateString } from 'class-validator';
 
-export abstract class CreatePersonalBestDTO implements NewPersonalBest {
-	@IsNotEmpty()
-	userId!: string;
-
+export abstract class CreatePersonalBestDTO implements PersonalBestData {
 	@IsInt()
 	weight!: number;
 
-	@IsDate()
+	@IsDateString()
 	starting!: Date;
 
 	@IsNotEmpty()

@@ -1,6 +1,7 @@
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
 import { ExerciseType } from '@training-log/contracts';
+import { CoachOnly } from '../src/app/auth/guards/coach-only';
 import { ExerciseModule } from '../src/app/exercise/exercise.module';
 import { resetDatabase } from './scripts';
 
@@ -10,7 +11,10 @@ describe(ExerciseModule.name, () => {
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [ExerciseModule],
-		}).compile();
+		})
+			.overrideGuard(CoachOnly)
+			.useValue({ canActivate: () => true })
+			.compile();
 
 		app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
 
@@ -19,12 +23,12 @@ describe(ExerciseModule.name, () => {
 	});
 
 	afterAll(async () => {
-		await resetDatabase();
 		await app.close();
+		await resetDatabase();
 	});
 
 	test('get all user exercise types', async () => {
-		await getAllExercises(app, 'trainee', [
+		await getAllExercises('trainee', [
 			{ id: 'bench', name: 'Bench Press' },
 			{ id: 'deadlift', name: 'Deadlift' },
 			{ id: 'squat', name: 'Squat' },
@@ -34,7 +38,7 @@ describe(ExerciseModule.name, () => {
 	test('get all including personal bests', async () => {
 		const result = await app.inject({
 			method: 'GET',
-			url: '/exercises/withpb/trainee',
+			url: 'trainee/exercises/withpb',
 		});
 
 		expect(result.statusCode).toEqual(200);
@@ -48,9 +52,8 @@ describe(ExerciseModule.name, () => {
 	test('create new exercise type type', async () => {
 		const result = await app.inject({
 			method: 'PUT',
-			url: '/exercises/create',
+			url: 'trainee/exercises',
 			payload: {
-				userId: 'trainee',
 				localeCode: 'en-US',
 				id: 'squat_p',
 				name: 'Paused Squat',
@@ -59,7 +62,7 @@ describe(ExerciseModule.name, () => {
 
 		expect(result.statusCode).toEqual(201);
 
-		await getAllExercises(app, 'trainee', [
+		await getAllExercises('trainee', [
 			{ id: 'bench', name: 'Bench Press' },
 			{ id: 'deadlift', name: 'Deadlift' },
 			{ id: 'squat', name: 'Squat' },
@@ -70,13 +73,13 @@ describe(ExerciseModule.name, () => {
 	test('delete unreferenced exercise type', async () => {
 		const result = await app.inject({
 			method: 'DELETE',
-			url: '/exercises',
-			payload: { userId: 'trainee', id: 'squat_p' },
+			url: 'trainee/exercises',
+			payload: { id: 'squat_p' },
 		});
 
 		expect(result.statusCode).toEqual(200);
 
-		await getAllExercises(app, 'trainee', [
+		await getAllExercises('trainee', [
 			{ id: 'bench', name: 'Bench Press' },
 			{ id: 'deadlift', name: 'Deadlift' },
 			{ id: 'squat', name: 'Squat' },
@@ -86,21 +89,21 @@ describe(ExerciseModule.name, () => {
 	test('delete referenced exercise', async () => {
 		const result = await app.inject({
 			method: 'DELETE',
-			url: '/exercises',
-			payload: { userId: 'trainee', id: 'squat' },
+			url: 'trainee/exercises',
+			payload: { id: 'squat' },
 		});
 
 		expect(result.statusCode).toEqual(409);
 		expect(JSON.parse(result.payload).message).toEqual('This exercise is referred to by 3 existing work items');
 	});
+
+	async function getAllExercises(userId: string, expected: ExerciseType[]) {
+		const result = await app.inject({
+			method: 'GET',
+			url: `${userId}/exercises`,
+		});
+
+		expect(result.statusCode).toEqual(200);
+		expect(JSON.parse(result.payload)).toEqual(expected);
+	}
 });
-
-async function getAllExercises(app: NestFastifyApplication, userId: string, expected: ExerciseType[]) {
-	const result = await app.inject({
-		method: 'GET',
-		url: `/exercises/all/${userId}`,
-	});
-
-	expect(result.statusCode).toEqual(200);
-	expect(JSON.parse(result.payload)).toEqual(expected);
-}

@@ -7,7 +7,3 @@ export interface PersonalBestData {
 export interface PersonalBest extends PersonalBestData {
 	id: number;
 }
-
-export interface NewPersonalBest extends PersonalBestData {
-	userId: string;
-}

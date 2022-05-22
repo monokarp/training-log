@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { NewPersonalBest, PersonalBest } from '@training-log/contracts';
+import { PersonalBest, PersonalBestData, WithUser } from '@training-log/contracts';
 import { Prisma } from '../shared/prisma';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class PersonalBestRepository {
 		});
 	}
 
-	public async create(data: NewPersonalBest): Promise<number> {
+	public async create(data: WithUser<PersonalBestData>): Promise<number> {
 		const res = await this.prisma.personalBest.create({ data });
 
 		return res.id;

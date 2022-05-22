@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserPreferences } from '@training-log/contracts';
+import { identity } from 'rxjs';
 import { Preferences } from '../../../shared/data/preferences';
 import { Translations } from '../../../shared/data/translations';
 import { SessionStore } from '../../login/session.store';
@@ -19,7 +20,7 @@ export class PreferencesService {
 
 		if (user) {
 			this.preferencesStore.units$.next(['kg', 'lbs']);
-			this.preferencesStore.locales$.next(await this.translations.locales());
+			this.preferencesStore.locales$.next(await this.translations.locales(user.id));
 		}
 	}
 

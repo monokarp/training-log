@@ -18,7 +18,7 @@ export class TranslationsService {
 		if (user) {
 			const [entitites, locales] = await Promise.all([
 				this.translations.for(user.id),
-				this.translations.locales(),
+				this.translations.locales(user.id),
 			]);
 
 			const model = entitites.reduce((acc, next) => {

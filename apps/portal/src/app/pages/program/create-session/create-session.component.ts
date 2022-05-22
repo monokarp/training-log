@@ -6,7 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExerciseWithPB } from '@training-log/contracts';
 import { ExerciseSelectComponent } from '../../../ui-components/common-ui/exercise-select/exercise-select.component';
 import { TlNotification } from '../../../ui-components/tl-form/tl-notification';
-import { NewExercise } from '../viewmodel/types';
+import { NewExerciseModel } from '../viewmodel/types';
 
 const DateFormat = 'DD-MM-YYYY';
 
@@ -34,7 +34,7 @@ const DateFormat = 'DD-MM-YYYY';
 	],
 })
 export class CreateSessionComponent {
-	public exericses: NewExercise[] = [];
+	public exericses: NewExerciseModel[] = [];
 	public dateFormat = DateFormat;
 
 	@ViewChild(ExerciseSelectComponent) exercise!: ExerciseSelectComponent;

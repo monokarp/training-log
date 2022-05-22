@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CreateWorkoutData } from '@training-log/contracts';
+import { NewWorkout } from '@training-log/contracts';
 import { Workouts } from '../../../shared/data/workouts';
 import { SessionStore } from '../../login/session.store';
-import { NewWorkout } from '../viewmodel/types';
+import { NewWorkoutModel } from '../viewmodel/types';
 
 @Injectable()
 export class CreateSession {
 	constructor(private workouts: Workouts, private sessionStore: SessionStore) {}
 
-	public async one(workoutData: NewWorkout): Promise<number | null> {
-		const username = this.sessionStore.currentlyManagedUser$.getValue()?.id;
+	public async one(workoutData: NewWorkoutModel): Promise<number | null> {
+		const userId = this.sessionStore.currentlyManagedUser$.getValue()?.id;
 
-		if (!username) {
+		if (!userId) {
 			return null;
 		}
 
-		const result: CreateWorkoutData = {
+		const result: NewWorkout = {
 			date: workoutData.date,
-			userId: username,
 			sets: workoutData.exercises.flatMap((data, idx) => {
 				const lines = data.program.replace(/\r\n|\r|\n/g, ' ').split(' ');
 
@@ -37,6 +36,6 @@ export class CreateSession {
 			}),
 		};
 
-		return this.workouts.create(result);
+		return this.workouts.create({ userId, ...result });
 	}
 }

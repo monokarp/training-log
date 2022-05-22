@@ -2,9 +2,6 @@ import { NewSet, NewWorkout } from '@training-log/contracts';
 import { IsArray, IsDate, IsInt, IsNotEmpty, IsOptional, Min } from 'class-validator';
 
 export abstract class NewWorkoutDTO implements NewWorkout {
-	@IsNotEmpty()
-	userId!: string;
-
 	@IsDate()
 	date!: Date;
 

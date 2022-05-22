@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Workout } from '@training-log/contracts';
-import { CreateWorkoutData } from '@training-log/contracts';
+import { WithUser, Workout } from '@training-log/contracts';
+import { NewWorkout } from '@training-log/contracts';
 import { HttpService } from '../core/http.service';
 
 @Injectable()
 export class Workouts {
 	constructor(private httpService: HttpService) {}
 
-	public async one(id: number): Promise<Workout | null> {
+	public async one(id: number, userId: string): Promise<Workout | null> {
 		try {
-			const result = await this.httpService.get<Workout>(`/api/workouts/one/${id}`);
+			const result = await this.httpService.get<Workout>(`/api/${userId}/workouts/${id}`);
 
 			return { ...result, date: new Date(result.date) } ?? null;
 		} catch (err) {
@@ -17,9 +17,9 @@ export class Workouts {
 		}
 	}
 
-	public async for(traineeUsername: string): Promise<Workout[]> {
+	public async for(userId: string): Promise<Workout[]> {
 		try {
-			const result = await this.httpService.get<Workout[]>(`/api/workouts/${traineeUsername}`);
+			const result = await this.httpService.get<Workout[]>(`/api/${userId}/workouts`);
 
 			return result ? result.map(one => ({ ...one, date: new Date(one.date) })) : [];
 		} catch (err) {
@@ -27,9 +27,11 @@ export class Workouts {
 		}
 	}
 
-	public async create(newWorkoutData: CreateWorkoutData): Promise<number | null> {
+	public async create(data: WithUser<NewWorkout>): Promise<number | null> {
+		const { userId, ...payload } = data;
+
 		try {
-			const result = await this.httpService.post(`/api/workouts`, newWorkoutData);
+			const result = await this.httpService.post(`/api/${userId}/workouts`, payload);
 
 			return (result as { id: number })?.id ?? null;
 		} catch (err) {

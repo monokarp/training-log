@@ -1,6 +1,7 @@
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { Test } from '@nestjs/testing';
 import { UserManagementRights } from '@training-log/contracts';
+import { CoachOnly } from '../src/app/auth/guards/coach-only';
 import { ManagementRightsModule } from '../src/app/management-rights/management-rights.module';
 import { resetDatabase } from './scripts';
 
@@ -10,7 +11,10 @@ describe(ManagementRightsModule.name, () => {
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [ManagementRightsModule],
-		}).compile();
+		})
+			.overrideGuard(CoachOnly)
+			.useValue({ canActivate: () => true })
+			.compile();
 
 		app = moduleRef.createNestApplication<NestFastifyApplication>(new FastifyAdapter());
 
@@ -19,19 +23,19 @@ describe(ManagementRightsModule.name, () => {
 	});
 
 	afterAll(async () => {
-		await resetDatabase();
 		await app.close();
+		await resetDatabase();
 	});
 
 	test('coach management rights', async () => {
-		await getMgmtRights(app, 'coach', {
+		await getMgmtRights('coach', {
 			coaches: [],
 			trainees: [{ id: 'trainee', name: 'Trainee User' }],
 		});
 	});
 
 	test('trainee management rights', async () => {
-		await getMgmtRights(app, 'trainee', {
+		await getMgmtRights('trainee', {
 			coaches: [{ id: 'coach', name: 'Coach User' }],
 			trainees: [],
 		});
@@ -46,7 +50,7 @@ describe(ManagementRightsModule.name, () => {
 
 		expect(result.statusCode).toEqual(200);
 
-		await getMgmtRights(app, 'coach', {
+		await getMgmtRights('coach', {
 			coaches: [],
 			trainees: [],
 		});
@@ -71,19 +75,19 @@ describe(ManagementRightsModule.name, () => {
 		expect(r2.statusCode).toEqual(201);
 		expect(JSON.parse(r2.payload)).toEqual({ id: 'coach', name: 'Coach User' });
 
-		await getMgmtRights(app, 'coach', {
+		await getMgmtRights('coach', {
 			coaches: [{ id: 'trainee', name: 'Trainee User' }],
 			trainees: [{ id: 'trainee', name: 'Trainee User' }],
 		});
 	});
+
+	async function getMgmtRights(userId: string, expected: UserManagementRights) {
+		const result = await app.inject({
+			method: 'GET',
+			url: `management-rights/${userId}`,
+		});
+
+		expect(result.statusCode).toEqual(200);
+		expect(JSON.parse(result.payload)).toEqual(expected);
+	}
 });
-
-async function getMgmtRights(app: NestFastifyApplication, userId: string, expected: UserManagementRights) {
-	const result = await app.inject({
-		method: 'GET',
-		url: `management-rights/${userId}`,
-	});
-
-	expect(result.statusCode).toEqual(200);
-	expect(JSON.parse(result.payload)).toEqual(expected);
-}

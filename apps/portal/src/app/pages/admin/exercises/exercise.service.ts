@@ -34,8 +34,8 @@ export class ExerciseService {
 			const result = await this.exercises.create({
 				id,
 				name,
-				userId: user.id,
 				localeCode: user.localeCode,
+				userId: user.id,
 			});
 
 			if (result) {
@@ -52,10 +52,7 @@ export class ExerciseService {
 		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
-			const result = await this.exercises.delete({
-				id,
-				userId: user.id,
-			});
+			const result = await this.exercises.delete(id, user.id);
 
 			if (!result) {
 				const entitites = this.exerciseStore.exercises$.getValue();

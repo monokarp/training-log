@@ -9,13 +9,11 @@ export interface ExerciseWithPB extends ExerciseType {
 }
 
 export interface NewExercise {
-	userId: string;
 	localeCode: string;
 	id: string;
 	name: string;
 }
 
 export interface DeleteExercise {
-	userId: string;
 	id: string;
 }

@@ -21,8 +21,8 @@ describe(AuthModule.name, () => {
 	});
 
 	afterAll(async () => {
-		await resetDatabase();
 		await app.close();
+		await resetDatabase();
 	});
 
 	test('authenticate', async () => {
@@ -59,14 +59,14 @@ describe(AuthModule.name, () => {
 	test('secured endpoint', async () => {
 		const unauthorized = await app.inject({
 			method: 'GET',
-			url: '/preferences/coach',
+			url: 'coach/preferences',
 		});
 
 		expect(unauthorized.statusCode).toEqual(401);
 
 		const authorized = await app.inject({
 			method: 'GET',
-			url: '/preferences/coach',
+			url: 'coach/preferences',
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

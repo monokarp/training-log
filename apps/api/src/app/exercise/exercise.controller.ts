@@ -1,34 +1,48 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Put } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpCode,
+	HttpException,
+	HttpStatus,
+	Param,
+	Put,
+	UseGuards,
+} from '@nestjs/common';
 import { ExerciseType, ExerciseWithPB } from '@training-log/contracts';
+import { CoachOnly } from '../auth/guards/coach-only';
 import { DeleteExerciseDTO } from './dto/delete-exercise';
 import { NewExerciseDTO } from './dto/new-exercise';
 import { ExerciseService } from './exercise.service';
 
-@Controller('exercises')
+@Controller(':userId/exercises')
 export class ExerciseController {
 	constructor(private exerciseService: ExerciseService) {}
 
-	@Get('all/:username')
-	public all(@Param('username') username: string): Promise<ExerciseType[]> {
-		return this.exerciseService.all(username);
+	@Get()
+	public all(@Param('userId') userId: string): Promise<ExerciseType[]> {
+		return this.exerciseService.all(userId);
 	}
 
-	@Get('withpb/:username')
-	public withPB(@Param('username') username: string): Promise<ExerciseWithPB[]> {
-		return this.exerciseService.withPB(username);
+	@Get('withpb')
+	public withPB(@Param('userId') userId: string): Promise<ExerciseWithPB[]> {
+		return this.exerciseService.withPB(userId);
 	}
 
-	@Put('create')
+	@Put()
+	@UseGuards(CoachOnly)
 	@HttpCode(HttpStatus.CREATED)
-	public async create(@Body() body: NewExerciseDTO): Promise<{ id: string }> {
-		const id = await this.exerciseService.create(body);
+	public async create(@Param('userId') userId: string, @Body() body: NewExerciseDTO): Promise<{ id: string }> {
+		const id = await this.exerciseService.create({ userId, ...body });
 
 		return { id };
 	}
 
 	@Delete()
-	public async delete(@Body() body: DeleteExerciseDTO): Promise<boolean> {
-		const error = await this.exerciseService.delete(body);
+	@UseGuards(CoachOnly)
+	public async delete(@Param('userId') userId: string, @Body() body: DeleteExerciseDTO): Promise<boolean> {
+		const error = await this.exerciseService.delete({ userId, ...body });
 
 		if (error) {
 			throw new HttpException(

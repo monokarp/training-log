@@ -7,8 +7,9 @@ import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { CryptoService } from './crypto.service';
-import { JwtAuthGuard } from './guards/jwt.guard';
-import { LocalAuthGuard } from './guards/local.guard';
+import { CoachOnly } from './guards/coach-only';
+import { JwtAuthGuard } from './guards/jwt';
+import { LocalAuthGuard } from './guards/local';
 import { JwtStrategy } from './passport-strategies/jwt';
 import { LocalStrategy } from './passport-strategies/local';
 
@@ -29,6 +30,7 @@ import { LocalStrategy } from './passport-strategies/local';
 		LocalStrategy,
 		JwtStrategy,
 		LocalAuthGuard,
+		CoachOnly,
 		JwtAuthGuard,
 		{
 			provide: APP_GUARD,

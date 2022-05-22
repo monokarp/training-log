@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { NewPersonalBest, PersonalBest } from '@training-log/contracts';
+import { PersonalBestData, PersonalBest, WithUser } from '@training-log/contracts';
 import { PersonalBestRepository } from './personal-best.repository';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class PersonalBestService {
 		return this.personalBestRepository.for(username);
 	}
 
-	public create(data: NewPersonalBest): Promise<number> {
+	public create(data: WithUser<PersonalBestData>): Promise<number> {
 		return this.personalBestRepository.create(data);
 	}
 

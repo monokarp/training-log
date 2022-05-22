@@ -19,7 +19,9 @@
 			class="managed"
 			appearance="standard">
 			<mat-label>Currently managing:</mat-label>
-			<mat-select (selectionChange)="onTraineeSelect($event)">
+			<mat-select
+				[ngModel]="sessionStore.currentlyManagedUser$ | async"
+				(selectionChange)="onTraineeSelect($event)">
 				<mat-option
 					*ngFor="let one of data"
 					[value]="one">

@@ -10,8 +10,7 @@ export interface TranslationData {
 	value: string;
 }
 
-export interface UpdateTranslationData {
-	userId: string;
+export interface UpdateTranslation {
 	code: string;
 	localeCode: string;
 	value: string;

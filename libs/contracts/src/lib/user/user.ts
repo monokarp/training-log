@@ -17,3 +17,7 @@ export interface UserAuthResult {
 	trainees: UserWithPreferences[];
 	token: string;
 }
+
+export type WithUser<T> = T & {
+	userId: string;
+};

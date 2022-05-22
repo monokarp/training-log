@@ -44,7 +44,7 @@ export class PersonalBestService {
 		const user = this.sessionStore.currentlyManagedUser$.getValue();
 
 		if (user) {
-			const result = await this.personalBests.delete(id);
+			const result = await this.personalBests.delete(id, user.id);
 
 			if (result) {
 				const entitites = this.store.personalBests$.getValue();
