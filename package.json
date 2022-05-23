@@ -12,7 +12,11 @@
 		"pg:start": "docker-compose up -d",
 		"db:migrate": "npx prisma migrate dev --preview-feature --skip-generate --name \"init\"",
 		"db:seed": "npx prisma db seed",
-		"test:api": "npm run db:seed && node --expose-gc node_modules/@nrwl/cli/bin/nx test api --skip-nx-cache -- --runInBand --logHeapUsage"
+		"test:api": "npm run db:seed && node --expose-gc node_modules/@nrwl/cli/bin/nx test api --skip-nx-cache -- --runInBand --logHeapUsage",
+		"cypress": "npx cypress open -P apps/portal-e2e",
+		"cypress:run": "npx cypress run -P apps/portal-e2e --browser chrome",
+		"serve:e2e": "npx nx run-many --target=serve --projects=api,portal --parallel=2",
+		"e2e": "start-server-and-test serve:e2e 4200 cypress:run"
 	},
 	"private": true,
 	"prisma": {
@@ -78,7 +82,7 @@
 		"@types/passport-local": "^1.0.34",
 		"@typescript-eslint/eslint-plugin": "5.18.0",
 		"@typescript-eslint/parser": "5.18.0",
-		"cypress": "^9.1.0",
+		"cypress": "^9.6.1",
 		"eslint": "8.12.0",
 		"eslint-config-prettier": "8.1.0",
 		"eslint-plugin-cypress": "^2.10.3",
@@ -87,6 +91,7 @@
 		"nx": "14.0.5",
 		"prettier": "^2.5.1",
 		"prisma": "^3.12.0",
+		"start-server-and-test": "^1.14.0",
 		"ts-jest": "27.1.4",
 		"ts-node": "9.1.1",
 		"typescript": "~4.6.2"

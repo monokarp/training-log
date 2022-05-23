@@ -10,16 +10,34 @@
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string): void;
-  }
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface Chainable<Subject> {
+		/**
+		 * Custom command to select DOM element by 'data-test' attribute, used to mark elements for automated testing
+		 * @example cy.getByTestAttr('dashboard-header')
+		 */
+		getByTestAttr(selector: string): Chainable<Element>;
+
+		/**
+		 * Custom command to select DOM element by 'data-test' attribute, used to mark elements for automated testing
+		 * @example cy.getByTestAttr('dashboard-header')
+		 */
+		findByTestAttr(selector: string): Chainable<Element>;
+	}
 }
-//
-// -- This is a parent command --
-Cypress.Commands.add('login', (email, password) => {
-  console.log('Custom command example: Login', email, password);
+
+Cypress.Commands.add('getByTestAttr', selector => {
+	cy.get(`[data-test=${selector}]`);
 });
+
+Cypress.Commands.add(
+	'findByTestAttr',
+	{ prevSubject: 'element' },
+	($element: JQuery<HTMLElement>, selector: string) => {
+		cy.wrap($element).find(`[data-test=${selector}]`);
+	},
+);
+
 //
 // -- This is a child command --
 // Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })

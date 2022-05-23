@@ -2,7 +2,6 @@
 	"projectType": "library",
 	"root": "libs/shared",
 	"sourceRoot": "libs/shared/src",
-	"prefix": "training-log",
 	"targets": {
 		"test": {
 			"executor": "@nrwl/jest:jest",

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DeleteExercise, ExerciseType, ExerciseWithPB, NewExercise, WithUser } from '@training-log/contracts';
+import { ExerciseType, ExerciseWithPB, NewExercise, WithUser } from '@training-log/contracts';
 import { HttpService } from '../core/http.service';
 
 @Injectable()

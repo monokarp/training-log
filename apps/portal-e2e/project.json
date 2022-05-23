@@ -23,6 +23,6 @@
 			}
 		}
 	},
-	"tags": [],
+	"tags": ["type:app"],
 	"implicitDependencies": ["portal"]
 }

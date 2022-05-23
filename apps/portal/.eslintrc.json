@@ -14,7 +14,7 @@
 					"error",
 					{
 						"type": "attribute",
-						"prefix": "trainingLog",
+						"prefix": ["trainingLog", "e2e"],
 						"style": "camelCase"
 					}
 				],
