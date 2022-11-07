@@ -1,8 +1,8 @@
 import { NewSet, NewWorkout } from '@training-log/contracts';
-import { IsArray, IsDate, IsInt, IsNotEmpty, IsOptional, Min } from 'class-validator';
+import { IsArray, IsInt, IsISO8601, IsNotEmpty, IsOptional, Min } from 'class-validator';
 
 export abstract class NewWorkoutDTO implements NewWorkout {
-	@IsDate()
+	@IsISO8601()
 	date!: Date;
 
 	@IsOptional()
