@@ -1,12 +1,13 @@
-import { Request, Controller, Post, UseGuards } from '@nestjs/common';
+import { Request, Controller, Post, UseGuards, Body } from '@nestjs/common';
 import { UserAuthResult, UserFullData } from '@training-log/contracts';
 import { SkipJwtAuth } from './decorators/skip-jwt-auth';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local';
+import { CreateUserDTO } from '../user/dto/create-user';
 
 @Controller('auth')
 export class AuthController {
-	constructor(private authService: AuthService) {}
+	constructor(private authService: AuthService) { }
 
 	@Post()
 	@SkipJwtAuth()
@@ -20,5 +21,11 @@ export class AuthController {
 			user: userData,
 			token: this.authService.login(req.user),
 		};
+	}
+
+	@Post('register')
+	@SkipJwtAuth()
+	public register(@Body() body: CreateUserDTO) {
+		return this.authService.register(body);
 	}
 }

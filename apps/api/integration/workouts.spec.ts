@@ -116,7 +116,7 @@ describe(WorkoutModule.name, () => {
 			url: 'trainee/workouts',
 			payload: {
 				userId: 'trainee',
-				date: new Date('2022-02-02T00:00:00.000Z'),
+				date: '2022-02-02T00:00:00.000Z',
 				comment: 'test workout',
 				sets: [
 					{ exerciseId: 'squat', order: 0, sets: 5, reps: 5, weight: 160, comment: 'LIGHT WEIGHT BABY' },

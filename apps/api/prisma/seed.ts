@@ -114,7 +114,7 @@ async function main() {
 							sets: 1,
 							reps: 5,
 							weight: 200,
-							comment: 'Felt easy',
+							comment: 'Lorem ipsum',
 						},
 						{
 							userId: traineeUser.id,

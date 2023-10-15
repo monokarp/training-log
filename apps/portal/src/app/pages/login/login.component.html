@@ -2,9 +2,6 @@
 	<div
 		class="container"
 		[e2e]="TestAttributes.LoginForm">
-		<img
-			class="image"
-			src="assets/images/login-bg.jpeg" />
 		<div class="input">
 			<mat-form-field
 				class="field"
@@ -24,10 +21,9 @@
 					[formControl]="password" />
 			</mat-form-field>
 			<button
-				class="login-btn"
 				mat-button
 				(click)="onUserSelect()">
-				LIVE IT
+				Log in
 			</button>
 		</div>
 	</div>
