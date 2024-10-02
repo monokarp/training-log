@@ -5,7 +5,7 @@ import { Prisma } from '../shared/prisma';
 
 @Injectable()
 export class UserRepository {
-	constructor(private prisma: Prisma) { }
+	constructor(private prisma: Prisma) {}
 
 	public async create(data: User & { password: string }): Promise<void> {
 		await this.prisma.user.create({ data });

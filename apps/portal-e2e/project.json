@@ -1,7 +1,10 @@
 {
-	"root": "apps/portal-e2e",
+	"name": "portal-e2e",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "apps/portal-e2e/src",
 	"projectType": "application",
+	"tags": ["type:app"],
+	"implicitDependencies": ["portal"],
 	"targets": {
 		"e2e": {
 			"executor": "@nrwl/cypress:cypress",
@@ -22,7 +25,5 @@
 				"lintFilePatterns": ["apps/portal-e2e/**/*.{js,ts}"]
 			}
 		}
-	},
-	"tags": ["type:app"],
-	"implicitDependencies": ["portal"]
+	}
 }

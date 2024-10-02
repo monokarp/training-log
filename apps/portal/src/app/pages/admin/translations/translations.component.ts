@@ -61,8 +61,8 @@ export class TranslationsComponent implements OnInit {
 
 		this.translationsService.updateOne({
 			code: this.code.value,
-			localeCode: this.locale.value,
-			value: this.value.value,
+			localeCode: this.locale.value!,
+			value: this.value.value!,
 		});
 	}
 

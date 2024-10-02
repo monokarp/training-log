@@ -77,7 +77,7 @@ export class CreateSessionComponent {
 			this.exericses.push({
 				exercise: name,
 				code: id,
-				program: this.program.value,
+				program: this.program.value!,
 			});
 			this.clearCurrentExercise();
 		} else {

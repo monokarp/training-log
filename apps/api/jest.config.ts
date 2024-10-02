@@ -1,19 +1,10 @@
-import type { Config } from '@jest/types';
-
-module.exports = {
+export default {
 	displayName: 'api',
-
-	globals: {
-		'ts-jest': {
-			tsconfig: '<rootDir>/tsconfig.spec.json',
-		},
-	},
+	preset: '../../jest.preset.js',
 	testEnvironment: 'node',
 	transform: {
-		'^.+\\.[tj]s$': 'ts-jest',
+		'^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
 	},
 	moduleFileExtensions: ['ts', 'js', 'html'],
 	coverageDirectory: '../../coverage/apps/api',
-	preset: '../../jest.preset.ts',
-	testTimeout: 10000,
-} as Config.InitialOptions;
+};

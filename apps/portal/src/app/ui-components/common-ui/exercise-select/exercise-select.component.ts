@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { ExerciseType } from '@training-log/contracts';
 import { filter, map, Observable, startWith } from 'rxjs';
 import { isNonEmptyString } from '@training-log/shared';
@@ -71,7 +71,7 @@ export class ExerciseSelectComponent implements OnInit {
 		return this.data.find(one => one.name === name)?.id ?? '';
 	}
 
-	private validateExerciseName(c: FormControl) {
+	private validateExerciseName(c: FormControl): ValidationErrors | null {
 		return this.exerciseNames.has(c.value) ? null : { validateExerciseName: { valid: false } };
 	}
 }

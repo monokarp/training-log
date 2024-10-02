@@ -7,7 +7,7 @@ import { CreateUserDTO } from '../user/dto/create-user';
 
 @Controller('auth')
 export class AuthController {
-	constructor(private authService: AuthService) { }
+	constructor(private authService: AuthService) {}
 
 	@Post()
 	@SkipJwtAuth()

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, ValidationErrors, Validators } from '@angular/forms';
 import { ExerciseType } from '@training-log/contracts';
 import { ExerciseService } from './exercise.service';
 import { ExercisesStore } from './exercise.store';
@@ -14,7 +14,8 @@ export class ExercisesComponent implements OnInit {
 	public exercisesId = new FormControl('', [
 		Validators.required,
 		Validators.pattern(/^[a-zA-Z_]+$/),
-		(c: FormControl) => (this.service.valudateNew(c.value) ? null : { unique: { valid: false } }),
+		(c: FormControl): ValidationErrors | null =>
+			this.service.valudateNew(c.value) ? null : { unique: { valid: false } },
 	]);
 
 	public exercisesName = new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z ]+$/)]);
@@ -27,7 +28,7 @@ export class ExercisesComponent implements OnInit {
 
 	public async submit() {
 		if (this.exercisesId.valid && this.exercisesName.valid) {
-			await this.service.createNew(this.exercisesId.value, this.exercisesName.value);
+			await this.service.createNew(this.exercisesId.value!, this.exercisesName.value!);
 			this.clearInputs();
 		} else {
 			this.exercisesId.markAsTouched();

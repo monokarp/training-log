@@ -48,7 +48,7 @@ export class TraineesComponent implements OnInit {
 		}
 
 		// TODO do not reset value if update failed?
-		await this.service.addCoach(this.userId.value);
+		await this.service.addCoach(this.userId.value!);
 
 		this.resetInput();
 	}
@@ -60,11 +60,11 @@ export class TraineesComponent implements OnInit {
 
 		switch (this.mode.getValue()) {
 			case 'Coaches':
-				await this.service.revokeCoach(this.userId.value);
+				await this.service.revokeCoach(this.userId.value!);
 				break;
 			case 'Trainees':
 			default:
-				await this.service.revokeTrainee(this.userId.value);
+				await this.service.revokeTrainee(this.userId.value!);
 		}
 
 		this.resetInput();

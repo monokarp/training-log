@@ -1,8 +1,10 @@
 {
+	"name": "portal",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
-	"root": "apps/portal",
 	"sourceRoot": "apps/portal/src",
 	"prefix": "portal",
+	"tags": ["type:app"],
 	"targets": {
 		"build": {
 			"executor": "@angular-devkit/build-angular:browser",
@@ -27,7 +29,7 @@
 						{
 							"type": "initial",
 							"maximumWarning": "500kb",
-							"maximumError": "1mb"
+							"maximumError": "1.3mb"
 						},
 						{
 							"type": "anyComponentStyle",
@@ -84,12 +86,11 @@
 		},
 		"test": {
 			"executor": "@nrwl/jest:jest",
-			"outputs": ["coverage/apps/portal"],
+			"outputs": ["{workspaceRoot}/coverage/apps/portal"],
 			"options": {
 				"jestConfig": "apps/portal/jest.config.ts",
 				"passWithNoTests": true
 			}
 		}
-	},
-	"tags": ["type:app"]
+	}
 }

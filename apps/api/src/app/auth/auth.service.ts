@@ -11,7 +11,7 @@ export class AuthService {
 		private userService: UserService,
 		private cryptoService: CryptoService,
 		private jwtService: JwtService,
-	) { }
+	) {}
 
 	public async validate(id: string, pw: string): Promise<UserFullData | null> {
 		const userData = await this.userService.fullData(id);
@@ -36,7 +36,7 @@ export class AuthService {
 	public async register(data: User & { password: string }): Promise<void> {
 		await this.userService.registerUser({
 			...data,
-			password: await this.cryptoService.hash(data.password)
-		})
+			password: await this.cryptoService.hash(data.password),
+		});
 	}
 }

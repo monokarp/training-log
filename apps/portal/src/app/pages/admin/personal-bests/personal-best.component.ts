@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { PersonalBest } from '@training-log/contracts';
+import { PersonalBest, WeightUnit } from '@training-log/contracts';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ExerciseSelectComponent } from '../../../ui-components/common-ui/exercise-select/exercise-select.component';
@@ -53,8 +53,8 @@ export class PersonalBestComponent implements OnInit, AfterViewInit {
 
 		await this.personalBestService.create({
 			exerciseId: id,
-			weight: this.weight.value,
-			starting: this.date.value,
+			weight: Number(this.weight.value!),
+			starting: new Date(this.date.value!),
 		});
 
 		this.clearInputs();

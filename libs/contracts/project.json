@@ -1,7 +1,9 @@
 {
-	"root": "libs/contracts",
+	"name": "contracts",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "libs/contracts/src",
 	"projectType": "library",
+	"tags": ["type:lib"],
 	"targets": {
 		"lint": {
 			"executor": "@nrwl/linter:eslint",
@@ -10,6 +12,5 @@
 				"lintFilePatterns": ["libs/contracts/**/*.ts"]
 			}
 		}
-	},
-	"tags": ["type:lib"]
+	}
 }

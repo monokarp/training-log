@@ -4,7 +4,7 @@ import { Prisma } from '../shared/prisma';
 
 @Injectable()
 export class PreferencesRepository {
-	constructor(private prisma: Prisma) { }
+	constructor(private prisma: Prisma) {}
 
 	public async for(userId: string): Promise<UserPreferences> {
 		const prefs = await this.prisma.userPreferences.findUnique({

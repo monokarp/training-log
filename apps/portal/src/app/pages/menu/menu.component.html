@@ -17,7 +17,7 @@
 		<mat-form-field
 			*ngIf="trainees$ | async as data"
 			class="managed"
-			appearance="standard">
+			appearance="outline">
 			<mat-label>Currently managing:</mat-label>
 			<mat-select
 				[ngModel]="sessionStore.currentlyManagedUser$ | async"

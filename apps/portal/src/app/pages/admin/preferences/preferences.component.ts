@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { SessionStore } from '../../login/session.store';
 import { PreferencesService } from './preferences.service';
 import { PreferencesStore } from './preferences.store';
+import { WeightUnit } from '@training-log/contracts';
 
 @Component({
 	selector: 'portal-preferences',
@@ -33,8 +34,8 @@ export class PreferencesComponent implements OnInit {
 
 	public update() {
 		this.service.save({
-			unit: this.unit.value,
-			localeCode: this.locale.value,
+			unit: this.unit.value! as WeightUnit,
+			localeCode: this.locale.value!,
 		});
 	}
 }

@@ -1,7 +1,7 @@
 <tl-form-container>
 	<tl-form-section type="form">
 		<tl-form-field>
-			<mat-form-field appearance="standard">
+			<mat-form-field appearance="outline">
 				<mat-label>Session date</mat-label>
 				<input
 					matInput
@@ -22,7 +22,7 @@
 			<portal-exercise-select [data]="(exerciseStore.exercises$ | async)!"> </portal-exercise-select>
 		</tl-form-field>
 		<tl-form-field>
-			<mat-form-field appearance="standard">
+			<mat-form-field appearance="outline">
 				<input
 					matInput
 					type="number"
