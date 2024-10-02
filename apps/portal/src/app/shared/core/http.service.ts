@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, firstValueFrom, Observable, throwError, timeout } from 'rxjs';
 import { SessionService } from '../../pages/login/session.service';
 import { SessionStore } from '../../pages/login/session.store';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class HttpService {
@@ -15,19 +16,19 @@ export class HttpService {
 	constructor(private http: HttpClient, private sessionStore: SessionStore, private sessionService: SessionService) {}
 
 	public get<R = unknown>(url: string): Promise<R> {
-		return this.request(this.http.get(url, this.options())) as Promise<R>;
+		return this.request(this.http.get(this.api(url), this.options())) as Promise<R>;
 	}
 
 	public post<D, R = unknown>(url: string, data: D): Promise<R> {
-		return this.request(this.http.post(url, data, this.options())) as Promise<R>;
+		return this.request(this.http.post(this.api(url), data, this.options())) as Promise<R>;
 	}
 
 	public put<D, R>(url: string, data: D): Promise<R> {
-		return this.request(this.http.put<R>(url, data, this.options()));
+		return this.request(this.http.put<R>(this.api(url), data, this.options()));
 	}
 
 	public delete<D>(url: string, data: D) {
-		return this.request(this.http.delete(url, { ...this.options(), body: data }));
+		return this.request(this.http.delete(this.api(url), { ...this.options(), body: data }));
 	}
 
 	private request<T>(source: Observable<T>): Promise<T> {
@@ -55,5 +56,9 @@ export class HttpService {
 		}
 
 		return new HttpHeaders(headers);
+	}
+
+	private api(url: string): string {
+		return `${environment.apiUrl}/${url}`;
 	}
 }

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Inject, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ExerciseWithPB } from '@training-log/contracts';
 import { ExerciseSelectComponent } from '../../../ui-components/common-ui/exercise-select/exercise-select.component';
@@ -16,7 +15,6 @@ const DateFormat = 'DD-MM-YYYY';
 	styleUrls: ['./create-session.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [
-		{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
 		{
 			provide: MAT_DATE_FORMATS,
 			useValue: {

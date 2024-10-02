@@ -22,7 +22,7 @@ export class AuthService {
 	private async requestSession(userId: string, password: string): Promise<UserAuthResult | null> {
 		try {
 			const data = await this.httpService.post<{ username: string; password: string }, UserAuthResult>(
-				`/api/auth`,
+				`auth`,
 				{ username: userId, password },
 			);
 

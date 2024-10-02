@@ -51,7 +51,13 @@
 					"vendorChunk": true,
 					"extractLicenses": false,
 					"sourceMap": true,
-					"namedChunks": true
+					"namedChunks": true,
+					"fileReplacements": [
+						{
+							"replace": "apps/portal/src/environments/environment.ts",
+							"with": "apps/portal/src/environments/environment.dev.ts"
+						}
+					]
 				}
 			},
 			"defaultConfiguration": "production"
